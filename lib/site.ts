@@ -1,13 +1,13 @@
 export const companyName = "QNVO Technologies";
 export const tagline = "Quality • Next-Gen • Vision • Operations";
 export const publicEmail = "info@qnvotech.com";
-export const contentUpdated = "2026-10-31";
+export const contentUpdated = "2026-11-10";
 export const legalPagesIndexable = false;
 
 export const defaultDescription =
   "QNVO Technologies shares enterprise software, AI agent, automation, ERP and digital services for teams in the USA, UK, Middle East and Pakistan.";
 
-const DEFAULT_SITE_URL = "https://revamp.qnvotech.com";
+const DEFAULT_SITE_URL = "https://qnvotech.com";
 
 function normalizeSiteUrl(value: string | undefined): string {
   const trimmed = value?.trim().replace(/\/$/, "") ?? "";

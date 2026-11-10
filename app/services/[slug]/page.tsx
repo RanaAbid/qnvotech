@@ -4,6 +4,7 @@ import { FaqList } from "@/components/FaqList";
 import { InnerPage } from "@/components/InnerPage";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Container, TextLink } from "@/components/ui";
+import { insightForService } from "@/content/insights";
 import { services, relatedServices } from "@/lib/data";
 import { faqNode, pageMetadata, serviceNode } from "@/lib/seo";
 import { getService, getServices } from "@/lib/sanity";
@@ -31,6 +32,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   if (!service) notFound();
   const catalog = await getServices();
   const related = relatedServices(service, catalog);
+  const relatedInsight = insightForService(service.slug);
 
   return (
     <InnerPage
@@ -46,37 +48,80 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <section className="bg-white py-16 md:py-20">
         <Container>
           <div className="max-w-3xl">
-          <h2 className="font-display text-[1.75rem] font-bold md:text-[2.25rem]">Who it is for</h2>
-          <p className="mt-4 text-lg">{service.audience}</p>
-          <h2 className="mt-12 font-display text-[1.75rem] font-bold md:text-[2.25rem]">What a typical scope can include</h2>
-          <ul className="mt-4 grid gap-3">
-            {service.deliverables.map((item) => (
-              <li key={item} className="soft-card flex gap-3 p-4">
-                <span className="mark-check" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4">
-                    <path d="M5 12.5 9.2 17 19 7" />
-                  </svg>
-                </span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <h2 className="mt-12 font-display text-[1.75rem] font-bold md:text-[2.25rem]">How the work is approached</h2>
-          <ol className="mt-4 grid gap-3">
-            {service.approach.map((item, index) => (
-              <li key={item} className="soft-card flex gap-3 p-4">
-                <span className="step-index step-index-sm">{index + 1}</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-8">
-            <TextLink href="/contact/">Discuss your project</TextLink>
-            <span className="mx-2 text-navy/40" aria-hidden="true">
-              ·
-            </span>
-            <TextLink href="/process/">Read the delivery process</TextLink>
-          </p>
+            <h2 className="font-display text-[1.75rem] font-bold md:text-[2.25rem]">The problem this service addresses</h2>
+            <p className="mt-4 text-lg leading-relaxed">{service.problem}</p>
+
+            <h2 className="mt-12 font-display text-[1.75rem] font-bold md:text-[2.25rem]">Who it is for</h2>
+            <p className="mt-4 text-lg leading-relaxed">{service.audience}</p>
+
+            <h2 className="mt-12 font-display text-[1.75rem] font-bold md:text-[2.25rem]">What a typical scope can include</h2>
+            <ul className="mt-4 grid gap-3">
+              {service.deliverables.map((item) => (
+                <li key={item} className="soft-card flex gap-3 p-4">
+                  <span className="mark-check" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4">
+                      <path d="M5 12.5 9.2 17 19 7" />
+                    </svg>
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <h2 className="mt-12 font-display text-[1.75rem] font-bold md:text-[2.25rem]">How the work is approached</h2>
+            <ol className="mt-4 grid gap-3">
+              {service.approach.map((item, index) => (
+                <li key={item} className="soft-card flex gap-3 p-4">
+                  <span className="step-index step-index-sm">{index + 1}</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ol>
+
+            <h2 className="mt-12 font-display text-[1.75rem] font-bold md:text-[2.25rem]">Delivery process</h2>
+            <ol className="mt-4 grid gap-3">
+              {service.process.map((item, index) => (
+                <li key={item} className="soft-card flex gap-3 p-4">
+                  <span className="step-index step-index-sm">{index + 1}</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ol>
+
+            <h2 className="mt-12 font-display text-[1.75rem] font-bold md:text-[2.25rem]">Technologies and tools</h2>
+            <p className="mt-4 text-lg leading-relaxed">
+              Only tools that fit the written scope are used. This list describes technologies QNVO Technologies can discuss for this service. It is not a promise that every item appears in every engagement.
+            </p>
+            <ul className="mt-4 grid gap-3">
+              {service.technologies.map((item) => (
+                <li key={item} className="soft-card flex gap-3 p-4">
+                  <span className="mark-check" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4">
+                      <path d="M5 12.5 9.2 17 19 7" />
+                    </svg>
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <p className="mt-8">
+              <TextLink href="/contact/">Discuss your project</TextLink>
+              <span className="mx-2 text-navy/40" aria-hidden="true">
+                ·
+              </span>
+              <TextLink href="/process/">Read the delivery process</TextLink>
+              {relatedInsight ? (
+                <>
+                  <span className="mx-2 text-navy/40" aria-hidden="true">
+                    ·
+                  </span>
+                  <TextLink href={`/insights/${relatedInsight.slug}/`}>
+                    {relatedInsight.draft ? "Read the related draft insight" : "Read the related insight"}
+                  </TextLink>
+                </>
+              ) : null}
+            </p>
           </div>
         </Container>
       </section>

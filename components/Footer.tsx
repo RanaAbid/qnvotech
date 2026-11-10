@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { CookieSettingsButton } from "@/components/ConsentBanner";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import { services, servicesInOrder } from "@/lib/data";
 import { publicEmail, tagline } from "@/lib/site";
 
@@ -14,9 +14,9 @@ const company = [
 ];
 
 const legal = [
-  { href: "/privacy-policy/", label: "Privacy policy" },
-  { href: "/terms-of-use/", label: "Terms of use" },
-  { href: "/accessibility-statement/", label: "Accessibility" },
+  { href: "/privacy/", label: "Privacy" },
+  { href: "/terms/", label: "Terms" },
+  { href: "/accessibility/", label: "Accessibility" },
 ];
 
 const linkClass = "inline-flex min-h-11 items-center text-offwhite/90 underline decoration-transparent underline-offset-4 hover:text-white hover:decoration-white/50";
@@ -63,8 +63,8 @@ export function Footer() {
       <div className="relative z-10 grid w-full gap-12 px-5 py-16 md:px-8 lg:grid-cols-4 lg:px-12">
         <div>
           <div className="inline-block rounded-2xl bg-white p-3 shadow-[0_12px_30px_rgba(0,0,0,0.18)]">
-            <Image
-              src="/logo/qnvo-logo-horizontal-transparent.png"
+            <OptimizedImage
+              base="/logo/qnvo-logo-horizontal-transparent"
               alt="QNVO Technologies"
               width={121}
               height={44}
@@ -73,9 +73,15 @@ export function Footer() {
             />
           </div>
           <p className="mt-5 max-w-xs text-base leading-relaxed text-offwhite">{tagline}</p>
-          <a className="mt-4 inline-flex min-h-11 items-center font-semibold text-white underline decoration-white/40 underline-offset-4" href={`mailto:${publicEmail}`}>
-            {publicEmail}
-          </a>
+          <div className="mt-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-white/70">Email</p>
+            <a
+              className="mt-2 inline-flex min-h-11 items-center font-semibold text-white underline decoration-cyan/60 underline-offset-4 hover:decoration-white"
+              href={`mailto:${publicEmail}`}
+            >
+              {publicEmail}
+            </a>
+          </div>
         </div>
         <nav aria-label="Services">
           <h2 className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-white">Services</h2>

@@ -2,7 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+type RevealVariant = "rise" | "left" | "right" | "scale" | "blur";
+
+export function Reveal({
+  children,
+  className = "",
+  variant = "rise",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  variant?: RevealVariant;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<"idle" | "wait" | "in">("idle");
 
@@ -12,7 +22,7 @@ export function Reveal({ children, className = "" }: { children: React.ReactNode
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const rect = node.getBoundingClientRect();
-    const seen = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
+    const seen = rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
     if (seen) {
       setState("in");
       return;
@@ -26,13 +36,15 @@ export function Reveal({ children, className = "" }: { children: React.ReactNode
           observer.disconnect();
         }
       },
-      { threshold: 0.18 },
+      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" },
     );
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
 
-  const motionClass = state === "wait" ? "reveal-wait" : state === "in" ? "reveal-in" : "";
+  const motionClass =
+    state === "wait" ? `reveal-wait reveal-${variant}` : state === "in" ? `reveal-in reveal-${variant}` : `reveal-${variant}`;
+
   return (
     <div ref={ref} className={`${motionClass} ${className}`}>
       {children}

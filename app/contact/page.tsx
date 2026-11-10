@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/seo";
 import { publicEmail } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Contact QNVO Technologies",
+  title: "Contact Us for Software Projects | QNVO Technologies",
   description:
     "Contact QNVO Technologies about a software, AI, ERP or website project. Email info@qnvotech.com or use the form. A message is not a contract.",
   path: "/contact/",
@@ -41,7 +41,11 @@ export default function ContactPage() {
             <div className="relative">
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-amber">Public inbox</p>
               <h2 className="mt-3 font-display text-3xl font-bold text-white">Write to us directly</h2>
-              <a className="mt-4 inline-flex font-semibold text-white underline decoration-white/40 underline-offset-4" href={`mailto:${publicEmail}`}>
+              <p className="mt-3 text-sm leading-relaxed text-offwhite">The public email for QNVO Technologies is below. Use it if you prefer not to use the form.</p>
+              <a
+                className="mt-5 inline-flex min-h-11 items-center rounded-full bg-white px-5 font-semibold text-navy shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:bg-offwhite"
+                href={`mailto:${publicEmail}`}
+              >
                 {publicEmail}
               </a>
               <ul className="mt-8 grid gap-4">
@@ -54,7 +58,13 @@ export default function ContactPage() {
                 ))}
               </ul>
               <noscript>
-                <p className="mt-6 font-semibold text-white">The form needs JavaScript. Email info@qnvotech.com and your question still has a path.</p>
+                <p className="mt-6 font-semibold text-white">
+                  The form needs JavaScript. Email{" "}
+                  <a className="underline decoration-white/50 underline-offset-4" href={`mailto:${publicEmail}`}>
+                    {publicEmail}
+                  </a>{" "}
+                  and your question still has a path.
+                </p>
               </noscript>
             </div>
           </aside>

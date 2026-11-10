@@ -6,9 +6,9 @@ import { faqs } from "@/lib/data";
 import { faqNode, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Frequently Asked Questions | QNVO",
+  title: "FAQ: Services, Regions & Contact | QNVO Technologies",
   description:
-    "Answers about QNVO Technologies services, regions, contact, case studies and what this website does not promise. Email info@qnvotech.com with a project question.",
+    "Answers about QNVO Technologies services, regions, contact, case studies and what this website does not promise. Email info@qnvotech.com to ask.",
   path: "/faq/",
 });
 

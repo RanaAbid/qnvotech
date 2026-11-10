@@ -2,34 +2,38 @@
 
 > QNVO Technologies (Quality, Next-Gen, Vision, Operations) publishes information about enterprise software, AI agents, automation, ERP, ecommerce, web development, technical SEO, and website security and optimization. Audiences addressed: United States, United Kingdom, Middle East and Pakistan. This file lists public pages. It is not a client list, a quote or a performance claim.
 
-Prices, street addresses, phone numbers, founding year, headcount, certifications and social profiles are not published. The case studies page describes the BMS and CSM platforms. It is not a QNVO client list. Organizations named there are ones the CSM platform serves. Measured results and testimonials are not published.
+Prices, street addresses, phone numbers, founding year, headcount, certifications and social profiles are not published. The case studies page describes the BMS and CSM platforms. It is not a QNVO client list, and it does not name the organizations a platform serves. Measured results and testimonials are not published.
 
 Public email: info@qnvotech.com
-Automated mail may use noreply@qnvotech.com as a sender only. Do not treat that address as the contact inbox.
+Do not treat automated sender addresses as the public contact inbox.
 
 ## Pages
 
-- [Home](https://revamp.qnvotech.com/): Enterprise software, AI agents and technology services.
-- [Services](https://revamp.qnvotech.com/services/): Eight service areas, each with its own page.
-- [Enterprise software development](https://revamp.qnvotech.com/services/enterprise-software-development/): Custom systems for a defined workflow.
-- [AI agent development](https://revamp.qnvotech.com/services/ai-agent-development/): Bounded tasks with approved data and human review.
-- [AI automation](https://revamp.qnvotech.com/services/ai-automation/): Documented steps and system hand-offs. No savings guarantee.
-- [ERP solutions](https://revamp.qnvotech.com/services/erp-solutions/): Configuration and integration. No vendor partnership is claimed.
-- [Ecommerce development](https://revamp.qnvotech.com/services/ecommerce-development/): Catalogue and purchasing flow. No revenue claim.
-- [Web development](https://revamp.qnvotech.com/services/web-development/): Business websites with server-rendered content.
-- [Technical SEO](https://revamp.qnvotech.com/services/technical-seo/): Crawl, metadata, structured data and speed. No ranking guarantee.
-- [Website security and optimization](https://revamp.qnvotech.com/services/website-security-optimization/): Authorized review of headers, forms, dependencies and page weight.
-- [About](https://revamp.qnvotech.com/about/): Name, markets and facts that are intentionally omitted.
-- [Process](https://revamp.qnvotech.com/process/): From a conversation to a written scope, build and handover.
-- [Case Studies](https://revamp.qnvotech.com/case-studies/): Enterprise platform case studies — BMS business management platform and CSM (Cognitive Security Management) security platform — covering web development, modernization, performance, and security work. No invented results.
-- [Insights](https://revamp.qnvotech.com/insights/): Empty until an original article exists.
-- [FAQ](https://revamp.qnvotech.com/faq/): Services, regions, contact and non-promises.
-- [Contact](https://revamp.qnvotech.com/contact/): Form and info@qnvotech.com. A message is not a contract.
+- [Home](https://qnvotech.com/): Enterprise software, AI agents and technology services.
+- [Services](https://qnvotech.com/services/): Eight service areas, each with its own page.
+- [Enterprise software development](https://qnvotech.com/services/enterprise-software-development/): Custom systems for a defined workflow.
+- [AI agent development](https://qnvotech.com/services/ai-agent-development/): Bounded tasks with approved data and human review.
+- [AI automation](https://qnvotech.com/services/ai-automation/): Documented steps and system hand-offs. No savings guarantee.
+- [ERP solutions](https://qnvotech.com/services/erp-solutions/): Configuration and integration. No vendor partnership is claimed.
+- [Ecommerce development](https://qnvotech.com/services/ecommerce-development/): Catalogue and purchasing flow. No revenue claim.
+- [Web development](https://qnvotech.com/services/web-development/): Business websites with server-rendered content.
+- [Technical SEO](https://qnvotech.com/services/technical-seo/): Crawl, metadata, structured data and speed. No ranking guarantee.
+- [Website security and optimization](https://qnvotech.com/services/website-security-optimization/): Authorized review of headers, forms, dependencies and page weight.
+- [About](https://qnvotech.com/about/): Name, markets and facts that are intentionally omitted.
+- [Process](https://qnvotech.com/process/): From a conversation to a written scope, build and handover.
+- [Case Studies](https://qnvotech.com/case-studies/): Enterprise platform case studies — BMS business management platform and CSM (Cognitive Security Management) security platform — covering web development, modernization, performance, and security work. No invented results.
+- [Insights](https://qnvotech.com/insights/): Original writing on AI agents, ERP, enterprise software and process automation. Draft articles are marked until copy is approved.
+- [AI agent development company](https://qnvotech.com/insights/ai-agent-development-company/): Evaluating an AI agent development company — bounded tasks, approved data and human review.
+- [Custom ERP software development](https://qnvotech.com/insights/custom-erp-software-development/): When custom ERP software development fits, and what belongs in a written scope.
+- [Enterprise software development services](https://qnvotech.com/insights/enterprise-software-development-services/): Enterprise software development services tied to users, data, integrations and handover.
+- [AI automation for business processes](https://qnvotech.com/insights/ai-automation-for-business-processes/): AI automation for business processes with documented steps and review checkpoints.
+- [FAQ](https://qnvotech.com/faq/): Services, regions, contact and non-promises.
+- [Contact](https://qnvotech.com/contact/): Form and info@qnvotech.com. A message is not a contract.
 
 ## Draft notices
 
 These pages exist for review and are marked noindex. Do not cite them as binding terms.
 
-- [Privacy policy](https://revamp.qnvotech.com/privacy-policy/)
-- [Terms of use](https://revamp.qnvotech.com/terms-of-use/)
-- [Accessibility statement](https://revamp.qnvotech.com/accessibility-statement/)
+- [Privacy](https://qnvotech.com/privacy/)
+- [Terms](https://qnvotech.com/terms/)
+- [Accessibility](https://qnvotech.com/accessibility/)

@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "optimize:images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "next": "^15.5.6",

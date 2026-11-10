@@ -41,6 +41,13 @@ export default function CaseStudiesPage() {
               position: index + 1,
               name: `${item.code}: ${item.title}`,
               url: absoluteUrl(`/case-studies/#${item.id}`),
+              item: {
+                "@type": "Service",
+                name: `${item.code}: ${item.title}`,
+                description: item.summary,
+                provider: { "@id": `${siteUrl}/#organization` },
+                url: absoluteUrl(`/case-studies/#${item.id}`),
+              },
             })),
           },
         },

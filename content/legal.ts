@@ -1,6 +1,7 @@
 export type LegalSection = {
   heading: string;
   paragraphs: string[];
+  placeholders?: string[];
 };
 
 export type LegalDocument = {
@@ -14,56 +15,64 @@ export const privacyPolicy: LegalDocument = {
   status: "Draft — not for publication",
   sections: [
     {
-      heading: "Information you choose to share",
+      heading: "Data collected",
       paragraphs: [
-        "When you contact us, you may provide your name, email address, organization (if requested), and the details of your enquiry. Do not send sensitive personal information, payment-card details or confidential credentials through our general contact form.",
+        "This website may collect information that a visitor chooses to send through the contact form, such as a name, email address, and the text of an enquiry.",
+        "Technical data may also be processed when a page is requested, for example to keep the site running and to limit abuse. This draft does not claim a full inventory of every field or log.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] List every category of personal data actually collected, including form fields, server logs, and any analytics identifiers.",
+        "[OWNER TO PROVIDE — do not publish with this text] State how long each category is retained. Do not invent retention periods.",
       ],
     },
     {
-      heading: "Information collected when you visit",
+      heading: "Use",
       paragraphs: [
-        "Website operation may involve technical information such as device and browser data, request timestamps, IP addresses and diagnostic information used to maintain performance and security. Before publication, the operator needs to verify which categories are actually collected, how long logs are retained and whether any infrastructure, security, uptime or error-monitoring providers process them.",
+        "Contact details submitted through the form are intended to answer the enquiry and, where appropriate, continue a conversation about a possible project.",
+        "Technical data may be used to operate, secure, and troubleshoot the website.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Confirm the lawful bases used where GDPR, UK GDPR, or other privacy law applies. Do not invent a lawful-basis assessment.",
       ],
     },
     {
-      heading: "Why information may be used",
+      heading: "Cookies",
       paragraphs: [
-        "Information submitted through the contact form is intended to respond to enquiries and, where appropriate, discuss requested services. Website operational information may be needed to keep the site functioning securely and to troubleshoot errors. Before publication, document the actual lawful bases used where GDPR or UK GDPR applies. Do not treat this draft as a statement that consent or legitimate interests have been assessed.",
+        "The site can load analytics only after a visitor allows analytics cookies. If analytics is declined, or if no measurement ID is configured, the analytics script is not added.",
+        "Essential cookies or similar storage may be needed for security or preference settings. This draft does not claim a finished cookie inventory.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Publish the real cookie list, purposes, durations, and how a visitor can change or withdraw consent.",
       ],
     },
     {
-      heading: "Analytics and cookies",
+      heading: "Third parties",
       paragraphs: [
-        "The site can load Google Analytics 4 only after a visitor allows analytics. Rejecting analytics, or never being shown a measurement ID, means the analytics script is not added. Before publication, audit cookies, scripts, consent categories, withdrawal, the regions covered and the real analytics configuration. Do not treat this draft as confirmation that a production analytics property is active.",
+        "Depending on configuration, hosting, email delivery, abuse checks, content, error monitoring, or analytics providers may process limited data needed for those tasks.",
+        "A planned provider list is not proof that every service is active on the live site.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Name only the providers that are enabled in production, what they receive, and where processing occurs. Do not invent transfer mechanisms or DPA status.",
       ],
     },
     {
-      heading: "Service providers and international data handling",
+      heading: "Rights",
       paragraphs: [
-        "Depending on final configuration, the site may use Vercel for hosting, Resend for transactional email, Cloudflare Turnstile for abuse checks, Sanity for content, Sentry for error monitoring, and Google Analytics after consent. This is a planned technology list, not proof that every provider is active. Before publication, list only enabled providers and their roles.",
+        "Depending on where you live and which law applies, you may be able to ask for access, correction, deletion, restriction, objection, or withdrawal of consent for personal information held about you.",
+        "Identity may need to be checked before a request is answered. This draft does not invent a complaints authority or response deadline.",
       ],
-    },
-    {
-      heading: "Retention and security",
-      paragraphs: [
-        "Access to enquiry information should stay limited to people who need it to respond, and ordinary technical measures should be used. No internet service can guarantee absolute security. This draft does not state a retention period. A period should be added only after it is approved.",
-      ],
-    },
-    {
-      heading: "Your choices and privacy requests",
-      paragraphs: [
-        "Depending on your location and applicable law, you may be able to request access, correction or deletion of personal information, object to certain processing, or withdraw consent. Send privacy requests to info@qnvotech.com. Identity may need to be checked before a response. The legal entity, jurisdiction and complaints route are not stated here because they have not been confirmed for publication.",
-      ],
-    },
-    {
-      heading: "External links and updates",
-      paragraphs: [
-        "The site may link to other websites with their own privacy practices. This notice can change when the site changes. A reviewed date should be added when an approved version replaces this draft.",
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Confirm the legal entity that decides how personal data is used, any data-protection contact role, and the complaints route that applies.",
       ],
     },
     {
       heading: "Contact",
-      paragraphs: ["For privacy-related requests, email info@qnvotech.com."],
+      paragraphs: [
+        "For privacy questions about this website, email info@qnvotech.com.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Add a postal address or registered office only if it is confirmed for public use. Do not invent an address or DPO mailbox.",
+      ],
     },
   ],
 };
@@ -73,50 +82,45 @@ export const termsOfUse: LegalDocument = {
   status: "Draft — not for publication",
   sections: [
     {
-      heading: "Website purpose",
+      heading: "Services",
       paragraphs: [
-        "The website provides general descriptions of QNVO Technologies services, including enterprise software, AI agents and automation, ERP, ecommerce, web development, technical SEO, and website security and optimization. Website content is informational. It is not a signed service agreement, a binding offer, or a warranty of deliverables.",
+        "This website describes QNVO Technologies services at a general level, including enterprise software, AI agents and automation, ERP, ecommerce, web development, technical SEO, and website security and optimization.",
+        "Website content is informational. A page, a form submission, or a conversation started from this site is not a signed service agreement, a quote, or a warranty of deliverables.",
+        "Do not interfere with website operations, attempt unauthorized access, submit malware, or use the contact form for spam.",
       ],
-    },
-    {
-      heading: "Responsible use",
-      paragraphs: [
-        "Do not interfere with website operations, attempt unauthorized access, submit malware, use the contact form for spam, or misuse site content in a way that breaks applicable law.",
-      ],
-    },
-    {
-      heading: "Enquiries and engagements",
-      paragraphs: [
-        "Submitting the contact form is a request for a conversation. It is not a commitment by either party to enter a commercial arrangement. Project scope, fees, timelines, support, intellectual property and other obligations belong in a separately executed agreement.",
-      ],
-    },
-    {
-      heading: "Accuracy and changes",
-      paragraphs: [
-        "Service descriptions are meant to be useful and accurate, and they can change. They may not cover every condition of a future project. Contact QNVO Technologies to confirm current availability before relying on a general description.",
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Confirm any service-specific restrictions, export rules, or prohibited uses that must appear in the public terms.",
       ],
     },
     {
       heading: "Intellectual property",
       paragraphs: [
-        "The QNVO Technologies logo, original website copy and other brand materials may be protected by copyright, trademark or other rights. This draft does not claim a registration number, a jurisdiction or exclusive rights that have not been verified.",
+        "The QNVO Technologies name, logo, and original website copy may be protected by copyright, trademark, or other rights.",
+        "You may view and share links to public pages for ordinary personal or business reference. Do not copy the site design, logo, or text for commercial reuse without permission.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Add trademark registration numbers or ownership claims only if they are verified. Do not invent registrations or exclusive rights.",
       ],
     },
     {
-      heading: "Third-party websites",
+      heading: "Liability",
       paragraphs: [
-        "Links to other websites are provided where they are relevant. Those sites have their own terms. A link is not an endorsement or a partnership.",
+        "The website is provided for general information. Service descriptions can change and may not cover every condition of a future project.",
+        "This draft does not set warranty language, damages caps, or indemnity terms for client work. Those belong in a separate written agreement when an engagement starts.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Provide reviewed disclaimer and limitation-of-liability wording for website use after legal review. Do not invent caps, exclusions, or insurance claims.",
       ],
     },
     {
-      heading: "Liability and jurisdiction",
+      heading: "Governing law",
       paragraphs: [
-        "Warranty disclaimers, limits of liability, governing law and dispute terms are not written here. They need a confirmed contracting entity and operating jurisdictions. This draft does not name a court or a legal address.",
+        "Questions about this website can be sent to info@qnvotech.com.",
+        "This draft does not name a governing law, court, or dispute forum.",
       ],
-    },
-    {
-      heading: "Contact",
-      paragraphs: ["Questions about this website can be sent to info@qnvotech.com."],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Name the governing law and forum only after the contracting entity and operating jurisdictions are confirmed. Do not invent a court or legal address.",
+      ],
     },
   ],
 };
@@ -126,33 +130,32 @@ export const accessibilityStatement: LegalDocument = {
   status: "Draft — not for publication",
   sections: [
     {
-      heading: "Our accessibility goals",
+      heading: "WCAG 2.2 AA commitment",
       paragraphs: [
-        "The website is being built with WCAG 2.2 Level AA as the target and WCAG 2.1 Level AA as the baseline. The build uses semantic headings, keyboard-accessible navigation, visible focus, readable contrast, descriptive links, form labels and a reduced-motion path for decorative motion.",
+        "QNVO Technologies aims to make this website usable for as many people as possible.",
+        "The build target is WCAG 2.2 Level AA, with WCAG 2.1 Level AA as the baseline. The site uses semantic headings, keyboard-accessible navigation, visible focus, readable contrast, descriptive links, form labels, and a reduced-motion path for decorative animation.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Do not publish a conformance claim until a dated review of the live site supports it. Record the review method and environment when ready.",
       ],
     },
     {
-      heading: "Current verification status",
+      heading: "Known limitations",
       paragraphs: [
-        "This statement does not claim that an independent WCAG audit has been completed. Before any conformance claim, the deployed site needs keyboard checks, screen-reader checks of the contact form, and an automated scan, with the date and environment recorded.",
+        "This statement does not claim that an independent WCAG audit has been completed.",
+        "Third-party features, when enabled, follow their own accessibility practices and may need separate review.",
+      ],
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] List real barriers found on the live site, workarounds if any, and planned fix dates. Do not invent audit findings or deadlines.",
       ],
     },
     {
-      heading: "Feedback and assistance",
+      heading: "Contact for issues",
       paragraphs: [
-        "If a page is difficult to use, email info@qnvotech.com and name the page and the barrier. That report can be used to investigate. Please do not include sensitive personal information in the report.",
+        "If a page is difficult to use, email info@qnvotech.com. Name the page URL and describe the barrier. Please do not include sensitive personal information in the report.",
       ],
-    },
-    {
-      heading: "Known limitations and improvements",
-      paragraphs: [
-        "Unresolved problems, workarounds and dates should be listed from the deployed site. This draft does not invent audit findings or a repair deadline.",
-      ],
-    },
-    {
-      heading: "External services",
-      paragraphs: [
-        "Some third-party features follow their own accessibility practices. Integrations should be reviewed before they are treated as part of a conformance claim.",
+      placeholders: [
+        "[OWNER TO PROVIDE — do not publish with this text] Add an alternative contact channel or response-time commitment only if it is approved for public use.",
       ],
     },
   ],

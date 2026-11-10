@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import { publicEmail, tagline } from "@/lib/site";
 
 const links = [
@@ -61,8 +61,8 @@ export function Header() {
       <div className="w-full border-b border-navy/10 bg-white">
         <div className="relative flex w-full items-center justify-between gap-4 px-5 py-3 md:px-8 lg:px-12">
           <Link href="/" className="inline-flex shrink-0 items-center">
-            <Image
-              src="/logo/qnvo-logo-horizontal-transparent.png"
+            <OptimizedImage
+              base="/logo/qnvo-logo-horizontal-transparent"
               alt="QNVO Technologies"
               width={121}
               height={44}

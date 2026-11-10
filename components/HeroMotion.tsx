@@ -1,23 +1,23 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PictureFill } from "@/components/OptimizedImage";
 
 const slides = [
   {
     line: "AI agents for a defined task, with a person still reviewing the result.",
-    src: "/images/hero-team.jpg",
+    base: "/images/hero-team",
     alt: "Three colleagues reviewing a laptop together in an office",
   },
   {
     line: "ERP, automation, and software shaped around a written scope.",
-    src: "/images/hero-systems.jpg",
+    base: "/images/hero-systems",
     alt: "Two colleagues reviewing dashboards on a pair of monitors",
   },
   {
     line: "Web, technical SEO, and security reviews. No ranking or compliance promise.",
-    src: "/images/hero-web.jpg",
+    base: "/images/hero-web",
     alt: "Two colleagues reviewing a website layout on a laptop",
   },
 ];
@@ -44,17 +44,17 @@ export function HeroPanel() {
   return (
     <>
       <div className="hero-grid hero-enter relative z-10 flex flex-col justify-center px-6 py-16 md:px-10 md:py-20 lg:px-16 lg:pr-24">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-amber">Professional technology services</p>
-        <h1 className="mt-4 max-w-xl font-display text-[2.15rem] font-bold leading-[1.08] text-white md:text-5xl lg:text-[3.15rem]">
+        <p className="anim-eyebrow text-sm font-semibold uppercase tracking-[0.16em] text-amber">Professional technology services</p>
+        <h1 className="anim-title mt-4 max-w-xl font-display text-[2.15rem] font-bold leading-[1.08] text-white md:text-5xl lg:text-[3.15rem]">
           Enterprise Software, AI Agents & Technology Services
         </h1>
         <p key={index} className="line-swap mt-4 max-w-xl text-lg font-semibold text-white" aria-hidden="true">
           {slides[index].line}
         </p>
-        <p className="mt-4 max-w-xl text-lg leading-relaxed text-offwhite">
+        <p className="anim-copy mt-4 max-w-xl text-lg leading-relaxed text-offwhite">
           QNVO Technologies provides information on enterprise software, AI agents, automation, ERP, and digital services. Contact us to discuss a project. This site does not publish client names, prices, or results.
         </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <div className="anim-cta mt-8 flex flex-col gap-3 sm:flex-row">
           <Link href="/contact/" className="btn btn-blue">
             Discuss your project
             <Arrow />
@@ -67,19 +67,23 @@ export function HeroPanel() {
       </div>
       <div className="hero-photo" aria-hidden="true">
         {slides.map((slide, slideIndex) => (
-          <Image
-            key={slide.src}
-            src={slide.src}
-            alt={slide.alt}
-            fill
-            priority={slideIndex === 0}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className={`hero-shot object-cover object-[center_30%]${slideIndex === index ? " is-on" : ""}`}
-          />
+          <div key={slide.base} className={`hero-shot${slideIndex === index ? " is-on" : ""}`}>
+            <PictureFill
+              base={slide.base}
+              alt={slide.alt}
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              priority={slideIndex === 0}
+            />
+          </div>
         ))}
-        <div className="hero-curve" aria-hidden="true" />
+        <span className="hero-orb" />
+        <span className="hero-ring hero-ring-a" />
+        <span className="hero-ring hero-ring-b" />
+        <span className="spark spark-a" />
+        <span className="spark spark-b" />
+        <span className="spark spark-c" />
+        <div className="hero-curve" />
       </div>
     </>
   );
 }
-

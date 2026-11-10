@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 import { getServices } from "@/lib/sanity";
 
 export const metadata = pageMetadata({
-  title: "Software Development & AI Services | QNVO",
+  title: "Software Development & AI Services | QNVO Technologies",
   description:
     "Browse QNVO Technologies services: enterprise software, AI agents, automation, ERP, ecommerce, web development, technical SEO and website security.",
   path: "/services/",

@@ -3,8 +3,9 @@ import Link from "next/link";
 import { Container } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Page not found | QNVO Technologies",
-  description: "This page is not on the QNVO Technologies website. Go back to the homepage, services or contact.",
+  title: "Page Not Found on This Site | QNVO Technologies",
+  description:
+    "This page is not on the QNVO Technologies website. Go back to the homepage, browse services, or contact info@qnvotech.com about a project.",
   robots: { index: false, follow: false },
 };
 

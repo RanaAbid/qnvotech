@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "QNVO Technologies | Enterprise Software & AI",
+    default: "Enterprise Software and AI Work | QNVO Technologies",
     template: "%s",
   },
   description: defaultDescription,
@@ -53,19 +53,19 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "QNVO Technologies | Enterprise Software & AI",
+    title: "Enterprise Software and AI Work | QNVO Technologies",
     description: defaultDescription,
     url: absoluteUrl("/"),
     siteName: companyName,
     type: "website",
     locale: "en_US",
-    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "QNVO Technologies wordmark" }],
+    images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630, alt: "QNVO Technologies wordmark" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "QNVO Technologies | Enterprise Software & AI",
+    title: "Enterprise Software and AI Work | QNVO Technologies",
     description: defaultDescription,
-    images: ["/og-default.png"],
+    images: [`${siteUrl}/og-default.png`],
   },
 };
 

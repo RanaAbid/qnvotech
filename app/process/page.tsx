@@ -7,7 +7,7 @@ import { processSteps } from "@/lib/data";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Our Technology Delivery Process | QNVO",
+  title: "Our Technology Delivery Process | QNVO Technologies",
   description:
     "See how a QNVO Technologies project moves from a problem statement to a written scope, build, handover and any later support named in the agreement.",
   path: "/process/",
