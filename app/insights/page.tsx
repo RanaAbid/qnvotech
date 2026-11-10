@@ -1,5 +1,6 @@
 import { Cta } from "@/components/Cta";
 import { InnerPage } from "@/components/InnerPage";
+import { ColorBand } from "@/components/SectionBackdrop";
 import { AbstractGraphic } from "@/components/Shapes";
 import { Container, TextLink } from "@/components/ui";
 import { formatInsightDate, insightReadingMinutes, insightsNewestFirst } from "@/content/insights";
@@ -26,12 +27,12 @@ export default function InsightsPage() {
         title="Insights"
         lede="No articles are published yet. When writing is added, it will be original and linked to at least one service page."
       >
-        <section className="bg-white py-16 md:py-20">
+        <ColorBand tone="teal" className="py-16 md:py-20">
           <Container className="grid items-center gap-8 lg:grid-cols-[minmax(0,16rem)_1fr]">
             <AbstractGraphic className="graphic-frame h-auto w-full" />
-            <div className="soft-card p-8">
-              <h2 className="font-display text-[1.75rem] font-bold md:text-[2.25rem]">Coming when there is something to say</h2>
-              <p className="mt-4 max-w-3xl text-lg">
+            <div>
+              <h2 className="font-display text-[1.75rem] font-bold text-white md:text-[2.25rem]">Coming when there is something to say</h2>
+              <p className="mt-4 max-w-3xl text-lg text-white/90">
                 This page is not filled with generated posts, sample headlines or borrowed statistics. An insight is added when QNVO Technologies has a finished article.
               </p>
               <p className="mt-8">
@@ -39,7 +40,7 @@ export default function InsightsPage() {
               </p>
             </div>
           </Container>
-        </section>
+        </ColorBand>
         <Cta />
       </InnerPage>
     );
@@ -55,6 +56,15 @@ export default function InsightsPage() {
       title="Insights"
       lede="Original writing on the services QNVO Technologies discusses. Articles are linked to a related service page. Draft pieces are marked until the copy is approved."
     >
+      <ColorBand tone="blue" className="py-12 md:py-14">
+        <Container>
+          <h2 className="font-display text-[1.75rem] font-bold text-white md:text-[2.25rem]">Writing tied to real services</h2>
+          <p className="mt-3 max-w-3xl text-lg text-white/90">
+            Each article links to a related service page. Draft pieces stay marked until the copy is approved.
+          </p>
+        </Container>
+      </ColorBand>
+
       <section className="bg-[#e8eef5] py-16 md:py-20">
         <Container className="grid gap-6">
           {articles.map((article) => (

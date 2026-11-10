@@ -22,9 +22,6 @@ export async function InnerPage({
     <>
       <StructuredData data={[breadcrumbNode(crumbs), ...extraGraph]} />
       <header className="page-banner page-banner-enter text-white">
-        <span className="shape-blob shape-blob-a !opacity-40" aria-hidden="true" />
-        <span className="shape-ring shape-ring-b !border-white/25" aria-hidden="true" />
-        <span className="shape-dot shape-dot-c" aria-hidden="true" />
         <Container className="relative z-10 py-14 md:py-20">
           <Breadcrumbs items={crumbs} onDark />
           {eyebrow ? (

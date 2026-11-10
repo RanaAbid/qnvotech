@@ -1,5 +1,6 @@
 import { Cta } from "@/components/Cta";
 import { InnerPage } from "@/components/InnerPage";
+import { ColorBand } from "@/components/SectionBackdrop";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Container, TextLink } from "@/components/ui";
 import { pageMetadata } from "@/lib/seo";
@@ -37,11 +38,20 @@ export default async function ServicesPage() {
               <ServiceCard key={service.slug} service={service} />
             ))}
           </div>
-          <p className="mt-10 max-w-3xl text-lg">
-            See this kind of work on two enterprise platforms. <TextLink href="/case-studies/">Read the BMS and CSM case studies</TextLink>
-          </p>
         </Container>
       </section>
+
+      <ColorBand tone="blue" className="py-16 md:py-20">
+        <Container>
+          <h2 className="font-display text-[1.75rem] font-bold text-white md:text-[2.25rem]">See the work on real platforms</h2>
+          <p className="mt-4 max-w-3xl text-lg text-white/90">
+            BMS and CSM show the kind of enterprise engineering these services support — without invented client wins or guaranteed metrics.
+          </p>
+          <p className="mt-8">
+            <TextLink href="/case-studies/">Read the BMS and CSM case studies</TextLink>
+          </p>
+        </Container>
+      </ColorBand>
       <Cta />
     </InnerPage>
   );

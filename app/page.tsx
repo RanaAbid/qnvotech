@@ -3,7 +3,7 @@ import { HeroPanel } from "@/components/HeroMotion";
 import { Cta } from "@/components/Cta";
 import { FaqList } from "@/components/FaqList";
 import { Reveal } from "@/components/Motion";
-import { SectionBackdrop } from "@/components/SectionBackdrop";
+import { ColorBand } from "@/components/SectionBackdrop";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Container, TextLink } from "@/components/ui";
 import { StructuredData } from "@/components/JsonLd";
@@ -40,8 +40,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      <section className="section-scene py-16 md:py-24" aria-labelledby="about-heading">
-        <SectionBackdrop tone="mint" />
+      <section className="bg-[#e8eef5] py-16 md:py-24" aria-labelledby="about-heading">
         <Container className="grid items-stretch gap-6 lg:grid-cols-2">
           <Reveal variant="left">
             <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2rem] bg-navy px-7 py-10 text-white shadow-[0_24px_50px_rgba(2,40,95,0.18)] md:px-10 md:py-12">
@@ -79,8 +78,7 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <section className="section-scene py-16 md:py-24" aria-labelledby="services-heading">
-        <SectionBackdrop tone="cool" />
+      <section className="bg-offwhite py-16 md:py-24" aria-labelledby="services-heading">
         <Container>
           <Reveal variant="blur">
             <p className="anim-eyebrow eyebrow">Our services</p>
@@ -104,31 +102,29 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <section className="section-scene py-16 md:py-20" aria-labelledby="regions-heading">
-        <SectionBackdrop tone="sunset" />
+      <ColorBand tone="blue" className="py-16 md:py-20" aria-labelledby="regions-heading">
         <Container>
           <Reveal>
             <p className="anim-eyebrow eyebrow">Markets</p>
             <h2 id="regions-heading" className="anim-title mt-3 font-display text-[1.85rem] font-bold md:text-4xl">
               Written for four markets
             </h2>
-            <p className="anim-copy mt-4 max-w-3xl text-lg">
+            <p className="anim-copy mt-4 max-w-3xl text-lg text-white/90">
               Business English for these audiences. A market on this page is not an office address.
             </p>
           </Reveal>
           <Reveal className="stagger-host mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" variant="scale">
             {regions.map((region) => (
               <article key={region} className="soft-card p-6">
-                <span className="block h-1.5 w-16 rounded-full bg-gradient-to-r from-blue via-cyan to-teal shadow-[0_6px_14px_rgba(0,112,232,0.35)]" />
-                <p className="mt-4 font-display text-2xl font-bold text-navy">{region}</p>
+                <span className="block h-1.5 w-16 rounded-full bg-gradient-to-r from-amber via-cyan to-teal" />
+                <p className="mt-4 font-display text-2xl font-bold">{region}</p>
               </article>
             ))}
           </Reveal>
         </Container>
-      </section>
+      </ColorBand>
 
-      <section className="section-scene py-16 md:py-20" aria-labelledby="work-heading">
-        <SectionBackdrop tone="soft" />
+      <section className="bg-white py-16 md:py-20" aria-labelledby="work-heading">
         <Container>
           <Reveal variant="left">
             <p className="anim-eyebrow eyebrow">Published work</p>
@@ -142,7 +138,6 @@ export default async function HomePage() {
           <Reveal className="stagger-host mt-8 grid gap-6 lg:grid-cols-2" variant="right">
             {caseStudies.map((item) => (
               <article key={item.id} className="service-card soft-card relative overflow-hidden p-8">
-                <span className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-gradient-to-br from-blue/20 to-teal/20" aria-hidden="true" />
                 <p className="font-display text-sm font-bold tracking-[0.16em] text-blue">{item.code}</p>
                 <h3 className="mt-3 font-display text-2xl font-semibold">{item.title}</h3>
                 <p className="mt-3">{item.summary}</p>
@@ -155,8 +150,7 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <section className="section-scene py-16 md:py-20" aria-labelledby="home-faq-heading">
-        <SectionBackdrop tone="cool" />
+      <ColorBand tone="teal" className="py-16 md:py-20" aria-labelledby="home-faq-heading">
         <Container>
           <Reveal variant="blur">
             <p className="anim-eyebrow eyebrow">Questions</p>
@@ -171,7 +165,7 @@ export default async function HomePage() {
             <TextLink href="/faq/">Read all frequently asked questions</TextLink>
           </Reveal>
         </Container>
-      </section>
+      </ColorBand>
       <Cta />
     </>
   );

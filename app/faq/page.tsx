@@ -1,6 +1,7 @@
 import { Cta } from "@/components/Cta";
 import { FaqList } from "@/components/FaqList";
 import { InnerPage } from "@/components/InnerPage";
+import { ColorBand } from "@/components/SectionBackdrop";
 import { Container, TextLink } from "@/components/ui";
 import { faqs } from "@/lib/data";
 import { faqNode, pageMetadata } from "@/lib/seo";
@@ -23,6 +24,15 @@ export default function FaqPage() {
       lede="Straight answers about what QNVO Technologies publishes, how to start a conversation, and what this website does not claim."
       extraGraph={[faqNode(faqs)]}
     >
+      <ColorBand tone="blue" className="py-14 md:py-16">
+        <Container>
+          <h2 className="font-display text-[1.75rem] font-bold text-white md:text-[2.25rem]">Ask clearly. Get a direct answer.</h2>
+          <p className="mt-4 max-w-3xl text-lg text-white/90">
+            These answers stay honest about what this website publishes — and what it does not invent.
+          </p>
+        </Container>
+      </ColorBand>
+
       <section className="bg-white py-16 md:py-20">
         <Container>
           <h2 className="font-display text-[1.75rem] font-bold md:text-[2.25rem]">Answers</h2>

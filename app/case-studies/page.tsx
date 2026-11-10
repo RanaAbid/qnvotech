@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Cta } from "@/components/Cta";
 import { FaqList } from "@/components/FaqList";
 import { InnerPage } from "@/components/InnerPage";
+import { ColorBand } from "@/components/SectionBackdrop";
 import { Container, TextLink } from "@/components/ui";
 import { caseStudies, caseStudyFaqs } from "@/lib/data";
 import { faqNode, pageMetadata } from "@/lib/seo";
@@ -101,16 +102,16 @@ export default function CaseStudiesPage() {
           ))}
         </Container>
       </section>
-      <section className="bg-white py-16 md:py-20" aria-labelledby="case-faq-heading">
+      <ColorBand tone="amber" className="py-16 md:py-20" aria-labelledby="case-faq-heading">
         <Container>
-          <h2 id="case-faq-heading" className="font-display text-[1.85rem] font-bold md:text-4xl">
+          <h2 id="case-faq-heading" className="font-display text-[1.85rem] font-bold text-white md:text-4xl">
             Questions about these platforms
           </h2>
           <div className="mt-8">
             <FaqList items={caseStudyFaqs} />
           </div>
         </Container>
-      </section>
+      </ColorBand>
       <Cta title="Tell us about your platform." body="Describe the workflow the platform must support. A message starts a conversation. It is not a quote or a contract." />
     </InnerPage>
   );

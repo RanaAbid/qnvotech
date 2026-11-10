@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Cta } from "@/components/Cta";
 import { FaqList } from "@/components/FaqList";
 import { InnerPage } from "@/components/InnerPage";
+import { ColorBand } from "@/components/SectionBackdrop";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Container, TextLink } from "@/components/ui";
 import { insightForService } from "@/content/insights";
@@ -125,6 +126,22 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           </div>
         </Container>
       </section>
+      <ColorBand tone="blue" className="py-14 md:py-16">
+        <Container>
+          <h2 className="font-display text-[1.75rem] font-bold text-white md:text-[2.25rem]">Ready to discuss this service?</h2>
+          <p className="mt-4 max-w-3xl text-lg text-white/90">
+            Describe the workflow, the users and the systems involved. Scope and fees belong in a written agreement — not on this page.
+          </p>
+          <p className="mt-8">
+            <TextLink href="/contact/">Discuss your project</TextLink>
+            <span className="mx-2 text-white/40" aria-hidden="true">
+              ·
+            </span>
+            <TextLink href="/process/">Read the delivery process</TextLink>
+          </p>
+        </Container>
+      </ColorBand>
+
       <section className="bg-offwhite py-16 md:py-20">
         <Container>
           <h2 className="font-display text-[1.75rem] font-bold md:text-[2.25rem]">Related services</h2>
