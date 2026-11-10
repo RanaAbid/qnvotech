@@ -1,0 +1,37 @@
+import { StructuredData } from "@/components/JsonLd";
+import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
+import { Container } from "@/components/ui";
+import { breadcrumbNode } from "@/lib/seo";
+
+export async function InnerPage({
+  crumbs,
+  title,
+  lede,
+  eyebrow,
+  extraGraph = [],
+  children,
+}: {
+  crumbs: Crumb[];
+  title: string;
+  lede: string;
+  eyebrow?: string;
+  extraGraph?: Record<string, unknown>[];
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <StructuredData data={[breadcrumbNode(crumbs), ...extraGraph]} />
+      <header className="page-banner text-white">
+        <Container className="relative z-10 py-14 md:py-20">
+          <Breadcrumbs items={crumbs} onDark />
+          {eyebrow ? <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-amber">{eyebrow}</p> : null}
+          <h1 className="mt-4 max-w-3xl font-display text-[2rem] font-bold leading-tight text-white md:text-[2.75rem] lg:text-[3.25rem]">
+            {title}
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-offwhite">{lede}</p>
+        </Container>
+      </header>
+      {children}
+    </>
+  );
+}
