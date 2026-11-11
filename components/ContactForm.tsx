@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type FormEvent } from "react";
 import {
-  contactCountries,
   contactRegions,
   contactServiceOptions,
+  countriesForRegion,
 } from "@/lib/contact-options";
+import { ThemedSelect } from "@/components/ThemedSelect";
+import { notify } from "@/lib/notify";
 import { contactSchema } from "@/lib/validations";
 
 type FieldErrors = Record<string, string>;
@@ -39,10 +41,14 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
   const [done, setDone] = useState(false);
   const [token, setToken] = useState("");
   const [honeypot, setHoneypot] = useState("");
+  const [region, setRegion] = useState("");
+  const [country, setCountry] = useState("");
+  const [serviceInterest, setServiceInterest] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
   const widgetRef = useRef<HTMLDivElement>(null);
-  const summaryRef = useRef<HTMLDivElement>(null);
-  const successRef = useRef<HTMLDivElement>(null);
   const submittingRef = useRef(false);
+
+  const countryOptions = useMemo(() => countriesForRegion(region), [region]);
 
   useEffect(() => {
     if (!siteKey || !widgetRef.current) return;
@@ -68,15 +74,28 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
     };
   }, [siteKey]);
 
-  useEffect(() => {
-    if (formError || Object.keys(errors).length > 0) summaryRef.current?.focus();
-  }, [errors, formError]);
+  function focusFirstInvalid(nextErrors: FieldErrors) {
+    const order = ["name", "email", "organization", "region", "country", "serviceInterest", "message"];
+    const first = order.find((key) => nextErrors[key]);
+    if (!first || !formRef.current) return;
+    const idSuffix = first === "serviceInterest" ? "service" : first;
+    formRef.current.querySelector<HTMLElement>(`#${CSS.escape(`${baseId}-${idSuffix}`)}`)?.focus();
+  }
 
-  useEffect(() => {
-    if (done) successRef.current?.focus();
-  }, [done]);
+  function onRegionChange(next: string) {
+    setRegion(next);
+    setCountry("");
+    if (errors.region || errors.country) {
+      setErrors((current) => {
+        const nextErrors = { ...current };
+        delete nextErrors.region;
+        delete nextErrors.country;
+        return nextErrors;
+      });
+    }
+  }
 
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending || submittingRef.current) return;
 
@@ -103,6 +122,11 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         if (typeof key === "string" && !next[key]) next[key] = issue.message;
       }
       setErrors(next);
+      await notify.validation(next, {
+        title: "Form needs attention",
+        intro: "Messages appear after you press Send message — not while typing. Fix the items below, then submit again.",
+      });
+      focusFirstInvalid(next);
       return;
     }
     setErrors({});
@@ -120,6 +144,13 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         formElement.reset();
         setHoneypot("");
         setToken("");
+        setRegion("");
+        setCountry("");
+        setServiceInterest("");
+        await notify.success(
+          "Message submitted",
+          "If email delivery is configured, your message is on its way to the QNVO Technologies inbox. You can also write to info@qnvotech.com.",
+        );
         return;
       }
       if (body && typeof body === "object" && "errors" in body && body.errors && typeof body.errors === "object") {
@@ -128,14 +159,22 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
           if (typeof value === "string") next[key] = value;
         }
         setErrors(next);
+        if (Object.keys(next).length) {
+          await notify.validation(next);
+          focusFirstInvalid(next);
+          return;
+        }
       }
       const message =
         body && typeof body === "object" && "error" in body && typeof body.error === "string"
           ? body.error
           : "The message could not be sent. Email info@qnvotech.com instead.";
       setFormError(message);
+      await notify.error("Could not send message", message);
     } catch {
-      setFormError("The message could not be sent. Email info@qnvotech.com instead.");
+      const message = "The message could not be sent. Email info@qnvotech.com instead.";
+      setFormError(message);
+      await notify.error("Could not send message", message);
     } finally {
       submittingRef.current = false;
       setPending(false);
@@ -144,8 +183,8 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
 
   function fieldError(name: string) {
     return errors[name] ? (
-      <p id={`${baseId}-${name}-error`} className="mt-2 font-semibold text-navy">
-        Error: {errors[name]}
+      <p id={`${baseId}-${name}-error`} className="field-error" role="alert">
+        {errors[name]}
       </p>
     ) : null;
   }
@@ -167,19 +206,22 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
 
   return (
     <form
+      ref={formRef}
       onSubmit={onSubmit}
       noValidate
-      className="soft-card relative space-y-5 p-6 md:p-8"
+      className="soft-card contact-form relative space-y-5 p-6 md:p-8"
       aria-busy={pending}
     >
       <p className="text-sm text-slate">
-        Required fields are marked with an asterisk (<span aria-hidden="true">*</span>).
+        Required fields are marked with an asterisk (<span aria-hidden="true">*</span>). Validation messages appear when you submit the form.
       </p>
-      <div ref={summaryRef} tabIndex={-1} role={formError ? "alert" : undefined} aria-live={formError ? "assertive" : "off"}>
-        {formError ? <p className="rounded-md border border-navy/20 bg-offwhite p-4 font-semibold text-navy">{formError}</p> : null}
-      </div>
+      {formError ? (
+        <div role="alert" className="rounded-md border border-navy/20 bg-offwhite p-4 font-semibold text-navy">
+          {formError}
+        </div>
+      ) : null}
       {done ? (
-        <div ref={successRef} tabIndex={-1} role="status" className="rounded-md border border-navy/15 bg-offwhite p-4">
+        <div role="status" className="rounded-md border border-navy/15 bg-offwhite p-4">
           <p className="font-semibold text-navy">Your message was submitted.</p>
           <p className="mt-2">
             If email delivery is configured, it is on its way to the QNVO Technologies inbox. You can also write to info@qnvotech.com. This page cannot confirm how quickly a person will read it.
@@ -201,7 +243,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
             maxLength={80}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={describedBy("name")}
-            className={inputClass}
+            className={`${inputClass}${errors.name ? " is-invalid" : ""}`}
           />
           {fieldError("name")}
         </div>
@@ -220,7 +262,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
             maxLength={254}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={describedBy("email")}
-            className={inputClass}
+            className={`${inputClass}${errors.email ? " is-invalid" : ""}`}
           />
           {fieldError("email")}
         </div>
@@ -237,7 +279,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
           maxLength={120}
           aria-invalid={Boolean(errors.organization)}
           aria-describedby={describedBy("organization")}
-          className={inputClass}
+          className={`${inputClass}${errors.organization ? " is-invalid" : ""}`}
         />
         {fieldError("organization")}
       </div>
@@ -245,64 +287,49 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
       <fieldset className="m-0 min-w-0 border-0 p-0">
         <legend className="sr-only">Location</legend>
         <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label htmlFor={`${baseId}-region`} className="font-semibold text-navy">
-            Region
-            <RequiredMark />
-          </label>
-          <select
-            id={`${baseId}-region`}
-            name="region"
-            required
-            defaultValue=""
-            aria-invalid={Boolean(errors.region)}
-            aria-describedby={describedBy("region", `${baseId}-region-hint`)}
-            className={inputClass}
-          >
-            <option value="" disabled>
-              Select a region
-            </option>
-            {contactRegions.map((item) => (
-              <option key={item.value} value={item.value}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-          <p id={`${baseId}-region-hint`} className="mt-2 text-sm">
-            Markets this site is written for, plus elsewhere if needed.
-          </p>
-          {fieldError("region")}
-        </div>
-        <div>
-          <label htmlFor={`${baseId}-country`} className="font-semibold text-navy">
-            Country
-            <RequiredMark />
-          </label>
-          <select
-            id={`${baseId}-country`}
-            name="country"
-            required
-            defaultValue=""
-            autoComplete="country-name"
-            aria-invalid={Boolean(errors.country)}
-            aria-describedby={describedBy("country")}
-            className={inputClass}
-          >
-            <option value="" disabled>
-              Select a country
-            </option>
-            {contactCountries.map((group) => (
-              <optgroup key={group.group} label={group.group}>
-                {group.options.map((item) => (
-                  <option key={item.value} value={item.value}>
-                    {item.label}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-          {fieldError("country")}
-        </div>
+          <div>
+            <label htmlFor={`${baseId}-region`} className="font-semibold text-navy">
+              Region
+              <RequiredMark />
+            </label>
+            <ThemedSelect
+              id={`${baseId}-region`}
+              name="region"
+              label="Region"
+              value={region}
+              onChange={onRegionChange}
+              options={[...contactRegions]}
+              placeholder="Select a region"
+              required
+              invalid={Boolean(errors.region)}
+              describedBy={describedBy("region", `${baseId}-region-hint`)}
+            />
+            <p id={`${baseId}-region-hint`} className="mt-2 text-sm text-slate">
+              Choose a world region. Country options load from that region.
+            </p>
+            {fieldError("region")}
+          </div>
+          <div>
+            <label htmlFor={`${baseId}-country`} className="font-semibold text-navy">
+              Country
+              <RequiredMark />
+            </label>
+            <ThemedSelect
+              id={`${baseId}-country`}
+              name="country"
+              label="Country"
+              value={country}
+              onChange={setCountry}
+              options={countryOptions}
+              placeholder={region ? "Select a country" : "Select a region first"}
+              required
+              disabled={!region}
+              invalid={Boolean(errors.country)}
+              describedBy={describedBy("country")}
+              autoComplete="country-name"
+            />
+            {fieldError("country")}
+          </div>
         </div>
       </fieldset>
 
@@ -311,29 +338,19 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
           Service interest
           <RequiredMark />
         </label>
-        <select
+        <ThemedSelect
           id={`${baseId}-service`}
           name="serviceInterest"
+          label="Service interest"
+          value={serviceInterest}
+          onChange={setServiceInterest}
+          groups={serviceOptions}
+          placeholder="Select a service area"
           required
-          defaultValue=""
-          aria-invalid={Boolean(errors.serviceInterest)}
-          aria-describedby={describedBy("serviceInterest", `${baseId}-service-hint`)}
-          className={inputClass}
-        >
-          <option value="" disabled>
-            Select a service area
-          </option>
-          {serviceOptions.map((group) => (
-            <optgroup key={group.group} label={group.group}>
-              {group.options.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </select>
-        <p id={`${baseId}-service-hint`} className="mt-2 text-sm">
+          invalid={Boolean(errors.serviceInterest)}
+          describedBy={describedBy("serviceInterest", `${baseId}-service-hint`)}
+        />
+        <p id={`${baseId}-service-hint`} className="mt-2 text-sm text-slate">
           Choose the closest match. You can describe more than one area in the message.
         </p>
         {fieldError("serviceInterest")}
@@ -353,9 +370,9 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
           rows={6}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={describedBy("message", `${baseId}-message-hint`)}
-          className={inputClass}
+          className={`${inputClass}${errors.message ? " is-invalid" : ""}`}
         />
-        <p id={`${baseId}-message-hint`} className="mt-2">
+        <p id={`${baseId}-message-hint`} className="mt-2 text-sm text-slate">
           At least 20 characters. Do not include passwords, payment cards or other secrets.
         </p>
         {fieldError("message")}
@@ -373,18 +390,9 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         />
       </div>
       {siteKey ? (
-        <div
-          ref={widgetRef}
-          className="min-h-16"
-          role="group"
-          aria-label="Spam check"
-        />
+        <div ref={widgetRef} className="min-h-16" role="group" aria-label="Spam check" />
       ) : null}
-      <button
-        type="submit"
-        disabled={pending}
-        className="btn btn-blue disabled:cursor-not-allowed disabled:opacity-80"
-      >
+      <button type="submit" disabled={pending} className="btn btn-blue disabled:cursor-not-allowed disabled:opacity-80">
         {pending ? "Sending…" : "Send message"}
       </button>
     </form>

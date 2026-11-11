@@ -82,20 +82,7 @@ export default function ContactPage() {
               </noscript>
             </div>
           </aside>
-          {siteKey ? (
-            <ContactForm siteKey={siteKey} />
-          ) : (
-            <div className="rounded-[2rem] bg-white p-7 shadow-[0_14px_36px_rgba(2,40,95,0.08)] md:p-8">
-              <h2 className="font-display text-2xl font-semibold text-navy">Form unavailable</h2>
-              <p className="mt-3 leading-relaxed text-slate">
-                The contact form is not configured on this deployment. Email{" "}
-                <a className="font-semibold text-navy underline decoration-blue/50 underline-offset-4" href={`mailto:${publicEmail}`}>
-                  {publicEmail}
-                </a>{" "}
-                instead. Do not send passwords or payment card details.
-              </p>
-            </div>
-          )}
+          <ContactForm siteKey={siteKey} />
         </Container>
       </section>
     </InnerPage>

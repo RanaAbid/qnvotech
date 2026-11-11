@@ -171,8 +171,6 @@ export const processSteps: { title: string; body: string }[] = [
   },
 ];
 
-export const regions = ["United States", "United Kingdom", "Middle East", "Pakistan"] as const;
-
 export type CaseStudy = {
   id: string;
   code: string;

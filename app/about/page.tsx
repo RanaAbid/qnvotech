@@ -11,7 +11,7 @@ import {
   aboutPullQuote,
   aboutStandards,
 } from "@/content/about";
-import { processSteps, regions } from "@/lib/data";
+import { processSteps } from "@/lib/data";
 import { pageMetadata, webPageNode } from "@/lib/seo";
 import { tagline } from "@/lib/site";
 
@@ -189,36 +189,6 @@ export default function AboutPage() {
                 </li>
               ))}
             </ol>
-          </Reveal>
-        </Container>
-      </section>
-
-      <section className="bg-white py-14 md:py-20" aria-labelledby="about-markets-heading">
-        <Container>
-          <Reveal>
-            <p className="anim-eyebrow eyebrow">Audiences</p>
-            <h2 id="about-markets-heading" className="anim-title mt-3 font-display text-[1.75rem] font-bold md:text-[2.25rem]">
-              Written for these markets
-            </h2>
-            <p className="anim-copy mt-4 max-w-3xl text-lg">
-              Business English on this site is written for organizations in the audiences below. A market listed here is not an office address, a registered branch or a headcount claim.
-            </p>
-            <ul className="stagger-host mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {regions.map((region) => (
-                <li key={region} className="soft-card px-5 py-4 font-display text-lg font-semibold text-navy">
-                  {region}
-                </li>
-              ))}
-            </ul>
-            <p className="anim-copy mt-8 max-w-3xl leading-relaxed text-slate">
-              Client names, testimonials, prices, founding year, certifications, social profiles and street addresses are omitted until they are verified for publication.
-            </p>
-            <p className="anim-cta mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
-              <TextLink href="/services/">Explore our services</TextLink>
-              <TextLink href="/industries/">Browse industries</TextLink>
-              <TextLink href="/technologies/">Technologies we discuss</TextLink>
-              <TextLink href="/case-studies/">Published work</TextLink>
-            </p>
           </Reveal>
         </Container>
       </section>

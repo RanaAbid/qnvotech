@@ -25,9 +25,8 @@ export function isAllowedOrigin(request: Request): boolean {
   }
   if (originUrl.protocol !== "https:" && originUrl.protocol !== "http:") return false;
 
-  if (process.env.NODE_ENV !== "production" && isLoopbackHost(originUrl.hostname)) {
-    return true;
-  }
+  // Local next start / WAMP uses production NODE_ENV but loopback Origin.
+  if (isLoopbackHost(originUrl.hostname)) return true;
 
   try {
     return originUrl.host === new URL(siteUrl).host;
@@ -38,8 +37,10 @@ export function isAllowedOrigin(request: Request): boolean {
 
 export async function verifyTurnstile(token: string, ip: string): Promise<"ok" | "skip" | "fail"> {
   const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
-  // Production must not silently skip spam checks when misconfigured.
-  if (!secret) return process.env.NODE_ENV === "production" ? "fail" : "skip";
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim();
+  // Skip only when Turnstile is not configured at all. If a site key exists without a
+  // secret, fail closed so a half-set deploy cannot be bypassed.
+  if (!secret) return siteKey ? "fail" : "skip";
   if (!token) return "fail";
 
   const body = new URLSearchParams();

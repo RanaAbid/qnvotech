@@ -15,7 +15,9 @@ function contentSecurityPolicy(nonce: string, isLocal: boolean): string {
     "default-src 'self'",
     `script-src ${scriptSrc.join(" ")}`,
     "script-src-attr 'none'",
-    `style-src 'self' 'nonce-${nonce}'`,
+    // Styles: SweetAlert2 + React need inline style attrs; bundled CSS stays on 'self'.
+    // Script nonce remains fail-closed above. Style nonce alone blocks Swal injection.
+    "style-src 'self' 'unsafe-inline'",
     "img-src 'self' blob: data: https://www.google-analytics.com",
     "font-src 'self'",
     "object-src 'none'",
