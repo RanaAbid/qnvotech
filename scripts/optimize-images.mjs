@@ -1,37 +1,91 @@
-import { mkdirSync } from "node:fs";
+import { mkdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import sharp from "sharp";
 
 const root = process.cwd();
 
-const jobs = [
-  { input: "public/images/hero-team.jpg", base: "public/images/hero-team", maxWidth: 1600 },
-  { input: "public/images/hero-systems.jpg", base: "public/images/hero-systems", maxWidth: 1600 },
-  { input: "public/images/hero-web.jpg", base: "public/images/hero-web", maxWidth: 1600 },
-  { input: "public/images/hero-cloud.jpg", base: "public/images/hero-cloud", maxWidth: 1600 },
-  { input: "public/images/hero-growth.jpg", base: "public/images/hero-growth", maxWidth: 1600 },
-  { input: "public/logo/qnvo-logo-horizontal-transparent.png", base: "public/logo/qnvo-logo-horizontal-transparent", maxWidth: 480 },
-  { input: "public/logo/qnvo-logo-full-lockup-transparent.png", base: "public/logo/qnvo-logo-full-lockup-transparent", maxWidth: 900 },
+const heroes = [
+  "hero-team",
+  "hero-systems",
+  "hero-web",
+  "hero-cloud",
+  "hero-growth",
 ];
 
-async function convert(job) {
-  const input = join(root, job.input);
-  const webpOut = join(root, `${job.base}.webp`);
-  const avifOut = join(root, `${job.base}.avif`);
-  mkdirSync(dirname(webpOut), { recursive: true });
+const logos = [
+  { input: "public/logo/qnvo-logo-horizontal-transparent.png", base: "public/logo/qnvo-logo-horizontal-transparent", maxWidth: 484 },
+  { input: "public/logo/qnvo-logo-full-lockup-transparent.png", base: "public/logo/qnvo-logo-full-lockup-transparent", maxWidth: 720 },
+];
 
-  const pipeline = sharp(input).rotate().resize({
-    width: job.maxWidth,
-    withoutEnlargement: true,
-  });
+async function writeVariants(input, base, widths, { webpQuality = 74, avifQuality = 48 } = {}) {
+  const source = sharp(input).rotate();
+  const meta = await source.metadata();
+  const aspect = meta.width && meta.height ? meta.height / meta.width : 2 / 3;
 
-  await pipeline.clone().webp({ quality: 78, effort: 5 }).toFile(webpOut);
-  await pipeline.clone().avif({ quality: 55, effort: 4 }).toFile(avifOut);
+  for (const width of widths) {
+    const pipeline = sharp(input).rotate().resize({
+      width,
+      withoutEnlargement: true,
+    });
+    const suffix = widths.length === 1 || width === Math.max(...widths) ? "" : `-${width}`;
+    const webpOut = join(root, `${base}${suffix}.webp`);
+    const avifOut = join(root, `${base}${suffix}.avif`);
+    mkdirSync(dirname(webpOut), { recursive: true });
+    await pipeline.clone().webp({ quality: webpQuality, effort: 6 }).toFile(webpOut);
+    await pipeline.clone().avif({ quality: avifQuality, effort: 5 }).toFile(avifOut);
+    const [wMeta, aMeta] = await Promise.all([sharp(webpOut).metadata(), sharp(avifOut).metadata()]);
+    console.log(
+      `${base}${suffix} -> webp ${Math.round((wMeta.size ?? 0) / 1024)}KB / avif ${Math.round((aMeta.size ?? 0) / 1024)}KB (${wMeta.width}x${wMeta.height})`,
+    );
+  }
 
-  const [webpMeta, avifMeta] = await Promise.all([sharp(webpOut).metadata(), sharp(avifOut).metadata()]);
-  console.log(`${job.input} -> webp ${webpMeta.size ?? "?"}B / avif ${avifMeta.size ?? "?"}B`);
+  return { aspect };
 }
 
-for (const job of jobs) {
-  await convert(job);
+for (const name of heroes) {
+  const input = join(root, `public/images/${name}.jpg`);
+  if (!existsSync(input)) {
+    console.warn(`skip missing ${input}`);
+    continue;
+  }
+  await writeVariants(input, `public/images/${name}`, [800, 1200, 1600], { webpQuality: 72, avifQuality: 45 });
+  // Keep a lean JPG fallback at 1200w for <picture> raster fallback.
+  const jpgOut = join(root, `public/images/${name}.jpg`);
+  await sharp(input)
+    .rotate()
+    .resize({ width: 1200, withoutEnlargement: true })
+    .jpeg({ quality: 78, mozjpeg: true })
+    .toFile(join(root, `public/images/${name}.tmp.jpg`));
+  const { renameSync, unlinkSync } = await import("node:fs");
+  try {
+    unlinkSync(jpgOut);
+  } catch {
+    // ignore
+  }
+  renameSync(join(root, `public/images/${name}.tmp.jpg`), jpgOut);
+  const jpgMeta = await sharp(jpgOut).metadata();
+  console.log(`${name}.jpg fallback -> ${Math.round((jpgMeta.size ?? 0) / 1024)}KB`);
+}
+
+for (const job of logos) {
+  const input = join(root, job.input);
+  if (!existsSync(input)) continue;
+  await writeVariants(input, job.base, [job.maxWidth], { webpQuality: 78, avifQuality: 52 });
+}
+
+const og = join(root, "public/og-default.png");
+if (existsSync(og)) {
+  await sharp(og)
+    .resize({ width: 1200, withoutEnlargement: true })
+    .png({ compressionLevel: 9, palette: true, quality: 80 })
+    .toFile(join(root, "public/og-default.tmp.png"));
+  const { renameSync, unlinkSync } = await import("node:fs");
+  try {
+    unlinkSync(og);
+  } catch {
+    // ignore
+  }
+  renameSync(join(root, "public/og-default.tmp.png"), og);
+  const ogMeta = await sharp(og).metadata();
+  console.log(`og-default.png -> ${Math.round((ogMeta.size ?? 0) / 1024)}KB`);
 }

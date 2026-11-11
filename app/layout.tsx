@@ -13,16 +13,22 @@ import "./globals.css";
 
 const sora = Sora({
   subsets: ["latin"],
+  // 800 is used by display kickers/titles in globals.css
   weight: ["600", "700", "800"],
   variable: "--font-sora",
-  display: "swap",
+  // optional avoids late LCP from font swaps under slow networks / lab throttle
+  display: "optional",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-inter",
-  display: "swap",
+  display: "optional",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const viewport: Viewport = {
@@ -35,7 +41,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "AI, Web Development & SEO Company | QNVO Technologies",
+    default: "AI, Web Development & Technical SEO Company | QNVO Technologies",
     template: "%s",
   },
   description: defaultDescription,
@@ -53,7 +59,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "AI, Web Development & SEO Company | QNVO Technologies",
+    title: "AI, Web Development & Technical SEO Company | QNVO Technologies",
     description: defaultDescription,
     url: absoluteUrl("/"),
     siteName: companyName,
@@ -63,7 +69,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI, Web Development & SEO Company | QNVO Technologies",
+    title: "AI, Web Development & Technical SEO Company | QNVO Technologies",
     description: defaultDescription,
     images: [`${siteUrl}/og-default.png`],
   },
@@ -81,7 +87,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <div className="flex min-h-screen flex-col">
             <SkipLink />
             <Header />
-            <main id="main-content" tabIndex={-1} className="outline-none flex-1">
+            <main id="main-content" tabIndex={-1} className="main-content flex-1">
               {children}
             </main>
             <Footer />

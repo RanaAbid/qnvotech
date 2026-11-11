@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import {
+  contactCountries,
+  contactRegions,
+  contactServiceOptions,
+} from "@/lib/contact-options";
 import { contactSchema } from "@/lib/validations";
 
 type FieldErrors = Record<string, string>;
@@ -24,6 +29,7 @@ declare global {
 }
 
 const inputClass = "field";
+const serviceOptions = contactServiceOptions();
 
 export function ContactForm({ siteKey }: { siteKey: string }) {
   const baseId = useId();
@@ -36,6 +42,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
   const widgetRef = useRef<HTMLDivElement>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
+  const submittingRef = useRef(false);
 
   useEffect(() => {
     if (!siteKey || !widgetRef.current) return;
@@ -71,13 +78,19 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (pending || submittingRef.current) return;
+
     setFormError("");
     setDone(false);
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const payload = {
       name: String(form.get("name") ?? ""),
       email: String(form.get("email") ?? ""),
       organization: String(form.get("organization") ?? ""),
+      region: String(form.get("region") ?? ""),
+      country: String(form.get("country") ?? ""),
+      serviceInterest: String(form.get("serviceInterest") ?? ""),
       message: String(form.get("message") ?? ""),
       companyWebsite: honeypot,
       turnstileToken: token,
@@ -93,8 +106,8 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
       return;
     }
     setErrors({});
+    submittingRef.current = true;
     setPending(true);
-    const formElement = event.currentTarget;
     try {
       const response = await fetch("/api/contact/", {
         method: "POST",
@@ -124,6 +137,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
     } catch {
       setFormError("The message could not be sent. Email info@qnvotech.com instead.");
     } finally {
+      submittingRef.current = false;
       setPending(false);
     }
   }
@@ -136,9 +150,32 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
     ) : null;
   }
 
+  function describedBy(name: string, hintId?: string) {
+    const parts = [hintId, errors[name] ? `${baseId}-${name}-error` : ""].filter(Boolean);
+    return parts.length ? parts.join(" ") : undefined;
+  }
+
+  function RequiredMark() {
+    return (
+      <span className="font-normal text-slate">
+        {" "}
+        <span aria-hidden="true">*</span>
+        <span className="sr-only">(required)</span>
+      </span>
+    );
+  }
+
   return (
-    <form onSubmit={onSubmit} noValidate className="soft-card space-y-6 p-6 md:p-8">
-      <div ref={summaryRef} tabIndex={-1} role={formError ? "alert" : undefined}>
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      className="soft-card relative space-y-5 p-6 md:p-8"
+      aria-busy={pending}
+    >
+      <p className="text-sm text-slate">
+        Required fields are marked with an asterisk (<span aria-hidden="true">*</span>).
+      </p>
+      <div ref={summaryRef} tabIndex={-1} role={formError ? "alert" : undefined} aria-live={formError ? "assertive" : "off"}>
         {formError ? <p className="rounded-md border border-navy/20 bg-offwhite p-4 font-semibold text-navy">{formError}</p> : null}
       </div>
       {done ? (
@@ -149,44 +186,206 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
           </p>
         </div>
       ) : null}
-      <div>
-        <label htmlFor={`${baseId}-name`} className="font-semibold text-navy">
-          Full name
-        </label>
-        <input id={`${baseId}-name`} name="name" autoComplete="name" required maxLength={80} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? `${baseId}-name-error` : undefined} className={inputClass} />
-        {fieldError("name")}
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor={`${baseId}-name`} className="font-semibold text-navy">
+            Full name
+            <RequiredMark />
+          </label>
+          <input
+            id={`${baseId}-name`}
+            name="name"
+            autoComplete="name"
+            required
+            maxLength={80}
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={describedBy("name")}
+            className={inputClass}
+          />
+          {fieldError("name")}
+        </div>
+        <div>
+          <label htmlFor={`${baseId}-email`} className="font-semibold text-navy">
+            Email
+            <RequiredMark />
+          </label>
+          <input
+            id={`${baseId}-email`}
+            name="email"
+            type="email"
+            autoComplete="email"
+            inputMode="email"
+            required
+            maxLength={254}
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={describedBy("email")}
+            className={inputClass}
+          />
+          {fieldError("email")}
+        </div>
       </div>
-      <div>
-        <label htmlFor={`${baseId}-email`} className="font-semibold text-navy">
-          Email
-        </label>
-        <input id={`${baseId}-email`} name="email" type="email" autoComplete="email" inputMode="email" required maxLength={254} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? `${baseId}-email-error` : undefined} className={inputClass} />
-        {fieldError("email")}
-      </div>
+
       <div>
         <label htmlFor={`${baseId}-organization`} className="font-semibold text-navy">
           Organization <span className="font-normal">(optional)</span>
         </label>
-        <input id={`${baseId}-organization`} name="organization" autoComplete="organization" maxLength={120} aria-invalid={Boolean(errors.organization)} aria-describedby={errors.organization ? `${baseId}-organization-error` : undefined} className={inputClass} />
+        <input
+          id={`${baseId}-organization`}
+          name="organization"
+          autoComplete="organization"
+          maxLength={120}
+          aria-invalid={Boolean(errors.organization)}
+          aria-describedby={describedBy("organization")}
+          className={inputClass}
+        />
         {fieldError("organization")}
       </div>
+
+      <fieldset className="m-0 min-w-0 border-0 p-0">
+        <legend className="sr-only">Location</legend>
+        <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor={`${baseId}-region`} className="font-semibold text-navy">
+            Region
+            <RequiredMark />
+          </label>
+          <select
+            id={`${baseId}-region`}
+            name="region"
+            required
+            defaultValue=""
+            aria-invalid={Boolean(errors.region)}
+            aria-describedby={describedBy("region", `${baseId}-region-hint`)}
+            className={inputClass}
+          >
+            <option value="" disabled>
+              Select a region
+            </option>
+            {contactRegions.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+          <p id={`${baseId}-region-hint`} className="mt-2 text-sm">
+            Markets this site is written for, plus elsewhere if needed.
+          </p>
+          {fieldError("region")}
+        </div>
+        <div>
+          <label htmlFor={`${baseId}-country`} className="font-semibold text-navy">
+            Country
+            <RequiredMark />
+          </label>
+          <select
+            id={`${baseId}-country`}
+            name="country"
+            required
+            defaultValue=""
+            autoComplete="country-name"
+            aria-invalid={Boolean(errors.country)}
+            aria-describedby={describedBy("country")}
+            className={inputClass}
+          >
+            <option value="" disabled>
+              Select a country
+            </option>
+            {contactCountries.map((group) => (
+              <optgroup key={group.group} label={group.group}>
+                {group.options.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+          {fieldError("country")}
+        </div>
+        </div>
+      </fieldset>
+
+      <div>
+        <label htmlFor={`${baseId}-service`} className="font-semibold text-navy">
+          Service interest
+          <RequiredMark />
+        </label>
+        <select
+          id={`${baseId}-service`}
+          name="serviceInterest"
+          required
+          defaultValue=""
+          aria-invalid={Boolean(errors.serviceInterest)}
+          aria-describedby={describedBy("serviceInterest", `${baseId}-service-hint`)}
+          className={inputClass}
+        >
+          <option value="" disabled>
+            Select a service area
+          </option>
+          {serviceOptions.map((group) => (
+            <optgroup key={group.group} label={group.group}>
+              {group.options.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.label}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+        <p id={`${baseId}-service-hint`} className="mt-2 text-sm">
+          Choose the closest match. You can describe more than one area in the message.
+        </p>
+        {fieldError("serviceInterest")}
+      </div>
+
       <div>
         <label htmlFor={`${baseId}-message`} className="font-semibold text-navy">
           Message
+          <RequiredMark />
         </label>
-        <textarea id={`${baseId}-message`} name="message" required minLength={20} maxLength={4000} rows={6} aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? `${baseId}-message-error` : `${baseId}-message-hint`} className={inputClass} />
+        <textarea
+          id={`${baseId}-message`}
+          name="message"
+          required
+          minLength={20}
+          maxLength={4000}
+          rows={6}
+          aria-invalid={Boolean(errors.message)}
+          aria-describedby={describedBy("message", `${baseId}-message-hint`)}
+          className={inputClass}
+        />
         <p id={`${baseId}-message-hint`} className="mt-2">
           At least 20 characters. Do not include passwords, payment cards or other secrets.
         </p>
         {fieldError("message")}
       </div>
+
       <div aria-hidden="true" className="absolute left-[-10000px] h-px w-px overflow-hidden">
         <label htmlFor={`${baseId}-company`}>Company website</label>
-        <input id={`${baseId}-company`} name="companyWebsite" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(event) => setHoneypot(event.target.value)} />
+        <input
+          id={`${baseId}-company`}
+          name="companyWebsite"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(event) => setHoneypot(event.target.value)}
+        />
       </div>
-      {siteKey ? <div ref={widgetRef} className="min-h-16" /> : null}
-      <button type="submit" disabled={pending} className="btn btn-blue disabled:opacity-70">
-        {pending ? "Sending" : "Send message"}
+      {siteKey ? (
+        <div
+          ref={widgetRef}
+          className="min-h-16"
+          role="group"
+          aria-label="Spam check"
+        />
+      ) : null}
+      <button
+        type="submit"
+        disabled={pending}
+        className="btn btn-blue disabled:cursor-not-allowed disabled:opacity-80"
+      >
+        {pending ? "Sending…" : "Send message"}
       </button>
     </form>
   );

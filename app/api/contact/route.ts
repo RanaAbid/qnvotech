@@ -30,6 +30,7 @@ export async function POST(request: Request) {
     });
   }
 
+  // Cap before JSON.parse / Zod to limit memory DoS (also mitigates oversized-collection advisories).
   const raw = await request.text();
   if (raw.length > 12000) {
     return json({ ok: false, error: "The message is too large." }, 413);

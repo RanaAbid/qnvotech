@@ -1,20 +1,36 @@
 import { siteUrl } from "@/lib/site";
 
+function isLoopbackHost(hostname: string): boolean {
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+}
+
+/**
+ * CSRF defense for the JSON contact API: require a browser Origin that matches
+ * the configured site (or loopback in non-production). Do not trust
+ * X-Forwarded-Host alone — that header is attacker-controlled without a
+ * trusted reverse proxy strip.
+ */
 export function isAllowedOrigin(request: Request): boolean {
   const origin = request.headers.get("origin");
   if (!origin) return false;
-  let originHost = "";
+
+  const fetchSite = (request.headers.get("sec-fetch-site") ?? "").toLowerCase();
+  if (fetchSite === "cross-site") return false;
+
+  let originUrl: URL;
   try {
-    originHost = new URL(origin).host;
+    originUrl = new URL(origin);
   } catch {
     return false;
   }
-  const hostname = originHost.split(":")[0] ?? "";
-  if (hostname === "localhost" || hostname === "127.0.0.1") return true;
-  const requestHost = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
-  if (requestHost && originHost === requestHost.split(",")[0]?.trim()) return true;
+  if (originUrl.protocol !== "https:" && originUrl.protocol !== "http:") return false;
+
+  if (process.env.NODE_ENV !== "production" && isLoopbackHost(originUrl.hostname)) {
+    return true;
+  }
+
   try {
-    return originHost === new URL(siteUrl).host;
+    return originUrl.host === new URL(siteUrl).host;
   } catch {
     return false;
   }
@@ -22,7 +38,8 @@ export function isAllowedOrigin(request: Request): boolean {
 
 export async function verifyTurnstile(token: string, ip: string): Promise<"ok" | "skip" | "fail"> {
   const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
-  if (!secret) return "skip";
+  // Production must not silently skip spam checks when misconfigured.
+  if (!secret) return process.env.NODE_ENV === "production" ? "fail" : "skip";
   if (!token) return "fail";
 
   const body = new URLSearchParams();

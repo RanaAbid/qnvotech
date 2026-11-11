@@ -1,18 +1,22 @@
 import { ContactForm } from "@/components/ContactForm";
 import { InnerPage } from "@/components/InnerPage";
 import { Container } from "@/components/ui";
-import { pageMetadata } from "@/lib/seo";
+import { pageMetadata, webPageNode } from "@/lib/seo";
 import { publicEmail } from "@/lib/site";
 
+const contactTitle = "Contact Us for Software Projects | QNVO Technologies";
+const contactDescription =
+  "Contact QNVO Technologies about a software, AI, ERP or website project. Email info@qnvotech.com or use the form. A message is not a contract.";
+
 export const metadata = pageMetadata({
-  title: "Contact Us for Software Projects | QNVO Technologies",
-  description:
-    "Contact QNVO Technologies about a software, AI, ERP or website project. Email info@qnvotech.com or use the form. A message is not a contract.",
+  title: contactTitle,
+  description: contactDescription,
   path: "/contact/",
 });
 
 const notes = [
   { title: "What to send", body: "The system, the people who use it, and the constraint that matters most." },
+  { title: "Region and service", body: "Choose your region, country and the closest service area so the inbox can route the conversation." },
   { title: "What not to send", body: "Passwords, payment cards, or other secrets. Email those to nobody." },
   { title: "What a message is", body: "A request to talk. It is not a quote, a contract, or a delivery date." },
 ];
@@ -23,6 +27,8 @@ function safeSiteKey(): string {
 }
 
 export default function ContactPage() {
+  const siteKey = safeSiteKey();
+
   return (
     <InnerPage
       crumbs={[
@@ -32,6 +38,14 @@ export default function ContactPage() {
       eyebrow="Contact"
       title="Contact QNVO Technologies"
       lede="Send a project question to the public inbox. A form submission asks for a conversation. It does not create a contract, a quote or a delivery date."
+      extraGraph={[
+        webPageNode({
+          name: "Contact QNVO Technologies",
+          description: contactDescription,
+          path: "/contact/",
+          type: "ContactPage",
+        }),
+      ]}
     >
       <section className="bg-[#e8eef5] py-16 md:py-20">
         <Container className="grid items-start gap-6 lg:grid-cols-[minmax(0,22rem)_1fr]">
@@ -68,7 +82,20 @@ export default function ContactPage() {
               </noscript>
             </div>
           </aside>
-          <ContactForm siteKey={safeSiteKey()} />
+          {siteKey ? (
+            <ContactForm siteKey={siteKey} />
+          ) : (
+            <div className="rounded-[2rem] bg-white p-7 shadow-[0_14px_36px_rgba(2,40,95,0.08)] md:p-8">
+              <h2 className="font-display text-2xl font-semibold text-navy">Form unavailable</h2>
+              <p className="mt-3 leading-relaxed text-slate">
+                The contact form is not configured on this deployment. Email{" "}
+                <a className="font-semibold text-navy underline decoration-blue/50 underline-offset-4" href={`mailto:${publicEmail}`}>
+                  {publicEmail}
+                </a>{" "}
+                instead. Do not send passwords or payment card details.
+              </p>
+            </div>
+          )}
         </Container>
       </section>
     </InnerPage>

@@ -3,12 +3,15 @@ import { FaqList } from "@/components/FaqList";
 import { InnerPage } from "@/components/InnerPage";
 import { Container, TextLink } from "@/components/ui";
 import { faqs } from "@/lib/data";
-import { faqNode, pageMetadata } from "@/lib/seo";
+import { faqNode, pageMetadata, webPageNode } from "@/lib/seo";
+
+const faqTitle = "FAQ: Services, Regions & Contact | QNVO Technologies";
+const faqDescription =
+  "Answers about QNVO Technologies services, regions, contact, case studies and what this website does not promise. Email info@qnvotech.com to ask.";
 
 export const metadata = pageMetadata({
-  title: "FAQ: Services, Regions & Contact | QNVO Technologies",
-  description:
-    "Answers about QNVO Technologies services, regions, contact, case studies and what this website does not promise. Email info@qnvotech.com to ask.",
+  title: faqTitle,
+  description: faqDescription,
   path: "/faq/",
 });
 
@@ -21,7 +24,14 @@ export default function FaqPage() {
       ]}
       title="Frequently Asked Questions"
       lede="Straight answers about what QNVO Technologies publishes, how to start a conversation, and what this website does not claim."
-      extraGraph={[faqNode(faqs)]}
+      extraGraph={[
+        webPageNode({
+          name: "Frequently Asked Questions",
+          description: faqDescription,
+          path: "/faq/",
+        }),
+        faqNode(faqs),
+      ]}
     >
       <section className="bg-white py-16 md:py-20">
         <Container>

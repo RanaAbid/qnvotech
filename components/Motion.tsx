@@ -46,8 +46,10 @@ export function Reveal({
     state === "wait" ? `reveal-wait reveal-${variant}` : state === "in" ? `reveal-in reveal-${variant}` : `reveal-${variant}`;
 
   return (
-    <div ref={ref} className={`${motionClass} ${className}`}>
-      {children}
+    <div className="reveal-scope">
+      <div ref={ref} className={`${motionClass} ${className}`}>
+        {children}
+      </div>
     </div>
   );
 }

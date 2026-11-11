@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { LogoStage } from "@/components/LogoStage";
 import { PictureFill } from "@/components/OptimizedImage";
 
 type HeroSlide = {
@@ -85,10 +86,42 @@ function Arrow() {
   );
 }
 
+/** Desktop-only brand mark, deferred so it does not compete with LCP / first input. */
+function HeroLogoStage() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+    if (!media.matches) {
+      const onChange = () => {
+        if (media.matches) setShow(true);
+      };
+      media.addEventListener("change", onChange);
+      return () => media.removeEventListener("change", onChange);
+    }
+
+    const reveal = () => setShow(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const idleId = window.requestIdleCallback(reveal, { timeout: 2200 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+    const timer = window.setTimeout(reveal, 1200);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  if (!show) return null;
+  return (
+    <div className="hero-logo-stage">
+      <LogoStage size="hero" />
+    </div>
+  );
+}
+
 export function HeroPanel() {
   const labelId = useId();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [ready, setReady] = useState(false);
   const reduceMotion = useRef(false);
 
   const goTo = useCallback((next: number) => {
@@ -98,6 +131,9 @@ export function HeroPanel() {
   useEffect(() => {
     reduceMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion.current) setPaused(true);
+    // Enable slide cross-fades only after first paint so LCP text is not opacity-tweened.
+    const timer = window.setTimeout(() => setReady(true), 700);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -116,9 +152,14 @@ export function HeroPanel() {
   };
 
   return (
-    <div className="hero-carousel" role="region" aria-roledescription="carousel" aria-labelledby={labelId}>
+    <div
+      className={`hero-carousel${ready ? " is-ready" : ""}`}
+      role="region"
+      aria-roledescription="carousel"
+      aria-labelledby={labelId}
+    >
       <div
-        className="hero-grid hero-enter relative z-10 flex flex-col justify-center px-6 py-14 md:px-10 md:py-20 lg:px-16 lg:pr-24"
+        className="hero-grid relative z-10 flex flex-col justify-center px-4 py-12 sm:px-6 sm:py-14 md:px-10 md:py-20 lg:px-16 lg:pr-24"
         onMouseEnter={pause}
         onMouseLeave={resume}
         onFocusCapture={pause}
@@ -140,17 +181,17 @@ export function HeroPanel() {
                 // Keep copy in the DOM for SEO; only park focus on inactive CTAs.
                 {...(!isOn ? { inert: true } : {})}
               >
-                <p className="anim-eyebrow text-sm font-semibold uppercase tracking-[0.16em] text-amber">{slide.eyebrow}</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-amber">{slide.eyebrow}</p>
                 <TitleTag
-                  className={`anim-title mt-4 max-w-xl font-display text-[2.05rem] font-bold leading-[1.08] text-white md:text-5xl lg:text-[3.05rem]${
+                  className={`mt-4 max-w-xl font-display text-[2.05rem] font-bold leading-[1.08] text-white md:text-5xl lg:text-[3.05rem]${
                     slideIndex === 0 ? "" : " hero-slide-title"
                   }`}
                 >
                   {slide.title}
                 </TitleTag>
                 <p className="mt-4 max-w-xl text-lg font-semibold text-white">{slide.line}</p>
-                <p className="anim-copy mt-4 max-w-xl text-lg leading-relaxed text-offwhite">{slide.copy}</p>
-                <div className="anim-cta mt-8 flex flex-col gap-3 sm:flex-row">
+                <p className="mt-4 max-w-xl text-lg leading-relaxed text-offwhite">{slide.copy}</p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Link href={slide.primary.href} className="btn btn-blue" tabIndex={isOn ? undefined : -1}>
                     {slide.primary.label}
                     <Arrow />
@@ -177,13 +218,12 @@ export function HeroPanel() {
             />
           </div>
           <div className="hero-control-row">
-            <div className="hero-dots" role="tablist" aria-label="Hero slides">
+            <div className="hero-dots" role="group" aria-label="Hero slides">
               {slides.map((slide, slideIndex) => (
                 <button
                   key={slide.id}
                   type="button"
-                  role="tab"
-                  aria-selected={slideIndex === index}
+                  aria-current={slideIndex === index ? "true" : undefined}
                   aria-label={`Show slide ${slideIndex + 1}: ${slide.eyebrow}`}
                   className={`hero-dot${slideIndex === index ? " is-on" : ""}`}
                   onClick={() => goTo(slideIndex)}
@@ -221,21 +261,30 @@ export function HeroPanel() {
       </div>
 
       <div className="hero-photo" onMouseEnter={pause} onMouseLeave={resume}>
-        {slides.map((slide, slideIndex) => (
-          <div
-            key={slide.base}
-            className={`hero-shot${slideIndex === index ? " is-on" : ""}`}
-            aria-hidden={slideIndex !== index}
-          >
-            <PictureFill
-              base={slide.base}
-              alt={slide.alt}
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              priority={slideIndex === 0}
-            />
-          </div>
-        ))}
+        {slides.map((slide, slideIndex) => {
+          const isOn = slideIndex === index;
+          return (
+            <div
+              key={slide.base}
+              className={`hero-shot${isOn ? " is-on" : ""}`}
+              aria-hidden={!isOn}
+            >
+              {isOn ? (
+                <PictureFill
+                  base={slide.base}
+                  alt={slide.alt}
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  priority={slideIndex === 0}
+                  responsive
+                  width={1600}
+                  height={1067}
+                />
+              ) : null}
+            </div>
+          );
+        })}
         <div className="hero-curve" aria-hidden="true" />
+        <HeroLogoStage />
       </div>
     </div>
   );

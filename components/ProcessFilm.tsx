@@ -9,21 +9,40 @@ const STEP_MS = 4200;
 export function ProcessFilm() {
   const headingId = useId();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setReduceMotion(prefersReduced);
-    const video = videoRef.current;
-    if (!video) return;
-    if (prefersReduced) {
-      video.pause();
-      return;
-    }
-    video.play().catch(() => undefined);
   }, []);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    const video = videoRef.current;
+    if (!stage || !video || reduceMotion) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.some((entry) => entry.isIntersecting);
+        if (visible) {
+          if (!video.src) {
+            video.src = "/videos/process-ambient.mp4";
+            setVideoReady(true);
+          }
+          video.play().catch(() => undefined);
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.15 },
+    );
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, [reduceMotion]);
 
   useEffect(() => {
     if (paused || reduceMotion) return;
@@ -37,16 +56,16 @@ export function ProcessFilm() {
 
   return (
     <section id="process-film" className="process-film" aria-labelledby={headingId}>
-      <div className="process-film-stage">
+      <div ref={stageRef} className="process-film-stage">
         <video
           ref={videoRef}
           className="process-film-video"
-          src="/videos/process-ambient.mp4"
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           aria-hidden="true"
+          data-ready={videoReady ? "1" : "0"}
         />
         <div className="process-film-veil" aria-hidden="true" />
         <div className="process-film-grid" aria-hidden="true" />

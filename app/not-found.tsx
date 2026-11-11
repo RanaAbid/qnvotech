@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui";
+import { publicEmail } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Page Not Found on This Site | QNVO Technologies",
@@ -13,9 +14,16 @@ export default function NotFound() {
   return (
     <section className="page-banner text-white">
       <Container className="relative z-10 py-24">
-        <h1 className="font-display text-[2rem] font-bold text-white md:text-[2.75rem]">Page not found</h1>
-        <p className="mt-4 max-w-xl text-lg text-offwhite">That address is not part of this website. The links below go to pages that do exist.</p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-amber">404</p>
+        <h1 className="mt-3 font-display text-[2rem] font-bold text-white md:text-[2.75rem]">Page not found</h1>
+        <p className="mt-4 max-w-xl text-lg text-offwhite">
+          That address is not part of this website. Use the links below, or email{" "}
+          <a className="font-semibold text-white underline decoration-white/40 underline-offset-4" href={`mailto:${publicEmail}`}>
+            {publicEmail}
+          </a>
+          .
+        </p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link href="/" className="btn btn-white">
             Back to home
           </Link>

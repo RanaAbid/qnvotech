@@ -43,16 +43,33 @@ function entryActive(pathname: string, entry: NavEntry): boolean {
   return entry.columns.some((column) => column.items.some((item) => pathMatches(pathname, item.href.split("#")[0])));
 }
 
+function getFocusable(root: HTMLElement): HTMLElement[] {
+  return [...root.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')].filter(
+    (el) => !el.hasAttribute("disabled") && el.getAttribute("aria-hidden") !== "true",
+  );
+}
+
 export function Header() {
   const pathname = usePathname();
   const menuId = useId();
+  const mobileMenuId = `${menuId}-mobile`;
   const rootRef = useRef<HTMLElement>(null);
+  const burgerRef = useRef<HTMLButtonElement>(null);
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopOpen, setDesktopOpen] = useState<string | null>(null);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const closeTimer = useRef<number | null>(null);
 
   const closeDesktop = useCallback(() => setDesktopOpen(null), []);
+
+  const closeMobile = useCallback((restoreFocus = false) => {
+    setMobileOpen(false);
+    setMobileSection(null);
+    if (restoreFocus) {
+      window.requestAnimationFrame(() => burgerRef.current?.focus());
+    }
+  }, []);
 
   const openDesktop = useCallback((id: string) => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current);
@@ -74,21 +91,73 @@ export function Header() {
     if (!mobileOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const main = document.getElementById("main-content");
+    const footer = document.querySelector("footer");
+    const topline = rootRef.current?.querySelector(".site-topline");
+    main?.setAttribute("inert", "");
+    footer?.setAttribute("inert", "");
+    topline?.setAttribute("inert", "");
     return () => {
       document.body.style.overflow = previous;
+      main?.removeAttribute("inert");
+      footer?.removeAttribute("inert");
+      topline?.removeAttribute("inert");
     };
   }, [mobileOpen]);
 
   useEffect(() => {
+    if (!mobileOpen || !mobilePanelRef.current) return;
+    const panel = mobilePanelRef.current;
+
+    function cycle() {
+      const inPanel = getFocusable(panel);
+      const burger = burgerRef.current;
+      return burger ? [burger, ...inPanel] : inPanel;
+    }
+
+    const focusTimer = window.setTimeout(() => {
+      getFocusable(panel)[0]?.focus();
+    }, 0);
+
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setMobileOpen(false);
-        setDesktopOpen(null);
+        event.preventDefault();
+        closeMobile(true);
+        return;
       }
+      if (event.key !== "Tab") return;
+      const focusable = cycle();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKey);
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [mobileOpen, closeMobile]);
+
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key !== "Escape" || !desktopOpen) return;
+      const trigger = rootRef.current?.querySelector(
+        `button[aria-controls="${menuId}-${desktopOpen}"]`,
+      ) as HTMLButtonElement | null;
+      setDesktopOpen(null);
+      trigger?.focus();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [desktopOpen, menuId]);
 
   useEffect(() => {
     function onPointer(event: MouseEvent) {
@@ -111,15 +180,17 @@ export function Header() {
 
       <div className="site-nav-bar">
         <Container className="site-nav-inner">
-          <Link href="/" className="site-logo" onClick={closeDesktop}>
+          <Link href="/" className="site-logo site-logo--live" aria-label="QNVO Technologies home" onClick={closeDesktop}>
             <OptimizedImage
               base="/logo/qnvo-logo-horizontal-transparent"
-              alt="QNVO Technologies"
+              alt=""
               width={121}
               height={44}
-              priority
+              // Eager but not link-preloaded — keep bandwidth for the LCP hero.
+              loading="eager"
+              fetchPriority="high"
               sizes="121px"
-              className="h-10 w-auto md:h-11"
+              className="h-9 w-auto sm:h-10 md:h-11"
             />
           </Link>
 
@@ -178,7 +249,11 @@ export function Header() {
                       onMouseEnter={() => openDesktop(entry.id)}
                       onMouseLeave={scheduleCloseDesktop}
                     >
-                      <div className={`mega-panel-inner mega-panel-inner--${entry.id}`}>
+                      <div
+                        className={`mega-panel-inner mega-panel-inner--${entry.id}${
+                          entry.spotlight ? "" : " mega-panel-inner--no-spotlight"
+                        }`}
+                      >
                         <div className={`mega-columns mega-columns-${Math.min(entry.columns.length, 5)}`}>
                           {entry.columns.map((column) => (
                             <div key={`${entry.id}-${column.title}`} className="mega-column">
@@ -209,6 +284,9 @@ export function Header() {
                               alt={entry.spotlight.imageAlt}
                               sizes="280px"
                               className="mega-spotlight-media"
+                              responsive={false}
+                              width={560}
+                              height={373}
                             />
                             <div className="mega-spotlight-scrim" aria-hidden="true" />
                             <div className="mega-spotlight-body">
@@ -241,11 +319,18 @@ export function Header() {
               Discuss a project
             </Link>
             <button
+              ref={burgerRef}
               type="button"
               className="site-nav-burger"
               aria-expanded={mobileOpen}
-              aria-controls={`${menuId}-mobile`}
-              onClick={() => setMobileOpen((value) => !value)}
+              aria-controls={mobileMenuId}
+              onClick={() => {
+                if (mobileOpen) closeMobile(false);
+                else {
+                  setDesktopOpen(null);
+                  setMobileOpen(true);
+                }
+              }}
             >
               <span className="sr-only">{mobileOpen ? "Close menu" : "Open menu"}</span>
               <MenuIcon open={mobileOpen} />
@@ -254,7 +339,12 @@ export function Header() {
         </Container>
       </div>
 
-      <div id={`${menuId}-mobile`} className={`site-mobile${mobileOpen ? " is-open" : ""}`} hidden={!mobileOpen}>
+      <div
+        ref={mobilePanelRef}
+        id={mobileMenuId}
+        className={`site-mobile${mobileOpen ? " is-open" : ""}`}
+        hidden={!mobileOpen}
+      >
         <Container className="site-mobile-inner">
           <nav aria-label="Mobile">
             <ul className="site-mobile-list">
@@ -266,7 +356,7 @@ export function Header() {
                         href={entry.href}
                         aria-current={entryActive(pathname, entry) ? "page" : undefined}
                         className="site-mobile-link"
-                        onClick={() => setMobileOpen(false)}
+                        onClick={() => closeMobile(false)}
                       >
                         {entry.label}
                       </Link>
@@ -275,30 +365,32 @@ export function Header() {
                 }
 
                 const expanded = mobileSection === entry.id;
+                const sectionId = `${mobileMenuId}-${entry.id}`;
                 return (
                   <li key={entry.id} className="site-mobile-group">
                     <div className="site-mobile-group-bar">
-                      <Link href={entry.href} className="site-mobile-link" onClick={() => setMobileOpen(false)}>
+                      <Link href={entry.href} className="site-mobile-link" onClick={() => closeMobile(false)}>
                         {entry.label}
                       </Link>
                       <button
                         type="button"
                         className="site-mobile-toggle"
                         aria-expanded={expanded}
+                        aria-controls={sectionId}
                         onClick={() => setMobileSection(expanded ? null : entry.id)}
                       >
                         <span className="sr-only">{expanded ? `Collapse ${entry.label}` : `Expand ${entry.label}`}</span>
                         <Chevron open={expanded} />
                       </button>
                     </div>
-                    <div className="site-mobile-panel" hidden={!expanded}>
+                    <div id={sectionId} className="site-mobile-panel" hidden={!expanded}>
                       {entry.columns.map((column) => (
                         <div key={`${entry.id}-m-${column.title}`} className="site-mobile-column">
                           <p className="site-mobile-column-title">{column.title}</p>
                           <ul>
                             {column.items.map((item) => (
                               <li key={item.href + item.label}>
-                                <Link href={item.href} onClick={() => setMobileOpen(false)}>
+                                <Link href={item.href} onClick={() => closeMobile(false)}>
                                   {item.label}
                                 </Link>
                               </li>
@@ -307,7 +399,7 @@ export function Header() {
                         </div>
                       ))}
                       {entry.spotlight ? (
-                        <Link href={entry.spotlight.href} className="site-mobile-spotlight" onClick={() => setMobileOpen(false)}>
+                        <Link href={entry.spotlight.href} className="site-mobile-spotlight" onClick={() => closeMobile(false)}>
                           {entry.spotlight.cta}
                         </Link>
                       ) : null}
@@ -316,7 +408,7 @@ export function Header() {
                 );
               })}
               <li>
-                <Link href="/contact/" className="site-mobile-cta" onClick={() => setMobileOpen(false)}>
+                <Link href="/contact/" className="site-mobile-cta" onClick={() => closeMobile(false)}>
                   Discuss a project
                 </Link>
               </li>

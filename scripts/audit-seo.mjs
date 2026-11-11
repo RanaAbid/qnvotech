@@ -1,96 +1,74 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join } from "node:path";
-import { serviceCatalog } from "../content/services.ts";
-import { insights } from "../content/insights.ts";
+import fs from "node:fs";
+import path from "node:path";
 
-const pages = [
-  ["/", "Enterprise Software and AI Work | QNVO Technologies", "QNVO Technologies shares enterprise software, AI agent, automation, ERP and digital services for teams in the USA, UK, Middle East and Pakistan."],
-  ["/about/", "About Our Software and AI Firm | QNVO Technologies", "QNVO Technologies — Quality, Next-Gen, Vision and Operations — discusses software, AI and digital services. No client proof, address or headcount listed here."],
-  ["/services/", "Software Development & AI Services | QNVO Technologies", "Browse QNVO Technologies services: enterprise software, AI agents, automation, ERP, ecommerce, web development, technical SEO and website security."],
-  ["/process/", "Our Technology Delivery Process | QNVO Technologies", "See how a QNVO Technologies project moves from a problem statement to a written scope, build, handover and any later support named in the agreement."],
-  ["/faq/", "FAQ: Services, Regions & Contact | QNVO Technologies", "Answers about QNVO Technologies services, regions, contact, case studies and what this website does not promise. Email info@qnvotech.com to ask."],
-  ["/contact/", "Contact Us for Software Projects | QNVO Technologies", "Contact QNVO Technologies about a software, AI, ERP or website project. Email info@qnvotech.com or use the form. A message is not a contract."],
-  ["/insights/", "Insights on Software & AI Work | QNVO Technologies", "Original QNVO Technologies writing on AI agents, ERP, enterprise software and process automation, linked to the related service pages."],
-  ["/case-studies/", "Case Studies: BMS & CSM Platforms | QNVO Technologies", "QNVO Technologies case studies: enterprise platform work on BMS and CSM — web development, modernization, performance and security. No hype, just the work."],
-  ["/privacy/", "Privacy Policy for This Website | QNVO Technologies", "How QNVO Technologies handles website enquiries, cookies, third parties, privacy rights and contact. Draft — replace owner placeholders before publishing."],
-  ["/terms/", "Website Terms of Use Draft Page | QNVO Technologies", "Website terms for QNVO Technologies: site use, intellectual property, liability and governing law. Draft — replace owner placeholders before publishing."],
-  ["/accessibility/", "Website Accessibility Statement | QNVO Technologies", "QNVO Technologies accessibility goals for WCAG 2.2 AA, known site limits, and how to report barriers. Draft — replace owner placeholders before publishing."],
-];
+const root = process.cwd();
 
-for (const s of serviceCatalog) pages.push([`/services/${s.slug}/`, s.seoTitle, s.description]);
-for (const a of insights) pages.push([`/insights/${a.slug}/`, a.seoTitle, a.description]);
-
-const titles = new Map();
-const descs = new Map();
-let fail = 0;
-console.log("path\ttitleLen\tdescLen\ttitleOK\tdescOK\tsuffixOK");
-for (const [path, title, desc] of pages) {
-  const tOk = title.length >= 50 && title.length <= 60;
-  const dOk = desc.length >= 120 && desc.length <= 160;
-  const sOk = title.endsWith("| QNVO Technologies");
-  if (!tOk || !dOk || !sOk) {
-    fail += 1;
-    console.log(`FAIL ${path}\tt=${title.length}\td=${desc.length}\t${title}`);
-  } else {
-    console.log(`OK   ${path}\tt=${title.length}\td=${desc.length}`);
+function walk(dir, acc = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (["node_modules", ".next", ".git"].includes(entry.name)) continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walk(full, acc);
+    else acc.push(full);
   }
-  titles.set(title, (titles.get(title) || []).concat(path));
-  descs.set(desc, (descs.get(desc) || []).concat(path));
+  return acc;
 }
 
-console.log("\nDUPLICATE TITLES");
-for (const [t, paths] of titles) if (paths.length > 1) console.log(JSON.stringify(t), paths);
-console.log("DUPLICATE DESCS");
-for (const [d, paths] of descs) if (paths.length > 1) console.log(d.slice(0, 60), paths);
-
-const known = new Set([
-  "/",
-  "/about/",
-  "/services/",
-  "/process/",
-  "/faq/",
-  "/contact/",
-  "/insights/",
-  "/case-studies/",
-  "/privacy/",
-  "/terms/",
-  "/accessibility/",
-  "/privacy-policy/",
-  "/terms-of-use/",
-  "/accessibility-statement/",
-  ...serviceCatalog.map((s) => `/services/${s.slug}/`),
-  ...insights.map((a) => `/insights/${a.slug}/`),
-]);
-
-function walk(dir, out = []) {
-  for (const name of readdirSync(dir)) {
-    const p = join(dir, name);
-    if (statSync(p).isDirectory()) {
-      if (name === "node_modules" || name === ".next" || name === "scripts") continue;
-      walk(p, out);
-    } else if (/\.(tsx|ts|jsx|js|mdx)$/.test(name)) out.push(p);
-  }
-  return out;
+function extractPageMeta(file) {
+  const text = fs.readFileSync(file, "utf8");
+  const title = text.match(/title:\s*["'`]([^"'`]+)["'`]/)?.[1] ?? null;
+  const pathMatch = text.match(/path:\s*["'`]([^"'`]+)["'`]/)?.[1] ?? null;
+  const indexMatch = text.match(/index:\s*([^,\n]+)/)?.[1]?.trim() ?? "default-true";
+  const hasPageMeta = text.includes("pageMetadata");
+  const hasGenerate = text.includes("generateMetadata");
+  return {
+    file: path.relative(root, file).replace(/\\/g, "/"),
+    title,
+    path: pathMatch,
+    index: indexMatch,
+    hasPageMeta,
+    hasGenerate,
+  };
 }
 
-const hashLinks = [];
-const broken = [];
-for (const file of walk(process.cwd())) {
-  const text = readFileSync(file, "utf8");
-  for (const m of text.matchAll(/href=(["'])(.*?)\1/g)) {
-    const href = m[2];
-    if (href === "#") hashLinks.push(`${file}: bare #`);
-    if (href.startsWith("/") && !href.startsWith("//") && !href.startsWith("/api/") && !href.includes("${") && !href.includes("{")) {
-      const pathOnly = href.split("?")[0].split("#")[0];
-      const normalized = pathOnly.endsWith("/") || pathOnly.includes(".") ? pathOnly : `${pathOnly}/`;
-      if (!pathOnly.includes(".") && !known.has(normalized) && !known.has(pathOnly)) {
-        broken.push(`${file}: ${href}`);
-      }
+const pages = walk(path.join(root, "app")).filter((f) => /page\.tsx$/.test(f));
+const metas = pages.map(extractPageMeta);
+const titles = metas.map((m) => m.title).filter(Boolean);
+const dupTitles = titles.filter((t, i) => titles.indexOf(t) !== i);
+
+const servicesText = fs.readFileSync(path.join(root, "content/services.ts"), "utf8") + fs.readFileSync(path.join(root, "content/services-extended.ts"), "utf8");
+const seoTitles = [...servicesText.matchAll(/seoTitle:\s*["']([^"']+)["']/g)].map((m) => m[1]);
+const dupSeo = seoTitles.filter((t, i) => seoTitles.indexOf(t) !== i);
+
+const industryText = fs.readFileSync(path.join(root, "content/industries.ts"), "utf8");
+const indSeo = [...industryText.matchAll(/seoTitle:\s*["']([^"']+)["']/g)].map((m) => m[1]);
+const dupInd = indSeo.filter((t, i) => indSeo.indexOf(t) !== i);
+
+const alts = [];
+for (const file of walk(root).filter((f) => /\.(tsx|ts)$/.test(f) && !f.includes("node_modules"))) {
+  const text = fs.readFileSync(file, "utf8");
+  for (const match of text.matchAll(/\balt=\{?["']([^"']*)["']\}?/g)) {
+    if (!match[1].trim() || match[1].toLowerCase() === "image" || match[1].toLowerCase() === "logo") {
+      alts.push({ file: path.relative(root, file), alt: match[1] });
     }
   }
+  for (const match of text.matchAll(/\balt=["']["']/g)) {
+    alts.push({ file: path.relative(root, file), alt: "" });
+  }
 }
 
-console.log("\nBARE # LINKS", hashLinks.length ? hashLinks : "none");
-console.log("BROKEN INTERNAL", broken.length ? broken : "none");
-console.log("FAIL_COUNT", fail);
-console.log("SAMEAS", "omitted (no LinkedIn/GitHub in §0)");
+console.log(
+  JSON.stringify(
+    {
+      pageCount: metas.length,
+      metas,
+      dupTitles: [...new Set(dupTitles)],
+      serviceSeoCount: seoTitles.length,
+      dupServiceSeo: [...new Set(dupSeo)],
+      industrySeoCount: indSeo.length,
+      dupIndustrySeo: [...new Set(dupInd)],
+      weakAlts: alts.slice(0, 40),
+    },
+    null,
+    2,
+  ),
+);

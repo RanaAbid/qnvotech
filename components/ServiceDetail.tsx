@@ -60,7 +60,7 @@ export function ServiceDetail({
     <>
       <StructuredData data={[breadcrumbNode(crumbs), serviceNode(service), faqNode(service.faqs)]} />
 
-      <header className="svc-detail-hero page-banner-enter">
+      <div className="svc-detail-hero page-banner-enter">
         <div className="svc-detail-hero-glow" aria-hidden="true" />
         <Container className="relative z-10 py-12 md:py-16 lg:py-20">
           <Breadcrumbs items={crumbs} onDark />
@@ -127,7 +127,7 @@ export function ServiceDetail({
             </aside>
           </div>
         </Container>
-      </header>
+      </div>
 
       <section className="svc-detail-body">
         <Container className="svc-detail-layout">
@@ -235,9 +235,7 @@ export function ServiceDetail({
                 {relatedInsight ? (
                   <>
                     <span aria-hidden="true">·</span>
-                    <TextLink href={`/insights/${relatedInsight.slug}/`}>
-                      {relatedInsight.draft ? "Read the related draft insight" : "Read the related insight"}
-                    </TextLink>
+                    <TextLink href={`/insights/${relatedInsight.slug}/`}>Read the related insight</TextLink>
                   </>
                 ) : null}
               </div>

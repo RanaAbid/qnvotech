@@ -1,23 +1,32 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { HeroPanel } from "@/components/HeroMotion";
 import { Cta } from "@/components/Cta";
 import { FaqList } from "@/components/FaqList";
-import { IndustriesHome } from "@/components/IndustriesHome";
+import { HomeMarquee } from "@/components/HomeMarquee";
+import { LogoIntro } from "@/components/LogoIntro";
 import { Reveal } from "@/components/Motion";
 import { ColorBand } from "@/components/SectionBackdrop";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Container, TextLink } from "@/components/ui";
 import { StructuredData } from "@/components/JsonLd";
 import { industries } from "@/content/industries";
-import { ProcessFilm } from "@/components/ProcessFilm";
 import { caseStudies, faqs, processSteps, services, servicesInOrder } from "@/lib/data";
-import { breadcrumbNode, pageMetadata } from "@/lib/seo";
+import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 import { getServices } from "@/lib/sanity";
 
+const ProcessFilm = dynamic(() => import("@/components/ProcessFilm").then((mod) => mod.ProcessFilm), {
+  loading: () => <section className="process-film" aria-hidden="true" />,
+});
+const IndustriesHome = dynamic(() => import("@/components/IndustriesHome").then((mod) => mod.IndustriesHome));
+
+const homeTitle = "AI, Web Development & Technical SEO Company | QNVO Technologies";
+const homeDescription =
+  "QNVO Technologies is an AI, web development and technical SEO company for businesses — plus ecommerce, Shopify, WordPress, cloud DevOps and cybersecurity. Serving USA, UK, Middle East and Pakistan. No fake rankings or client lists on this site.";
+
 export const metadata = pageMetadata({
-  title: "AI, Web Development & Technical SEO Company | QNVO Technologies",
-  description:
-    "QNVO Technologies is an AI, web development and technical SEO company for businesses — plus ecommerce, Shopify, WordPress, cloud DevOps and cybersecurity. Serving USA, UK, Middle East and Pakistan. No fake rankings or client lists on this site.",
+  title: homeTitle,
+  description: homeDescription,
   path: "/",
 });
 
@@ -28,20 +37,22 @@ export default async function HomePage() {
 
   return (
     <>
-      <StructuredData data={[breadcrumbNode([{ name: "Home", path: "/" }])]} />
+      <LogoIntro />
+      <StructuredData
+        data={[
+          webPageNode({
+            name: "AI, Web Development & Technical SEO Company",
+            description: homeDescription,
+            path: "/",
+          }),
+          breadcrumbNode([{ name: "Home", path: "/" }]),
+        ]}
+      />
       <section className="hero-shell">
         <HeroPanel />
       </section>
 
-      <div className="marquee" aria-hidden="true">
-        <div className="marquee-track">
-          {loop.map((service, index) => (
-            <span key={`${service.slug}-${index}`} className="marquee-item">
-              <span className="marquee-label">{service.title}</span>
-            </span>
-          ))}
-        </div>
-      </div>
+      <HomeMarquee items={loop.map((service) => service.title)} />
 
       <section className="bg-[#e8eef5] py-16 md:py-24" aria-labelledby="about-heading">
         <Container className="grid items-stretch gap-6 lg:grid-cols-2">

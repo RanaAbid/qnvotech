@@ -22,8 +22,6 @@ const legal = [
   { href: "/accessibility/", label: "Accessibility" },
 ];
 
-const linkClass = "inline-flex min-h-11 items-center text-offwhite/90 underline decoration-transparent underline-offset-4 hover:text-white hover:decoration-white/50";
-
 function FooterOrbits() {
   const turns = [0, 60, 120, 180, 240, 300];
   return (
@@ -58,84 +56,80 @@ function FooterOrbits() {
 }
 
 export function Footer() {
+  const serviceLinks = servicesInOrder(services).slice(0, 10);
+
   return (
-    <footer className="relative mt-auto overflow-hidden bg-navy text-offwhite [overflow:clip]">
+    <footer className="site-footer relative mt-auto overflow-hidden bg-navy text-offwhite [overflow:clip]">
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-blue via-cyan to-teal" aria-hidden="true" />
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden="true" />
       <FooterOrbits />
-      <Container className="relative z-10 grid gap-12 py-16 lg:grid-cols-4">
-        <div>
-          <div className="inline-block rounded-2xl bg-white p-3 shadow-[0_12px_30px_rgba(0,0,0,0.18)]">
+
+      <Container className="site-footer-inner relative z-10">
+        <div className="site-footer-brand">
+          <Link href="/" className="site-footer-logo" aria-label="QNVO Technologies home">
             <OptimizedImage
               base="/logo/qnvo-logo-horizontal-transparent"
               alt="QNVO Technologies"
               width={121}
               height={44}
               sizes="121px"
-              className="h-11 w-auto"
+              className="h-9 w-auto"
             />
-          </div>
-          <p className="mt-5 max-w-xs text-base leading-relaxed text-offwhite">{tagline}</p>
-          <div className="mt-5">
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-white/70">Email</p>
-            <a
-              className="mt-2 inline-flex min-h-11 items-center font-semibold text-white underline decoration-cyan/60 underline-offset-4 hover:decoration-white"
-              href={`mailto:${publicEmail}`}
-            >
-              {publicEmail}
-            </a>
-          </div>
+          </Link>
+          <p className="site-footer-tagline">{tagline}</p>
+          <a className="site-footer-email" href={`mailto:${publicEmail}`}>
+            {publicEmail}
+          </a>
         </div>
-        <nav aria-label="Services">
-          <h2 className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-white">Services</h2>
-          <ul className="mt-4">
-            {servicesInOrder(services)
-              .slice(0, 10)
-              .map((service) => (
+
+        <div className="site-footer-links">
+          <nav className="site-footer-col site-footer-col--services" aria-label="Services">
+            <h2 className="site-footer-heading">Services</h2>
+            <ul className="site-footer-list site-footer-list--services">
+              {serviceLinks.map((service) => (
                 <li key={service.slug}>
-                  <Link className={linkClass} href={`/services/${service.slug}/`}>
-                    {service.title}
-                  </Link>
+                  <Link href={`/services/${service.slug}/`}>{service.title}</Link>
                 </li>
               ))}
-            <li>
-              <Link className={linkClass} href="/services/">
-                All services
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        <nav aria-label="Company">
-          <h2 className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-white">Company</h2>
-          <ul className="mt-4">
-            {company.map((item) => (
-              <li key={item.href}>
-                <Link className={linkClass} href={item.href}>
-                  {item.label}
-                </Link>
+              <li>
+                <Link href="/services/">All services</Link>
               </li>
-            ))}
-          </ul>
-        </nav>
-        <nav aria-label="Legal">
-          <h2 className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-white">Legal drafts</h2>
-          <ul className="mt-4">
-            {legal.map((item) => (
-              <li key={item.href}>
-                <Link className={linkClass} href={item.href}>
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 text-sm leading-relaxed text-offwhite/80">These pages are drafts and are not indexed.</p>
-          <CookieSettingsButton />
-        </nav>
+            </ul>
+          </nav>
+
+          <nav className="site-footer-col" aria-label="Company">
+            <h2 className="site-footer-heading">Company</h2>
+            <ul className="site-footer-list">
+              {company.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>{item.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav className="site-footer-col" aria-label="Legal">
+            <h2 className="site-footer-heading">Legal drafts</h2>
+            <ul className="site-footer-list">
+              {legal.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>{item.label}</Link>
+                </li>
+              ))}
+            </ul>
+            <p className="site-footer-note">These pages are drafts and are not indexed.</p>
+            <div className="site-footer-cookie">
+              <CookieSettingsButton />
+            </div>
+          </nav>
+        </div>
       </Container>
-      <div className="relative z-10 border-t border-white/10">
-        <Container className="py-5">
-          <p className="text-sm text-offwhite/80">
-            © {new Date().getFullYear()} QNVO Technologies. No client names, prices or office addresses are published on this site.
+
+      <div className="site-footer-bar relative z-10">
+        <Container className="site-footer-bar-inner">
+          <p>
+            © {new Date().getFullYear()} QNVO Technologies. No client names, prices or office addresses are published on
+            this site.
           </p>
         </Container>
       </div>

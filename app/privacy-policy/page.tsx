@@ -1,5 +1,6 @@
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 
+/** Fallback if config redirects are skipped; keep permanent for SEO. */
 export default function PrivacyPolicyRedirect() {
-  redirect("/privacy/");
+  permanentRedirect("/privacy/");
 }

@@ -15,7 +15,7 @@ export function ServiceCard({ service, heading = "h3", featured = false }: { ser
       {featured ? <span className="hero-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" /> : null}
       <span className={featured ? "icon-tile relative bg-white" : "icon-tile"}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={service.icon} alt="" width={32} height={32} decoding="async" />
+        <img src={service.icon} alt="" width={32} height={32} decoding="async" loading="lazy" />
       </span>
       <Title className={`relative mt-5 font-display font-semibold ${featured ? "text-3xl text-white" : "text-xl text-navy"}`}>{service.title}</Title>
       <p className={`relative mt-3 flex-1 leading-relaxed ${featured ? "text-lg text-offwhite" : "text-base"}`}>{service.card}</p>

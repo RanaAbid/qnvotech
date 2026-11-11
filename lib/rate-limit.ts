@@ -25,10 +25,22 @@ function isResultRow(value: unknown): value is { result: unknown } {
   return typeof value === "object" && value !== null && "result" in value;
 }
 
+/** Only call env-configured Upstash HTTPS endpoints (defense in depth if env is poisoned). */
+function isTrustedUpstashUrl(raw: string): boolean {
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== "https:") return false;
+    const host = url.hostname.toLowerCase();
+    return host === "upstash.io" || host.endsWith(".upstash.io");
+  } catch {
+    return false;
+  }
+}
+
 async function sharedAllow(key: string): Promise<boolean | null> {
   const base = process.env.UPSTASH_REDIS_REST_URL?.trim();
   const token = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
-  if (!base || !token) return null;
+  if (!base || !token || !isTrustedUpstashUrl(base)) return null;
 
   try {
     const response = await fetch(`${base.replace(/\/$/, "")}/pipeline`, {
@@ -60,6 +72,10 @@ export async function allowContact(ip: string): Promise<boolean> {
   return memoryAllow(safeIp);
 }
 
+/**
+ * Best-effort client IP for rate limiting. Prefer the first X-Forwarded-For hop
+ * only when a trusted edge sets it; spoofing is possible on direct Node exposure.
+ */
 export function clientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {

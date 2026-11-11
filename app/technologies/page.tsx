@@ -1,6 +1,5 @@
 import { TechnologiesShowcase } from "@/components/TechnologiesShowcase";
-import { pageMetadata } from "@/lib/seo";
-import { absoluteUrl, siteUrl } from "@/lib/site";
+import { pageMetadata, webPageNode } from "@/lib/seo";
 
 const title = "Web, AI, Cloud and SEO Technologies We Use";
 const description =
@@ -21,13 +20,12 @@ export default function TechnologiesPage() {
       ]}
       title={title}
       graph={[
-        {
-          "@type": "CollectionPage",
+        webPageNode({
           name: title,
-          url: absoluteUrl("/technologies/"),
           description,
-          isPartOf: { "@id": `${siteUrl}/#website` },
-        },
+          path: "/technologies/",
+          type: "CollectionPage",
+        }),
       ]}
     />
   );

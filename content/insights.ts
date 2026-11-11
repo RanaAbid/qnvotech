@@ -314,12 +314,16 @@ export function insightsNewestFirst(): Insight[] {
   return [...insights].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }
 
+export function publishedInsights(): Insight[] {
+  return insightsNewestFirst().filter((item) => !item.draft);
+}
+
 export function getInsight(slug: string): Insight | undefined {
   return insights.find((item) => item.slug === slug);
 }
 
 export function insightForService(serviceSlug: string): Insight | undefined {
-  return insightsNewestFirst().find((item) => item.relatedServiceSlug === serviceSlug);
+  return publishedInsights().find((item) => item.relatedServiceSlug === serviceSlug);
 }
 
 export function insightWordCount(article: Insight): number {

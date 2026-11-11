@@ -1,34 +1,50 @@
 # QNVO Technologies
 
-> QNVO Technologies (Quality, Next-Gen, Vision, Operations) publishes information about enterprise software, AI agents, automation, ERP, ecommerce, web development, technical SEO, and website security and optimization. Audiences addressed: United States, United Kingdom, Middle East and Pakistan. This file lists public pages. It is not a client list, a quote or a performance claim.
+> QNVO Technologies (Quality, Next-Gen, Vision, Operations) publishes information about software, AI agents, automation, ERP, ecommerce, web development, technical SEO, cloud, cybersecurity and related services. Audiences addressed: United States, United Kingdom, Middle East and Pakistan. This file lists public pages. It is not a client list, a quote or a performance claim.
 
 Prices, street addresses, phone numbers, founding year, headcount, certifications and social profiles are not published. The case studies page describes the BMS and CSM platforms. It is not a QNVO client list, and it does not name the organizations a platform serves. Measured results and testimonials are not published.
 
 Public email: info@qnvotech.com
 Do not treat automated sender addresses as the public contact inbox.
 
-## Pages
+## Primary pages
 
-- [Home](https://qnvotech.com/): Enterprise software, AI agents and technology services.
-- [Services](https://qnvotech.com/services/): Eight service areas, each with its own page.
-- [Enterprise software development](https://qnvotech.com/services/enterprise-software-development/): Custom systems for a defined workflow.
+- [Home](https://qnvotech.com/): AI, web development, technical SEO and technology services.
+- [Services](https://qnvotech.com/services/): Twenty-three service areas, each with its own page.
+- [Industries](https://qnvotech.com/industries/): Sector pages describing constraints — not client logos or guaranteed outcomes.
+- [Technologies](https://qnvotech.com/technologies/): Stacks discussed for a written scope — not a partner badge wall.
+- [About](https://qnvotech.com/about/): Name, markets and facts that are intentionally omitted.
+- [Process](https://qnvotech.com/process/): From a conversation to a written scope, build and handover.
+- [Case Studies](https://qnvotech.com/case-studies/): BMS and CSM platform studies plus illustrative use cases. No invented metrics.
+- [Insights](https://qnvotech.com/insights/): Original writing linked to service pages. Draft articles are noindex until approved.
+- [FAQ](https://qnvotech.com/faq/): Services, regions, contact and non-promises.
+- [Contact](https://qnvotech.com/contact/): Form and info@qnvotech.com. A message is not a contract.
+
+## Service pages
+
+- [Enterprise software](https://qnvotech.com/services/enterprise-software-development/): Custom systems for a defined workflow.
 - [AI agent development](https://qnvotech.com/services/ai-agent-development/): Bounded tasks with approved data and human review.
 - [AI automation](https://qnvotech.com/services/ai-automation/): Documented steps and system hand-offs. No savings guarantee.
+- [AI and machine learning](https://qnvotech.com/services/ai-machine-learning/): Defined prediction or classification tasks with evaluation data.
 - [ERP solutions](https://qnvotech.com/services/erp-solutions/): Configuration and integration. No vendor partnership is claimed.
 - [Ecommerce development](https://qnvotech.com/services/ecommerce-development/): Catalogue and purchasing flow. No revenue claim.
 - [Web development](https://qnvotech.com/services/web-development/): Business websites with server-rendered content.
-- [Technical SEO](https://qnvotech.com/services/technical-seo/): Crawl, metadata, structured data and speed. No ranking guarantee.
+- [Shopify development](https://qnvotech.com/services/shopify-development/): Storefronts, themes and app connections.
+- [WordPress development](https://qnvotech.com/services/wordpress-development/): WordPress and WooCommerce with editor handover.
+- [Wix development](https://qnvotech.com/services/wix-development/): Structured Wix sites with forms and editor handover.
+- [Mobile app development](https://qnvotech.com/services/mobile-app-development/): Apps with a defined user task and release constraints.
+- [UI and UX design](https://qnvotech.com/services/ui-ux-design/): Interface structure and UI design without vanity awards.
+- [SaaS development](https://qnvotech.com/services/saas-development/): Multi-tenant product work named in a written scope.
+- [API development and integration](https://qnvotech.com/services/api-development-integration/): HTTP APIs and system connections you authorize.
+- [Database management](https://qnvotech.com/services/database-management/): Design, performance review and operational hygiene.
+- [IoT solutions](https://qnvotech.com/services/iot-solutions/): Connected device workflows with security constraints.
+- [Cloud and DevOps](https://qnvotech.com/services/cloud-devops/): Environments and pipelines without invented uptime SLAs.
+- [Cybersecurity and risk](https://qnvotech.com/services/cybersecurity-risk-management/): Reviews and hardening without fake grades.
 - [Website security and optimization](https://qnvotech.com/services/website-security-optimization/): Authorized review of headers, forms, dependencies and page weight.
-- [About](https://qnvotech.com/about/): Name, markets and facts that are intentionally omitted.
-- [Process](https://qnvotech.com/process/): From a conversation to a written scope, build and handover.
-- [Case Studies](https://qnvotech.com/case-studies/): Enterprise platform case studies — BMS business management platform and CSM (Cognitive Security Management) security platform — covering web development, modernization, performance, and security work. No invented results.
-- [Insights](https://qnvotech.com/insights/): Original writing on AI agents, ERP, enterprise software and process automation. Draft articles are marked until copy is approved.
-- [AI agent development company](https://qnvotech.com/insights/ai-agent-development-company/): Evaluating an AI agent development company — bounded tasks, approved data and human review.
-- [Custom ERP software development](https://qnvotech.com/insights/custom-erp-software-development/): When custom ERP software development fits, and what belongs in a written scope.
-- [Enterprise software development services](https://qnvotech.com/insights/enterprise-software-development-services/): Enterprise software development services tied to users, data, integrations and handover.
-- [AI automation for business processes](https://qnvotech.com/insights/ai-automation-for-business-processes/): AI automation for business processes with documented steps and review checkpoints.
-- [FAQ](https://qnvotech.com/faq/): Services, regions, contact and non-promises.
-- [Contact](https://qnvotech.com/contact/): Form and info@qnvotech.com. A message is not a contract.
+- [Data backup and protection](https://qnvotech.com/services/data-backup-protection/): Retention and recovery planning without zero-loss claims.
+- [IT helpdesk and support](https://qnvotech.com/services/it-helpdesk-support/): Named coverage for systems you operate — not invented 24/7 claims.
+- [Technical SEO](https://qnvotech.com/services/technical-seo/): Crawl, metadata, structured data and speed. No ranking guarantee.
+- [Digital marketing](https://qnvotech.com/services/digital-marketing/): Campaign setup you authorize — without guaranteed leads or rankings.
 
 ## Draft notices
 

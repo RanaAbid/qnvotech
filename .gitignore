@@ -7,3 +7,5 @@ out
 *.tsbuildinfo
 npm-debug.log*
 .DS_Store
+scripts/.lighthouse-*.json
+scripts/.perf-summary.json

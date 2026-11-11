@@ -12,7 +12,10 @@ type PageMetaInput = {
   index?: boolean;
   type?: "website" | "article";
   publishedTime?: string;
+  modifiedTime?: string;
 };
+
+const logoUrl = `${siteUrl}/logo/qnvo-logo-horizontal-transparent.png`;
 
 const ogImage = {
   url: `${siteUrl}/og-default.png`,
@@ -21,34 +24,50 @@ const ogImage = {
   alt: "QNVO Technologies wordmark",
 };
 
-export function pageMetadata({ title, description, path, index = true, type = "website", publishedTime }: PageMetaInput): Metadata {
+function normalizeDescription(description: string): string {
+  return description.replace(/\s+/g, " ").trim();
+}
+
+export function pageMetadata({
+  title,
+  description,
+  path,
+  index = true,
+  type = "website",
+  publishedTime,
+  modifiedTime,
+}: PageMetaInput): Metadata {
   const url = absoluteUrl(path);
+  const metaDescription = normalizeDescription(description);
   return {
     title,
-    description,
+    description: metaDescription,
     alternates: { canonical: url },
-    robots: index ? { index: true, follow: true } : { index: false, follow: false },
+    robots: index
+      ? { index: true, follow: true }
+      : { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } },
     openGraph: {
       title,
-      description,
+      description: metaDescription,
       url,
       siteName: companyName,
       type,
       locale: "en_US",
       ...(publishedTime ? { publishedTime } : {}),
+      ...(modifiedTime ? { modifiedTime } : {}),
       images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      description: metaDescription,
       images: [ogImage.url],
     },
   };
 }
 
 export function organizationNode(): Record<string, unknown> {
-  // sameAs omitted: LinkedIn/GitHub URLs were not provided in §0.
+  // sameAs omitted: LinkedIn/GitHub URLs were not provided for publication.
   return {
     "@type": "Organization",
     "@id": `${siteUrl}/#organization`,
@@ -57,7 +76,21 @@ export function organizationNode(): Record<string, unknown> {
     email: publicEmail,
     slogan: tagline,
     description: defaultDescription,
-    logo: `${siteUrl}/og-default.png`,
+    logo: {
+      "@type": "ImageObject",
+      url: logoUrl,
+      width: 484,
+      height: 176,
+    },
+    image: ogImage.url,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        email: publicEmail,
+        availableLanguage: ["English"],
+      },
+    ],
   };
 }
 
@@ -70,6 +103,29 @@ export function websiteNode(): Record<string, unknown> {
     description: defaultDescription,
     inLanguage: "en",
     publisher: { "@id": `${siteUrl}/#organization` },
+  };
+}
+
+export function webPageNode({
+  name,
+  description,
+  path,
+  type = "WebPage",
+}: {
+  name: string;
+  description: string;
+  path: string;
+  type?: "WebPage" | "CollectionPage" | "AboutPage" | "ContactPage" | "FAQPage";
+}): Record<string, unknown> {
+  return {
+    "@type": type,
+    "@id": `${absoluteUrl(path)}#webpage`,
+    url: absoluteUrl(path),
+    name,
+    description: normalizeDescription(description),
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@id": `${siteUrl}/#organization` },
+    inLanguage: "en",
   };
 }
 
@@ -133,7 +189,8 @@ export function articleNode(article: Insight): Record<string, unknown> {
     publisher: { "@id": `${siteUrl}/#organization` },
     mainEntityOfPage: absoluteUrl(`/insights/${article.slug}/`),
     url: absoluteUrl(`/insights/${article.slug}/`),
-    image: `${siteUrl}/og-default.png`,
+    image: ogImage.url,
     inLanguage: "en",
+    isAccessibleForFree: true,
   };
 }

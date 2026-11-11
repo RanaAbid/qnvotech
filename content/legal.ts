@@ -17,7 +17,7 @@ export const privacyPolicy: LegalDocument = {
     {
       heading: "Data collected",
       paragraphs: [
-        "This website may collect information that a visitor chooses to send through the contact form, such as a name, email address, and the text of an enquiry.",
+        "This website may collect information that a visitor chooses to send through the contact form, such as a name, email address, organization, region, country, service interest, and the text of an enquiry.",
         "Technical data may also be processed when a page is requested, for example to keep the site running and to limit abuse. This draft does not claim a full inventory of every field or log.",
       ],
       placeholders: [

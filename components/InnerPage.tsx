@@ -21,7 +21,7 @@ export async function InnerPage({
   return (
     <>
       <StructuredData data={[breadcrumbNode(crumbs), ...extraGraph]} />
-      <header className="page-banner page-banner-enter text-white">
+      <div className="page-banner page-banner-enter text-white">
         <Container className="relative z-10 py-14 md:py-20">
           <Breadcrumbs items={crumbs} onDark />
           {eyebrow ? (
@@ -32,7 +32,7 @@ export async function InnerPage({
           </h1>
           <p className="anim-copy mt-5 w-full text-lg leading-relaxed text-offwhite md:text-xl">{lede}</p>
         </Container>
-      </header>
+      </div>
       {children}
     </>
   );

@@ -41,7 +41,7 @@ function CatalogCard({
       <span className="svc-tile-top">
         <span className={onDark ? "icon-tile relative bg-white" : "icon-tile"}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={service.icon} alt="" width={32} height={32} decoding="async" />
+          <img src={service.icon} alt="" width={32} height={32} decoding="async" loading="lazy" />
         </span>
         <span className="svc-tile-index">{String(index + 1).padStart(2, "0")}</span>
       </span>

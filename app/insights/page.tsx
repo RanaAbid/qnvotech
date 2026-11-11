@@ -63,14 +63,28 @@ export default function InsightsPage() {
                 <span>{formatInsightDate(article.publishedAt)}</span>
                 <span aria-hidden="true">·</span>
                 <span>{insightReadingMinutes(article)} min read</span>
-                {article.draft ? <span className="rounded-full bg-[#fff8eb] px-3 py-1 text-amber">Draft</span> : null}
+                {article.draft ? (
+                  <span className="rounded-full bg-[#fff1d6] px-3 py-1 font-semibold text-navy">Draft · not indexed</span>
+                ) : null}
               </div>
               <h2 className="mt-4 font-display text-[1.75rem] font-bold text-navy md:text-[2rem]">
-                <TextLink href={`/insights/${article.slug}/`}>{article.title}</TextLink>
+                {article.draft ? (
+                  <span>{article.title}</span>
+                ) : (
+                  <TextLink href={`/insights/${article.slug}/`}>{article.title}</TextLink>
+                )}
               </h2>
               <p className="mt-3 max-w-3xl text-lg leading-relaxed">{article.description}</p>
               <p className="mt-5">
                 <TextLink href={`/services/${article.relatedServiceSlug}/`}>Related: {article.relatedServiceLabel}</TextLink>
+                {!article.draft ? (
+                  <>
+                    {" · "}
+                    <TextLink href={`/insights/${article.slug}/`}>Read article</TextLink>
+                  </>
+                ) : (
+                  <span className="ml-2 text-sm font-semibold text-slate">Draft copy is not linked for crawling.</span>
+                )}
               </p>
             </article>
           ))}

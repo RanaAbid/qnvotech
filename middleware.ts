@@ -14,6 +14,7 @@ function contentSecurityPolicy(nonce: string, isLocal: boolean): string {
   const directives = [
     "default-src 'self'",
     `script-src ${scriptSrc.join(" ")}`,
+    "script-src-attr 'none'",
     `style-src 'self' 'nonce-${nonce}'`,
     "img-src 'self' blob: data: https://www.google-analytics.com",
     "font-src 'self'",
@@ -25,6 +26,7 @@ function contentSecurityPolicy(nonce: string, isLocal: boolean): string {
     "connect-src 'self' https://challenges.cloudflare.com https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com",
     "manifest-src 'self'",
     "worker-src 'self'",
+    "media-src 'self'",
   ];
   if (!isLocal) directives.push("upgrade-insecure-requests");
   return directives.join("; ");
@@ -47,7 +49,8 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     {
-      source: "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:png|svg|ico|txt|xml|webmanifest)$).*)",
+      source:
+        "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:avif|webp|png|jpe?g|gif|svg|ico|txt|xml|webmanifest|woff2?|mp4|webm)$).*)",
       missing: [
         { type: "header", key: "next-router-prefetch" },
         { type: "header", key: "purpose", value: "prefetch" },

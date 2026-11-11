@@ -116,7 +116,7 @@ export function TechnologiesShowcase({
     <>
       <StructuredData data={[breadcrumbNode(crumbs), ...graph]} />
 
-      <header className="tech-hero page-banner-enter">
+      <div className="tech-hero page-banner-enter">
         <div className="tech-hero-glow" aria-hidden="true" />
         <div className="tech-hero-grid-bg" aria-hidden="true" />
         <Container className="relative z-10 py-12 md:py-16 lg:py-20">
@@ -176,7 +176,7 @@ export function TechnologiesShowcase({
             </aside>
           </div>
         </Container>
-      </header>
+      </div>
 
       <div className="tech-catalog">
         {technologyGroups.map((group, index) => (
