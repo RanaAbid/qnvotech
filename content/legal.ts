@@ -84,7 +84,7 @@ export const termsOfUse: LegalDocument = {
     {
       heading: "Services",
       paragraphs: [
-        "This website describes QNVO Technologies services at a general level, including enterprise software, AI agents and automation, ERP, ecommerce, web development, technical SEO, and website security and optimization.",
+        "This website describes QNVO Technologies services at a general level, including software, AI, cloud, security, web, ecommerce, CMS platforms, technical SEO, and related digital services.",
         "Website content is informational. A page, a form submission, or a conversation started from this site is not a signed service agreement, a quote, or a warranty of deliverables.",
         "Do not interfere with website operations, attempt unauthorized access, submit malware, or use the contact form for spam.",
       ],

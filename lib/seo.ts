@@ -89,11 +89,18 @@ export function serviceNode(service: Service): Record<string, unknown> {
   return {
     "@type": "Service",
     name: service.h1,
+    alternateName: service.title,
     serviceType: service.h1,
     description: service.description,
     url: absoluteUrl(`/services/${service.slug}/`),
     provider: { "@id": `${siteUrl}/#organization` },
-    areaServed: ["United States", "United Kingdom", "Middle East", "Pakistan"],
+    areaServed: [
+      { "@type": "Country", name: "United States" },
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "AdministrativeArea", name: "Middle East" },
+      { "@type": "Country", name: "Pakistan" },
+    ],
+    brand: { "@id": `${siteUrl}/#organization` },
   };
 }
 

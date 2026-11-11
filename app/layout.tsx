@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Enterprise Software and AI Work | QNVO Technologies",
+    default: "AI, Web Development & SEO Company | QNVO Technologies",
     template: "%s",
   },
   description: defaultDescription,
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "Enterprise Software and AI Work | QNVO Technologies",
+    title: "AI, Web Development & SEO Company | QNVO Technologies",
     description: defaultDescription,
     url: absoluteUrl("/"),
     siteName: companyName,
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Enterprise Software and AI Work | QNVO Technologies",
+    title: "AI, Web Development & SEO Company | QNVO Technologies",
     description: defaultDescription,
     images: [`${siteUrl}/og-default.png`],
   },
@@ -75,15 +75,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en" className={`${sora.variable} ${inter.variable}`}>
-      <body data-csp-nonce={nonce} className="min-h-screen bg-white font-sans text-slate antialiased">
+      <body data-csp-nonce={nonce} className="bg-offwhite font-sans text-slate antialiased">
         <StructuredData data={[organizationNode(), websiteNode()]} />
         <ConsentProvider measurementId={measurementId} nonce={nonce}>
-          <SkipLink />
-          <Header />
-          <main id="main-content" tabIndex={-1} className="outline-none">
-            {children}
-          </main>
-          <Footer />
+          <div className="flex min-h-screen flex-col">
+            <SkipLink />
+            <Header />
+            <main id="main-content" tabIndex={-1} className="outline-none flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
           <BackToTop />
         </ConsentProvider>
       </body>

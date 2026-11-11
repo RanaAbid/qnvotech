@@ -1,11 +1,11 @@
 export const companyName = "QNVO Technologies";
 export const tagline = "Quality • Next-Gen • Vision • Operations";
 export const publicEmail = "info@qnvotech.com";
-export const contentUpdated = "2026-11-10";
+export const contentUpdated = "2026-11-11";
 export const legalPagesIndexable = false;
 
 export const defaultDescription =
-  "QNVO Technologies shares enterprise software, AI agent, automation, ERP and digital services for teams in the USA, UK, Middle East and Pakistan.";
+  "QNVO Technologies is a technology services company for AI agent development, web development, ecommerce, Shopify, WordPress, cloud DevOps, cybersecurity and technical SEO for Google — serving teams in the USA, UK, Middle East and Pakistan.";
 
 const DEFAULT_SITE_URL = "https://qnvotech.com";
 

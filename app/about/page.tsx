@@ -2,7 +2,6 @@ import { Cta } from "@/components/Cta";
 import { InnerPage } from "@/components/InnerPage";
 import { Reveal } from "@/components/Motion";
 import { OptimizedImage } from "@/components/OptimizedImage";
-import { ColorBand } from "@/components/SectionBackdrop";
 import { AbstractGraphic } from "@/components/Shapes";
 import { Container, TextLink } from "@/components/ui";
 import { regions } from "@/lib/data";
@@ -77,30 +76,32 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <ColorBand tone="amber" className="py-16 md:py-20">
+      <section className="bg-offwhite py-16 md:py-20">
         <Container>
           <Reveal>
             <h2 className="anim-title font-display text-[1.75rem] font-bold md:text-[2.25rem]">What this page will not invent</h2>
-            <p className="anim-copy mt-4 max-w-3xl text-lg text-white/90">
+            <p className="anim-copy mt-4 max-w-3xl text-lg">
               Client names, testimonials, prices, founding year, headcount, certifications, social profiles and street addresses are omitted. They are not verified for publication. Markets listed below are the audiences the copy is written for.
             </p>
             <div className="mt-8 grid items-center gap-6 lg:grid-cols-[minmax(0,16rem)_1fr]">
               <AbstractGraphic className="graphic-frame h-auto w-full" />
               <ul className="stagger-host grid gap-4 sm:grid-cols-2">
                 {regions.map((region) => (
-                  <li key={region} className="soft-card p-5 font-display text-xl font-semibold">
-                    <span className="mb-3 block h-1.5 w-12 rounded-full bg-gradient-to-r from-amber via-cyan to-teal" />
+                  <li key={region} className="soft-card p-5 font-display text-xl font-semibold text-navy">
+                    <span className="mb-3 block h-1.5 w-12 rounded-full bg-blue shadow-[0_6px_14px_rgba(0,112,232,0.35)]" />
                     {region}
                   </li>
                 ))}
               </ul>
             </div>
-            <p className="anim-cta mt-8">
+            <p className="anim-cta mt-8 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
               <TextLink href="/services/">Explore our services</TextLink>
+              <TextLink href="/industries/">Browse industries</TextLink>
+              <TextLink href="/technologies/">Technologies we discuss</TextLink>
             </p>
           </Reveal>
         </Container>
-      </ColorBand>
+      </section>
       <Cta />
     </InnerPage>
   );

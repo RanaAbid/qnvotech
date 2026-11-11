@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { industries } from "@/content/industries";
 import { insights } from "@/content/insights";
 import { services } from "@/lib/data";
 import { absoluteUrl, contentUpdated } from "@/lib/site";
@@ -10,6 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     "/services/",
     ...services.map((service) => `/services/${service.slug}/`),
+    "/industries/",
+    ...industries.map((industry) => `/industries/${industry.slug}/`),
+    "/technologies/",
     "/about/",
     "/process/",
     "/case-studies/",

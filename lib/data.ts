@@ -26,13 +26,100 @@ export function servicesInOrder(list: Service[]): Service[] {
   return [...list].sort((a, b) => Number(!a.slug.startsWith("ai-")) - Number(!b.slug.startsWith("ai-")));
 }
 
+export type ServiceGroup = {
+  id: string;
+  title: string;
+  shortTitle: string;
+  blurb: string;
+  tone: "navy" | "mist" | "white" | "deep";
+  slugs?: string[];
+  match?: (service: Service) => boolean;
+};
+
+export const serviceGroups: ServiceGroup[] = [
+  {
+    id: "ai",
+    title: "AI and automation",
+    shortTitle: "AI",
+    blurb: "Bounded agents, workflow automation and machine learning for tasks you can define and review.",
+    tone: "navy",
+    match: (service) => service.slug.startsWith("ai-"),
+  },
+  {
+    id: "web-commerce",
+    title: "Web, commerce and CMS",
+    shortTitle: "Web",
+    blurb: "Business sites, storefronts and CMS platforms — including Shopify, WordPress and Wix — shaped around editors and buyers.",
+    tone: "mist",
+    slugs: [
+      "web-development",
+      "ecommerce-development",
+      "shopify-development",
+      "wordpress-development",
+      "wix-development",
+      "mobile-app-development",
+      "ui-ux-design",
+    ],
+  },
+  {
+    id: "software",
+    title: "Software products and platforms",
+    shortTitle: "Software",
+    blurb: "Enterprise systems, SaaS products, ERP work, APIs, data stores and connected-device flows.",
+    tone: "white",
+    slugs: [
+      "enterprise-software-development",
+      "saas-development",
+      "erp-solutions",
+      "api-development-integration",
+      "database-management",
+      "iot-solutions",
+    ],
+  },
+  {
+    id: "cloud-security",
+    title: "Cloud, security and support",
+    shortTitle: "Cloud",
+    blurb: "Environments, hardening, backups and helpdesk coverage with hours and access written into the agreement.",
+    tone: "deep",
+    slugs: [
+      "cloud-devops",
+      "cybersecurity-risk-management",
+      "website-security-optimization",
+      "data-backup-protection",
+      "it-helpdesk-support",
+    ],
+  },
+  {
+    id: "growth",
+    title: "Search and digital growth",
+    shortTitle: "Growth",
+    blurb: "Technical SEO and digital marketing setup — without ranking or lead-volume guarantees on this site.",
+    tone: "mist",
+    slugs: ["technical-seo", "digital-marketing"],
+  },
+];
+
+export function servicesForGroup(group: ServiceGroup, catalog: Service[]): Service[] {
+  if (group.match) return catalog.filter(group.match);
+  const order = new Map((group.slugs ?? []).map((slug, index) => [slug, index]));
+  return catalog
+    .filter((service) => order.has(service.slug))
+    .sort((a, b) => (order.get(a.slug) ?? 0) - (order.get(b.slug) ?? 0));
+}
+
 export { serviceCatalog as services } from "@/content/services";
 
 export const faqs: Faq[] = [
   {
     question: "What does QNVO Technologies do?",
     answer:
-      "QNVO Technologies discusses enterprise software, AI agents, AI automation, ERP solutions, ecommerce, web development, technical SEO, and website security and optimization. Each engagement is defined in writing. The Work page presents BMS and CSM as enterprise platform case studies. Measured results are published only when they are real and permissioned.",
+      "QNVO Technologies discusses software, AI, cloud, security, web, ecommerce, CMS platforms such as Shopify, WordPress and Wix, and related digital services across multiple industries. Each engagement is defined in writing. The Work page presents platform case studies and illustrative use cases. Measured results are published only when they are real and permissioned.",
+  },
+  {
+    question: "Which industries do you write for?",
+    answer:
+      "The Industries pages cover sectors such as banking, retail, travel, healthcare, energy, telecoms, manufacturing, logistics, education, public sector, gaming and SaaS. Listing a sector is not a claim of named clients or guaranteed outcomes in that sector.",
   },
   {
     question: "Which regions do you work with?",
@@ -47,7 +134,7 @@ export const faqs: Faq[] = [
   {
     question: "Do you publish client names, prices or case studies?",
     answer:
-      "Prices, team size, founding year and testimonials are not published. The Work page presents two platforms, BMS and CSM (Cognitive Security Management). They are not framed as QNVO client wins, and it does not name the organizations a platform serves. Measured results are published only when they are real and permissioned.",
+      "Prices, team size, founding year and testimonials are not published. The Work page presents BMS and CSM as platform case studies, plus illustrative use-case patterns. They are not framed as named QNVO client wins, and measured results are published only when they are real and permissioned.",
   },
   {
     question: "Will you guarantee rankings, revenue or compliance?",
@@ -178,19 +265,24 @@ export const caseStudyFaqs: Faq[] = [
       "CSM stands for Cognitive Security Management. It is a security management platform that provides security to public-sector organizations. Its modules include security controls and SSP (System Security Plan) modules. This site does not name the organizations the platform serves.",
   },
   {
-    question: "Are BMS and CSM QNVO clients?",
+    question: "Are BMS, CSM or the use cases QNVO client wins?",
     answer:
-      "No. BMS and CSM are presented here as enterprise platform case studies — the platforms and the work they involve — not as invented QNVO client wins. This page does not name organizations a platform serves. Measured results and testimonials are published only when real and permissioned.",
+      "No. BMS and CSM are enterprise platform case studies. The use cases describe common problem shapes and approaches. Neither section invents named client wins, testimonials or outcome metrics. Measured results are published only when real and permissioned.",
+  },
+  {
+    question: "What are the use cases on this page?",
+    answer:
+      "Use cases are illustrative engagement patterns — challenge and approach — mapped to QNVO service pages. They help buyers recognize similar workflows. They are not a public portfolio of anonymized guarantees.",
   },
   {
     question: "What kind of work does QNVO do on platforms like these?",
     answer:
-      "Enterprise software development, web development, modernization, performance optimization, and security hardening — the services listed on the Services pages.",
+      "Software, web, ecommerce, cloud, security, backup, support and related services listed on the Services pages — scoped in writing for each engagement.",
   },
   {
-    question: "Can QNVO build a platform like BMS or CSM for us?",
+    question: "Can QNVO take on a workflow like one of these use cases?",
     answer:
-      "Yes. If you need a business management platform, an internal tool, or a client-facing platform, start with the contact page and describe the workflow the platform must support.",
+      "Yes when you can describe the users, data and systems involved. Start on the contact page. A message is a request to talk, not a quote.",
   },
   {
     question: "Why are there no results or numbers on this page?",
@@ -198,6 +290,9 @@ export const caseStudyFaqs: Faq[] = [
       "Because results are published only when they are real and permissioned. A page with invented metrics would mislead buyers and damage trust.",
   },
 ];
+
+export { useCases, useCasesByCategory } from "@/content/use-cases";
+export type { UseCase } from "@/content/use-cases";
 
 export function relatedServices(service: Service, catalog: Service[]): Service[] {
   return service.related.flatMap((slug) => {

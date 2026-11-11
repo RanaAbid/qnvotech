@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { CookieSettingsButton } from "@/components/ConsentBanner";
 import { OptimizedImage } from "@/components/OptimizedImage";
+import { Container } from "@/components/ui";
 import { services, servicesInOrder } from "@/lib/data";
 import { publicEmail, tagline } from "@/lib/site";
 
 const company = [
   { href: "/about/", label: "About" },
+  { href: "/industries/", label: "Industries" },
+  { href: "/technologies/", label: "Technologies" },
   { href: "/process/", label: "Process" },
   { href: "/case-studies/", label: "Work" },
   { href: "/insights/", label: "Insights" },
@@ -56,11 +59,11 @@ function FooterOrbits() {
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-navy text-offwhite">
+    <footer className="relative mt-auto overflow-hidden bg-navy text-offwhite [overflow:clip]">
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-blue via-cyan to-teal" aria-hidden="true" />
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden="true" />
       <FooterOrbits />
-      <div className="relative z-10 grid w-full gap-12 px-5 py-16 md:px-8 lg:grid-cols-4 lg:px-12">
+      <Container className="relative z-10 grid gap-12 py-16 lg:grid-cols-4">
         <div>
           <div className="inline-block rounded-2xl bg-white p-3 shadow-[0_12px_30px_rgba(0,0,0,0.18)]">
             <OptimizedImage
@@ -86,13 +89,20 @@ export function Footer() {
         <nav aria-label="Services">
           <h2 className="font-display text-sm font-semibold uppercase tracking-[0.14em] text-white">Services</h2>
           <ul className="mt-4">
-            {servicesInOrder(services).map((service) => (
-              <li key={service.slug}>
-                <Link className={linkClass} href={`/services/${service.slug}/`}>
-                  {service.title}
-                </Link>
-              </li>
-            ))}
+            {servicesInOrder(services)
+              .slice(0, 10)
+              .map((service) => (
+                <li key={service.slug}>
+                  <Link className={linkClass} href={`/services/${service.slug}/`}>
+                    {service.title}
+                  </Link>
+                </li>
+              ))}
+            <li>
+              <Link className={linkClass} href="/services/">
+                All services
+              </Link>
+            </li>
           </ul>
         </nav>
         <nav aria-label="Company">
@@ -121,11 +131,13 @@ export function Footer() {
           <p className="mt-3 text-sm leading-relaxed text-offwhite/80">These pages are drafts and are not indexed.</p>
           <CookieSettingsButton />
         </nav>
-      </div>
+      </Container>
       <div className="relative z-10 border-t border-white/10">
-        <p className="w-full px-5 py-5 text-sm text-offwhite/80 md:px-8 lg:px-12">
-          © {new Date().getFullYear()} QNVO Technologies. No client names, prices or office addresses are published on this site.
-        </p>
+        <Container className="py-5">
+          <p className="text-sm text-offwhite/80">
+            © {new Date().getFullYear()} QNVO Technologies. No client names, prices or office addresses are published on this site.
+          </p>
+        </Container>
       </div>
     </footer>
   );

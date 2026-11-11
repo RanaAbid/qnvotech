@@ -8,6 +8,8 @@ const jobs = [
   { input: "public/images/hero-team.jpg", base: "public/images/hero-team", maxWidth: 1600 },
   { input: "public/images/hero-systems.jpg", base: "public/images/hero-systems", maxWidth: 1600 },
   { input: "public/images/hero-web.jpg", base: "public/images/hero-web", maxWidth: 1600 },
+  { input: "public/images/hero-cloud.jpg", base: "public/images/hero-cloud", maxWidth: 1600 },
+  { input: "public/images/hero-growth.jpg", base: "public/images/hero-growth", maxWidth: 1600 },
   { input: "public/logo/qnvo-logo-horizontal-transparent.png", base: "public/logo/qnvo-logo-horizontal-transparent", maxWidth: 480 },
   { input: "public/logo/qnvo-logo-full-lockup-transparent.png", base: "public/logo/qnvo-logo-full-lockup-transparent", maxWidth: 900 },
 ];

@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  // Hide the bottom-left Next.js "Issue" / portal badge in local dev UI.
+  devIndicators: false,
   images: {
     formats: ["image/avif", "image/webp"],
   },

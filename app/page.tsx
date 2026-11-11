@@ -2,19 +2,22 @@ import Link from "next/link";
 import { HeroPanel } from "@/components/HeroMotion";
 import { Cta } from "@/components/Cta";
 import { FaqList } from "@/components/FaqList";
+import { IndustriesHome } from "@/components/IndustriesHome";
 import { Reveal } from "@/components/Motion";
 import { ColorBand } from "@/components/SectionBackdrop";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Container, TextLink } from "@/components/ui";
 import { StructuredData } from "@/components/JsonLd";
-import { caseStudies, faqs, processSteps, regions, services, servicesInOrder } from "@/lib/data";
+import { industries } from "@/content/industries";
+import { ProcessFilm } from "@/components/ProcessFilm";
+import { caseStudies, faqs, processSteps, services, servicesInOrder } from "@/lib/data";
 import { breadcrumbNode, pageMetadata } from "@/lib/seo";
 import { getServices } from "@/lib/sanity";
 
 export const metadata = pageMetadata({
-  title: "Enterprise Software and AI Work | QNVO Technologies",
+  title: "AI, Web Development & Technical SEO Company | QNVO Technologies",
   description:
-    "QNVO Technologies shares enterprise software, AI agent, automation, ERP and digital services for teams in the USA, UK, Middle East and Pakistan.",
+    "QNVO Technologies is an AI, web development and technical SEO company for businesses — plus ecommerce, Shopify, WordPress, cloud DevOps and cybersecurity. Serving USA, UK, Middle East and Pakistan. No fake rankings or client lists on this site.",
   path: "/",
 });
 
@@ -34,7 +37,7 @@ export default async function HomePage() {
         <div className="marquee-track">
           {loop.map((service, index) => (
             <span key={`${service.slug}-${index}`} className="marquee-item">
-              {service.title}
+              <span className="marquee-label">{service.title}</span>
             </span>
           ))}
         </div>
@@ -83,56 +86,50 @@ export default async function HomePage() {
           <Reveal variant="blur">
             <p className="anim-eyebrow eyebrow">Our services</p>
             <h2 id="services-heading" className="anim-title mt-3 max-w-3xl font-display text-[1.85rem] font-bold leading-tight md:text-4xl">
-              AI services first, then the rest of the work
+              AI services first, then web, software and operations
             </h2>
             <p className="anim-copy mt-4 max-w-3xl text-lg">
-              Every page says who the service is for, what a typical scope can include, and what QNVO Technologies does not promise.
+              Every page says who the service is for, what a typical scope can include, and what QNVO Technologies does not promise. The full catalog includes Shopify, WordPress, Wix and related capability areas.
             </p>
           </Reveal>
-          <Reveal className="stagger-host mt-10 grid gap-6 lg:grid-cols-2" variant="scale">
+          <Reveal className="stagger-host mt-10 grid gap-6 lg:grid-cols-2 xl:grid-cols-3" variant="scale">
             {catalog.filter((service) => service.slug.startsWith("ai-")).map((service) => (
               <ServiceCard key={service.slug} service={service} featured />
             ))}
           </Reveal>
           <Reveal className="stagger-host mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {catalog.filter((service) => !service.slug.startsWith("ai-")).map((service) => (
-              <ServiceCard key={service.slug} service={service} />
-            ))}
+            {catalog
+              .filter((service) => !service.slug.startsWith("ai-"))
+              .slice(0, 9)
+              .map((service) => (
+                <ServiceCard key={service.slug} service={service} />
+              ))}
+          </Reveal>
+          <Reveal className="anim-cta mt-8">
+            <TextLink href="/services/">Browse all {catalog.length} service areas</TextLink>
           </Reveal>
         </Container>
       </section>
 
-      <ColorBand tone="blue" className="py-16 md:py-20" aria-labelledby="regions-heading">
-        <Container>
-          <Reveal>
-            <p className="anim-eyebrow eyebrow">Markets</p>
-            <h2 id="regions-heading" className="anim-title mt-3 font-display text-[1.85rem] font-bold md:text-4xl">
-              Written for four markets
-            </h2>
-            <p className="anim-copy mt-4 max-w-3xl text-lg text-white/90">
-              Business English for these audiences. A market on this page is not an office address.
-            </p>
-          </Reveal>
-          <Reveal className="stagger-host mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" variant="scale">
-            {regions.map((region) => (
-              <article key={region} className="soft-card p-6">
-                <span className="block h-1.5 w-16 rounded-full bg-gradient-to-r from-amber via-cyan to-teal" />
-                <p className="mt-4 font-display text-2xl font-bold">{region}</p>
-              </article>
-            ))}
-          </Reveal>
-        </Container>
-      </ColorBand>
+      <ProcessFilm />
+
+      <IndustriesHome
+        items={industries.map((item) => ({
+          slug: item.slug,
+          title: item.title,
+          card: item.card,
+        }))}
+      />
 
       <section className="bg-white py-16 md:py-20" aria-labelledby="work-heading">
         <Container>
           <Reveal variant="left">
             <p className="anim-eyebrow eyebrow">Published work</p>
             <h2 id="work-heading" className="anim-title mt-3 font-display text-[1.85rem] font-bold md:text-4xl">
-              BMS and CSM platform case studies
+              Platforms and illustrative use cases
             </h2>
             <p className="anim-copy mt-4 max-w-3xl text-lg">
-              Two enterprise platforms, and the engineering that kind of work involves. Measured results are published only with permission.
+              BMS and CSM in depth, plus use-case patterns across web, software, cloud and support. Measured results are published only with permission.
             </p>
           </Reveal>
           <Reveal className="stagger-host mt-8 grid gap-6 lg:grid-cols-2" variant="right">
@@ -147,10 +144,13 @@ export default async function HomePage() {
               </article>
             ))}
           </Reveal>
+          <Reveal className="anim-cta mt-8">
+            <TextLink href="/case-studies/#use-cases-heading">Browse illustrative use cases</TextLink>
+          </Reveal>
         </Container>
       </section>
 
-      <ColorBand tone="teal" className="py-16 md:py-20" aria-labelledby="home-faq-heading">
+      <ColorBand tone="deep" className="py-16 md:py-20" aria-labelledby="home-faq-heading">
         <Container>
           <Reveal variant="blur">
             <p className="anim-eyebrow eyebrow">Questions</p>

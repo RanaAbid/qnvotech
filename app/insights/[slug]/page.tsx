@@ -50,9 +50,9 @@ export default async function InsightArticlePage({ params }: { params: Promise<{
       extraGraph={[articleNode(article)]}
     >
       <article className="bg-white py-16 md:py-20">
-        <Container className="max-w-3xl">
+        <Container>
           {article.draft ? (
-            <p className="rounded-md border border-amber/40 bg-[#fff8eb] px-4 py-3 text-sm font-semibold text-navy">
+            <p className="max-w-3xl rounded-md border border-amber/40 bg-[#fff8eb] px-4 py-3 text-sm font-semibold text-navy">
               Draft for owner review. Replace or approve this copy before treating it as a final published article.
             </p>
           ) : null}
@@ -63,7 +63,7 @@ export default async function InsightArticlePage({ params }: { params: Promise<{
             <span aria-hidden="true">·</span>
             <span>By {companyName}</span>
           </p>
-          <div className="mt-10 space-y-10">
+          <div className="mt-10 grid gap-10 lg:grid-cols-2">
             {article.sections.map((section) => (
               <section key={section.heading}>
                 <h2 className="font-display text-[1.75rem] font-bold text-navy md:text-[2rem]">{section.heading}</h2>
@@ -75,7 +75,7 @@ export default async function InsightArticlePage({ params }: { params: Promise<{
               </section>
             ))}
           </div>
-          <p className="mt-12 rounded-2xl bg-offwhite p-6 text-lg leading-relaxed">
+          <p className="mt-12 max-w-3xl rounded-2xl bg-offwhite p-6 text-lg leading-relaxed">
             Related service:{" "}
             <TextLink href={`/services/${article.relatedServiceSlug}/`}>{article.relatedServiceLabel}</TextLink>
           </p>

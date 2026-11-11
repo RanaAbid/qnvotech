@@ -1,14 +1,15 @@
 import type { Service } from "@/lib/data";
+import { extendedServiceCatalog } from "@/content/services-extended";
 
-export const serviceCatalog: Service[] = [
+const coreServiceCatalog: Service[] = [
   {
     slug: "enterprise-software-development",
     title: "Enterprise software",
-    card: "Custom systems for a defined workflow, including internal tools, portals and connections to software you already run.",
-    seoTitle: "Enterprise Software Development | QNVO Technologies",
+    card: "Custom enterprise software development for defined workflows, portals and integrations with systems you already run.",
+    seoTitle: "Enterprise Software Development Company | QNVO Technologies",
     description:
-      "Plan and build custom enterprise software, integrations and handover notes with QNVO Technologies. Scope, fees and timelines are agreed in writing.",
-    h1: "Enterprise Software Development Services",
+      "Custom enterprise software development services for internal tools, portals and system integrations. QNVO Technologies serves teams in the USA, UK, Middle East and Pakistan. Scope and fees are agreed in writing.",
+    h1: "Enterprise Software Development Company Services",
     summary:
       "Enterprise software development at QNVO Technologies means designing and building custom systems for a defined business workflow, such as an internal tool, a portal or a connection to software you already run. It is for teams that can describe who will use the system, what data it must hold and which existing products it must respect. Contact QNVO Technologies to discuss requirements. Deliverables, fees and timelines are set in a project agreement, not on this page. This page describes the shape of the work. It is not a fixed package, a product license or a public price list.",
     problem:
@@ -86,13 +87,13 @@ export const serviceCatalog: Service[] = [
   {
     slug: "ai-agent-development",
     title: "AI agent development",
-    card: "Bounded AI tasks that use approved data and tools, then return a result a person can review.",
-    seoTitle: "AI Agent Development for Teams | QNVO Technologies",
+    card: "AI agent development for bounded tasks that use approved data and tools, then return a result a person can review.",
+    seoTitle: "AI Agent Development Company & Services | QNVO Technologies",
     description:
-      "Design AI agents for defined tasks, approved data and human review. QNVO Technologies discusses scope before any build and makes no autonomous outcome claims.",
-    h1: "AI Agent Development Services",
+      "AI agent development services for bounded business tasks with approved data and human review. Discuss AI agent software with QNVO Technologies. No autonomous outcome or accuracy guarantees on this page.",
+    h1: "AI Agent Development Company Services",
     summary:
-      "AI agent development means software that can carry out a bounded task using instructions, approved data and tools you allow, then return a result a person can check. It is for teams with a repeatable task, known inputs and a clear definition of done. Contact QNVO Technologies to discuss the task. QNVO Technologies does not claim an agent that runs a business on its own, does not guarantee accuracy and does not publish a required model vendor on this website. Fees and timelines belong in a written agreement after the task boundary is clear.",
+      "AI agent development company services at QNVO Technologies mean software that can carry out a bounded task using instructions, approved data and tools you allow, then return a result a person can check. It is for teams with a repeatable task, known inputs and a clear definition of done. Contact QNVO Technologies to discuss AI agent software for business workflows. QNVO Technologies does not claim an agent that runs a business on its own, does not guarantee accuracy and does not publish a required model vendor on this website. Fees and timelines belong in a written agreement after the task boundary is clear.",
     problem:
       "Organizations try AI agents when people spend time on repeatable work that still needs judgment at the end: drafting from approved sources, preparing a queue item, classifying a request or gathering facts before a human decides. The risk is an unbounded agent with too much access and no review step. Wrong answers then look like finished work, especially when the agent can write to production systems or invent sources it was never given. Tool sprawl makes this worse: chat interfaces, tickets and documents all become places where an incomplete answer can be copied forward. This service focuses on a bounded task, an allow-list of data and tools, sample evaluation cases and a person who reviews the result before it is used. Model choice, if any, comes after that boundary is written — not before. The engagement is about task design and safe limits. It is not a claim of autonomous operations, guaranteed savings or a particular accuracy rate.",
     audience:
@@ -168,11 +169,11 @@ export const serviceCatalog: Service[] = [
   {
     slug: "ai-automation",
     title: "AI automation",
-    card: "Connect documented business steps so routine hand-offs need less manual copying between systems.",
-    seoTitle: "AI Business Process Automation | QNVO Technologies",
+    card: "AI business process automation that connects documented steps so routine hand-offs need less manual copying between systems.",
+    seoTitle: "AI Business Process Automation Services | QNVO Technologies",
     description:
-      "Automate documented business steps and system hand-offs with QNVO Technologies. We do not promise time saved, cost reduction or a specific tool.",
-    h1: "AI Automation Services",
+      "AI automation services for documented business workflows and system hand-offs. QNVO Technologies helps connect steps you authorize — without inventing full autonomy or savings guarantees.",
+    h1: "AI Business Process Automation Services",
     summary:
       "AI automation means connecting a documented process so routine steps need less manual copying between systems. It is for teams that can describe the steps, the exceptions and who remains responsible for the result. Contact QNVO Technologies with the process you want to review. We do not promise a percentage of time or cost saved, do not mandate a single automation product on this website and do not treat an undocumented process as ready to automate. Scope and fees belong in a written agreement.",
     problem:
@@ -250,11 +251,11 @@ export const serviceCatalog: Service[] = [
   {
     slug: "erp-solutions",
     title: "ERP solutions",
-    card: "Configuration and integration for finance, inventory or operations workflows in the ERP you use or choose.",
-    seoTitle: "ERP Solutions & Integration Work | QNVO Technologies",
+    card: "ERP solutions and integration for finance, inventory or operations workflows in the ERP you use or choose.",
+    seoTitle: "ERP Solutions & ERP Integration Services | QNVO Technologies",
     description:
-      "Discuss ERP configuration and integration around the systems you use. QNVO Technologies does not claim vendor partnerships or name a single required product.",
-    h1: "ERP Solutions and Integration Services",
+      "ERP solutions and ERP integration services for finance, inventory and operations workflows. QNVO Technologies discusses configuration and connections for the ERP you use or choose.",
+    h1: "ERP Solutions and ERP Integration Services",
     summary:
       "ERP work at QNVO Technologies covers discussion, configuration and integration of enterprise resource planning workflows such as finance, inventory or operations. It is for organizations that already use an ERP or are choosing one and can describe the process the product must support. Contact QNVO Technologies before assuming a product fit. We do not claim to be a vendor partner on this website, do not name one product as the only option and do not publish migration guarantees or price lists here. Product choice, modules and fees belong in a written scope.",
     problem:
@@ -332,11 +333,11 @@ export const serviceCatalog: Service[] = [
   {
     slug: "ecommerce-development",
     title: "Ecommerce development",
-    card: "Catalogue structure, purchasing flow and connections to payment or shipping providers you already use.",
-    seoTitle: "Ecommerce Development Services | QNVO Technologies",
+    card: "Ecommerce website development for catalogue structure, purchasing flow and connections to payment or shipping providers you already use.",
+    seoTitle: "Ecommerce Website Development Company | QNVO Technologies",
     description:
-      "Plan ecommerce websites, catalogue structure and checkout integrations with QNVO Technologies. We do not promise sales, revenue or a specific platform.",
-    h1: "Ecommerce Development Services",
+      "Ecommerce website development services for catalogues, checkout and payment connections. Talk to QNVO Technologies about ecommerce development for stores you can operate after handover.",
+    h1: "Ecommerce Website Development Services",
     summary:
       "Ecommerce development covers the website and purchasing flow for selling online: catalogue structure, product information, checkout considerations and connections you specify, such as payment or shipping providers you already use. It is for businesses that can describe what they sell, where they sell and how an order should be handled after payment. Contact QNVO Technologies to discuss the catalogue. We do not promise revenue, conversion rates or a required store platform on this website. Platform choice, providers and fees belong in a written scope.",
     problem:
@@ -408,19 +409,19 @@ export const serviceCatalog: Service[] = [
           "No. Technical SEO for ecommerce URLs can be a related engagement when scoped separately. This ecommerce page does not guarantee rankings, traffic or a results position.",
       },
     ],
-    related: ["web-development", "technical-seo"],
+    related: ["shopify-development", "wordpress-development", "web-development", "technical-seo"],
     icon: "/icons/icon-ecommerce.svg",
   },
   {
     slug: "web-development",
     title: "Web development",
-    card: "Business websites with server-rendered pages, clear navigation and attention to accessibility and speed.",
-    seoTitle: "Business Web Development Services | QNVO Technologies",
+    card: "Business web development company services for server-rendered websites with clear navigation, accessibility and page speed.",
+    seoTitle: "Web Development Company for Businesses | QNVO Technologies",
     description:
-      "Build business websites with clear structure, accessibility and performance in mind. Talk to QNVO Technologies about the pages and content you need.",
-    h1: "Web Development Services",
+      "Web development company services for business websites, SEO-friendly structure, accessibility and speed. QNVO Technologies builds sites for teams in the USA, UK, Middle East and Pakistan.",
+    h1: "Web Development Company Services for Businesses",
     summary:
-      "Web development at QNVO Technologies means planning and building a business website with server-rendered content, clear navigation and attention to accessibility and speed. It is for organizations that need a site people and search engines can read, with pages and forms you can operate after handover. Contact QNVO Technologies with the pages you need. This website describes the approach. It is not a client case study, a Lighthouse score promise or an unlimited content engagement. Fees and timelines belong in a written agreement.",
+      "Web development company services at QNVO Technologies mean planning and building a business website with server-rendered content, SEO-friendly structure, clear navigation and attention to accessibility and speed. It is for organizations that need a site people and search engines such as Google can read, with pages and forms you can operate after handover. Contact QNVO Technologies with the pages you need. This website describes the approach. It is not a client case study, a Lighthouse score promise, a Google ranking guarantee or an unlimited content engagement. Fees and timelines belong in a written agreement.",
     problem:
       "Businesses need a website visitors can read, navigate and trust: clear pages, working forms and content that is not locked inside files or animation alone. Many sites fail because structure was never decided, accessibility was skipped, metadata was copied from a template or performance was left for later. Forms arrive without spam controls or without an owner for the inbox. Redesigns sometimes migrate URLs without redirects, breaking both visitors and search. Teams then measure vanity scores while primary tasks — understanding a service, finding contact paths — still fail. This service plans and builds server-rendered business websites with navigation, metadata and handover you can operate. It does so without treating qnvotech.com as a client case study and without publishing a performance score in advance. The Work page presents BMS and CSM as platform case studies; those are separate from a marketing-site build described here.",
     audience:
@@ -490,19 +491,19 @@ export const serviceCatalog: Service[] = [
           "Hosting is included only when the agreement says so. Otherwise handover covers the repository or hosting access named in scope so your team can operate the site. Ongoing hosting or retainers are separate engagements.",
       },
     ],
-    related: ["technical-seo", "website-security-optimization", "ecommerce-development"],
+    related: ["wordpress-development", "wix-development", "mobile-app-development", "ecommerce-development"],
     icon: "/icons/icon-web-development.svg",
   },
   {
     slug: "technical-seo",
     title: "Technical SEO",
-    card: "Crawl, metadata, structured data, internal links and page speed. Search rankings are not guaranteed.",
-    seoTitle: "Technical SEO for Business Sites | QNVO Technologies",
+    card: "Technical SEO for Google and search engines: crawl, metadata, structured data, internal links and page speed. Rankings are not guaranteed.",
+    seoTitle: "Technical SEO Services for Google & Search | QNVO Technologies",
     description:
-      "Improve crawlability, metadata, structured data and page speed with QNVO Technologies. We do not guarantee search rankings, traffic or a results position.",
-    h1: "Technical SEO Services",
+      "Technical SEO services for Google crawlability, metadata, structured data, internal links and page speed. QNVO Technologies does not guarantee rankings, traffic or a Google results position.",
+    h1: "Technical SEO Services for Google and Search Engines",
     summary:
-      "Technical SEO is the work of making a website easier for search engines to crawl, understand and load. That includes indexation, metadata, structured data, internal links and performance on a domain you control. It is for teams that already have a site or are building one and can grant access to templates, hosting and search-console properties. Contact QNVO Technologies about the domain you control. QNVO Technologies does not guarantee rankings, traffic or a results position, does not buy links and does not invent reviews or schema that visitors cannot see. Fees belong in a written agreement.",
+      "Technical SEO services for Google and other search engines make a website easier to crawl, understand and load. That includes indexation, metadata, structured data, internal links and performance on a domain you control — including Google Search Console properties you authorize. It is for teams that already have a site or are building one and can grant access to templates and hosting. Contact QNVO Technologies about the domain you control. QNVO Technologies does not guarantee Google rankings, traffic or a results position, does not buy links and does not invent reviews or schema that visitors cannot see. Fees belong in a written agreement.",
     problem:
       "Search engines cannot help visitors if pages are blocked from crawling, duplicated without a clear canonical, missing meaningful metadata, trapped behind client-only rendering or too heavy to load. Teams often chase rankings while templates still send mixed signals: conflicting titles, thin placeholders, orphan URLs or sitemaps that list pages robots cannot fetch. Structured data sometimes describes prices, reviews or organizations that are not visible on the page. Link buying and unverified promotional claims create a different kind of risk and are outside this service. Technical SEO removes crawl and understanding barriers on a domain you authorize. It does not buy links, invent reviews, publish fake ratings or promise a results position. Content strategy and paid media are separate conversations unless the written scope adds them.",
     audience:
@@ -572,17 +573,17 @@ export const serviceCatalog: Service[] = [
           "Production edits need an approval path you control. When staging is available and representative, fixes should be verified there first. Exact environments belong in the written scope.",
       },
     ],
-    related: ["web-development", "website-security-optimization"],
+    related: ["digital-marketing", "web-development", "website-security-optimization"],
     icon: "/icons/icon-technical-seo.svg",
   },
   {
     slug: "website-security-optimization",
     title: "Website security and optimization",
-    card: "A review of headers, forms, dependencies and page weight on a website you authorize us to inspect.",
-    seoTitle: "Website Security & Optimization | QNVO Technologies",
+    card: "Website security and performance optimization — headers, forms, dependencies and page weight on a site you authorize us to inspect.",
+    seoTitle: "Website Security & Performance Optimization | QNVO Technologies",
     description:
-      "Review website headers, forms, dependencies and performance with QNVO Technologies. This is not a certification, penetration-test badge or compliance guarantee.",
-    h1: "Website Security and Optimization",
+      "Website security and performance optimization services: headers, forms, dependencies and page weight reviews on sites you authorize. Discuss website hardening with QNVO Technologies.",
+    h1: "Website Security and Performance Optimization Services",
     summary:
       "Website security and optimization means reviewing how a site is exposed and how it performs, including transport, headers, form handling, dependencies and page weight, then agreeing what to change. It is for organizations that own a website and can provide review access to defined hosts and paths. Contact QNVO Technologies about the site you control. This is not a certification, a penetration-test badge, an uptime promise or a legal compliance guarantee. Scope and fees belong in a written agreement before fixes are treated as committed.",
     problem:
@@ -654,7 +655,9 @@ export const serviceCatalog: Service[] = [
           "No. Findings belong in the engagement report for the hosts you authorized. Public grades, invented severity counts or marketing “A+ security” claims are not part of how this service is described.",
       },
     ],
-    related: ["web-development", "technical-seo"],
+    related: ["cybersecurity-risk-management", "web-development", "technical-seo"],
     icon: "/icons/icon-security-optimization.svg",
   },
 ];
+
+export const serviceCatalog: Service[] = [...coreServiceCatalog, ...extendedServiceCatalog];

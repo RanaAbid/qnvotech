@@ -1,8 +1,8 @@
-type Tone = "blue" | "teal" | "amber";
+type Tone = "navy" | "deep";
 
-/** Full-bleed colorful band with animated shapes. Use at most 1–2 times per page. */
+/** Full-bleed dark band with animated shapes. Prefer home only (up to 2). */
 export function ColorBand({
-  tone = "blue",
+  tone = "navy",
   className = "",
   children,
   ...rest
