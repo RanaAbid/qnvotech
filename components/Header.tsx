@@ -254,28 +254,48 @@ export function Header() {
                           entry.spotlight ? "" : " mega-panel-inner--no-spotlight"
                         }`}
                       >
-                        <div className={`mega-columns mega-columns-${Math.min(entry.columns.length, 5)}`}>
-                          {entry.columns.map((column) => (
-                            <div key={`${entry.id}-${column.title}`} className="mega-column">
-                              {column.href ? (
-                                <Link href={column.href} className="mega-column-title" onClick={closeDesktop}>
-                                  {column.title}
-                                </Link>
-                              ) : (
-                                <p className="mega-column-title">{column.title}</p>
-                              )}
-                              <ul className="mega-link-list">
-                                {column.items.map((item) => (
-                                  <li key={item.href + item.label}>
-                                    <Link href={item.href} className="mega-link" onClick={closeDesktop}>
-                                      <span>{item.label}</span>
-                                      {item.description ? <em>{item.description}</em> : null}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
+                        <div className="mega-main">
+                          <div className={`mega-columns mega-columns-${Math.min(entry.columns.length, 5)}`}>
+                            {entry.columns.map((column) => (
+                              <div key={`${entry.id}-${column.title}`} className="mega-column">
+                                {column.href ? (
+                                  <Link href={column.href} className="mega-column-title" onClick={closeDesktop}>
+                                    {column.title}
+                                  </Link>
+                                ) : (
+                                  <p className="mega-column-title">{column.title}</p>
+                                )}
+                                <ul className="mega-link-list">
+                                  {column.items.map((item) => (
+                                    <li key={item.href + item.label}>
+                                      <Link href={item.href} className="mega-link" onClick={closeDesktop}>
+                                        <span className="mega-link-copy">
+                                          <span className="mega-link-label">{item.label}</span>
+                                          {item.description ? <em className="mega-link-desc">{item.description}</em> : null}
+                                        </span>
+                                        <span className="mega-link-arrow" aria-hidden="true">
+                                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4">
+                                            <path d="M5 12h14M13 6l6 6-6 6" />
+                                          </svg>
+                                        </span>
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="mega-foot">
+                            <Link href={entry.href} className="mega-foot-link" onClick={closeDesktop}>
+                              View all {entry.label.toLowerCase()}
+                            </Link>
+                            <Link href="/contact/" className="mega-foot-cta" onClick={closeDesktop}>
+                              Discuss a project
+                              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.4">
+                                <path d="M5 12h14M13 6l6 6-6 6" />
+                              </svg>
+                            </Link>
+                          </div>
                         </div>
                         {entry.spotlight ? (
                           <aside className="mega-spotlight">
