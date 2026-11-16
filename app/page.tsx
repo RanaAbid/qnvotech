@@ -4,7 +4,6 @@ import { HeroPanel } from "@/components/HeroMotion";
 import { Cta } from "@/components/Cta";
 import { FaqList } from "@/components/FaqList";
 import { HomeMarquee } from "@/components/HomeMarquee";
-import { IceHallDisplay } from "@/components/IceHallDisplay";
 import { LogoIntro } from "@/components/LogoIntro";
 import { Reveal } from "@/components/Motion";
 import { ColorBand } from "@/components/SectionBackdrop";
@@ -55,55 +54,41 @@ export default async function HomePage() {
 
       <HomeMarquee items={loop.map((service) => service.title)} />
 
-      <section className="bg-[#e8eef5] py-16 md:py-24" aria-labelledby="ice-hall-heading">
-        <Container>
-          <Reveal>
-            <p className="anim-eyebrow eyebrow">Ice Hall</p>
-            <h2 id="ice-hall-heading" className="anim-title mt-3 max-w-3xl font-display text-[1.85rem] font-bold leading-tight md:text-4xl">
-              Full-screen prayer-hall display
-            </h2>
-            <p className="anim-copy mt-4 max-w-3xl text-lg">
-              Sample Ice Hall screen for a left-wall hall display — live clock, next jamaat countdown, and slideshow panel. Times shown here are samples only.
-            </p>
-          </Reveal>
-          <div className="mt-8 grid items-stretch gap-6 lg:grid-cols-2">
-            <Reveal variant="left">
-              <IceHallDisplay />
-            </Reveal>
-            <Reveal variant="right">
-              <div className="flex h-full flex-col gap-4">
-                <div className="relative flex flex-1 flex-col justify-between overflow-hidden rounded-[2rem] bg-navy px-7 py-8 text-white shadow-[0_24px_50px_rgba(2,40,95,0.18)] md:px-9 md:py-10">
-                  <div className="hero-grid pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" />
-                  <span className="cta-orb cta-orb-a" aria-hidden="true" />
-                  <div className="relative">
-                    <p className="anim-eyebrow text-sm font-semibold uppercase tracking-[0.16em] text-amber">About QNVO</p>
-                    <h3 className="anim-title mt-3 max-w-md font-display text-[1.55rem] font-bold leading-tight text-white md:text-[1.85rem]">
-                      Technology services for businesses that want a written scope
-                    </h3>
-                    <p className="anim-copy mt-4 max-w-md leading-relaxed text-offwhite">
-                      The work starts with the users, the data, and the systems you already run. Fees, timelines, and deliverables belong in an agreement, not in a slogan.
-                    </p>
-                  </div>
-                  <div className="anim-cta relative mt-6">
-                    <Link href="/about/" className="btn btn-blue">
-                      Read about QNVO Technologies
-                    </Link>
-                  </div>
-                </div>
-                <ol className="stagger-host grid gap-3">
-                  {processSteps.slice(0, 2).map((step, index) => (
-                    <li key={step.title} className="soft-card flex items-start gap-4 p-4 md:p-5">
-                      <p className="step-index shrink-0">0{index + 1}</p>
-                      <div>
-                        <h3 className="font-display text-lg font-semibold">{step.title}</h3>
-                        <p className="mt-1 text-sm leading-relaxed">{step.body}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
+      <section className="bg-[#e8eef5] py-16 md:py-24" aria-labelledby="about-heading">
+        <Container className="grid items-stretch gap-6 lg:grid-cols-2">
+          <Reveal variant="left">
+            <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-[2rem] bg-navy px-7 py-10 text-white shadow-[0_24px_50px_rgba(2,40,95,0.18)] md:px-10 md:py-12">
+              <div className="hero-grid pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" />
+              <span className="cta-orb cta-orb-a" aria-hidden="true" />
+              <div className="relative">
+                <p className="anim-eyebrow text-sm font-semibold uppercase tracking-[0.16em] text-amber">About QNVO</p>
+                <h2 id="about-heading" className="anim-title mt-4 max-w-md font-display text-[1.85rem] font-bold leading-tight text-white md:text-4xl">
+                  Technology services for businesses that want a written scope
+                </h2>
+                <p className="anim-copy mt-5 max-w-md text-lg leading-relaxed text-offwhite">
+                  The work starts with the users, the data, and the systems you already run. Fees, timelines, and deliverables belong in an agreement, not in a slogan.
+                </p>
               </div>
-            </Reveal>
-          </div>
+              <div className="anim-cta relative mt-8">
+                <Link href="/about/" className="btn btn-blue">
+                  Read about QNVO Technologies
+                </Link>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal variant="right">
+            <ol className="stagger-host flex h-full flex-col gap-4">
+              {processSteps.slice(0, 3).map((step, index) => (
+                <li key={step.title} className="soft-card flex flex-1 items-start gap-4 p-5 md:p-6">
+                  <p className="step-index shrink-0">0{index + 1}</p>
+                  <div>
+                    <h3 className="font-display text-xl font-semibold">{step.title}</h3>
+                    <p className="mt-1 leading-relaxed">{step.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
         </Container>
       </section>
 
