@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { industries } from "@/content/industries";
 import { insights } from "@/content/insights";
+import { products } from "@/content/products";
 import { services } from "@/lib/data";
 import { absoluteUrl, contentUpdated, legalPagesIndexable } from "@/lib/site";
 
@@ -22,6 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
     })),
     { path: "/technologies/", priority: 0.75, changeFrequency: "monthly" },
+    { path: "/products/", priority: 0.85, changeFrequency: "weekly" },
+    ...products.map((product) => ({
+      path: `/products/${product.slug}/`,
+      priority: 0.8,
+      changeFrequency: "monthly" as const,
+    })),
     { path: "/about/", priority: 0.7, changeFrequency: "monthly" },
     { path: "/process/", priority: 0.7, changeFrequency: "monthly" },
     { path: "/case-studies/", priority: 0.75, changeFrequency: "monthly" },

@@ -160,6 +160,35 @@ export function serviceNode(service: Service): Record<string, unknown> {
   };
 }
 
+export function softwareApplicationNode(input: {
+  name: string;
+  description: string;
+  path: string;
+  applicationUrl: string;
+  featureList: string[];
+  image?: string;
+}): Record<string, unknown> {
+  return {
+    "@type": "SoftwareApplication",
+    name: input.name,
+    description: normalizeDescription(input.description),
+    url: absoluteUrl(input.path),
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      description: "Pricing is not published on this page. Contact QNVO Technologies for a written agreement.",
+      url: absoluteUrl("/contact/"),
+      availability: "https://schema.org/OnlineOnly",
+    },
+    featureList: input.featureList,
+    image: input.image ?? ogImage.url,
+    provider: { "@id": `${siteUrl}/#organization` },
+    brand: { "@id": `${siteUrl}/#organization` },
+    sameAs: [input.applicationUrl],
+  };
+}
+
 export function faqNode(items: Faq[]): Record<string, unknown> {
   return {
     "@type": "FAQPage",

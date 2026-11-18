@@ -7,6 +7,7 @@ import { publicEmail, tagline } from "@/lib/site";
 
 const company = [
   { href: "/about/", label: "About" },
+  { href: "/products/", label: "Products" },
   { href: "/industries/", label: "Industries" },
   { href: "/technologies/", label: "Technologies" },
   { href: "/process/", label: "Process" },

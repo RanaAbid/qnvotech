@@ -1,6 +1,7 @@
 import { industries } from "@/content/industries";
 import { technologyGroups } from "@/content/technologies";
 import { useCaseCategories } from "@/content/use-cases";
+import { products } from "@/content/products";
 import { caseStudies, serviceGroups, services, servicesForGroup } from "@/lib/data";
 
 export type NavLink = {
@@ -100,6 +101,39 @@ export const primaryNav: NavEntry[] = [
     },
   },
   {
+    id: "products",
+    type: "mega",
+    label: "Products",
+    href: "/products/",
+    columns: [
+      {
+        title: "Products",
+        href: "/products/",
+        items: products.map((product) => ({
+          href: `/products/${product.slug}/`,
+          label: product.shortName,
+          description: product.tagline,
+        })),
+      },
+      {
+        title: "Explore",
+        items: [
+          { href: "/products/", label: "All products" },
+          { href: "/products/my-pos/", label: "My POS details" },
+          { href: "/contact/", label: "Discuss product access" },
+        ],
+      },
+    ],
+    spotlight: {
+      title: "QNVO My POS",
+      body: "Point of sale, inventory, purchases, sales and reports.",
+      href: "/products/my-pos/",
+      cta: "View My POS",
+      image: "/images/product-my-pos-counter",
+      imageAlt: "Retail counter with a POS terminal",
+    },
+  },
+  {
     id: "work",
     type: "mega",
     label: "Work",
@@ -182,6 +216,7 @@ export const primaryNav: NavEntry[] = [
         title: "Connect",
         items: [
           { href: "/contact/", label: "Contact" },
+          { href: "/products/", label: "Products" },
           { href: "/services/", label: "Services catalog" },
           { href: "/industries/", label: "Industries" },
           { href: "/technologies/", label: "Technologies" },
