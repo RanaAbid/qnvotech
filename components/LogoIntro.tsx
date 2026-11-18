@@ -1,11 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LogoStage } from "@/components/LogoStage";
+import { LogoGlobe } from "@/components/LogoGlobe";
 
-const STORAGE_KEY = "qnvo-logo-intro-v1";
+const STORAGE_KEY = "qnvo-logo-intro-v3";
 
 function shouldSkipIntro(): boolean {
+  // Manual replay for QA: /?intro=1
+  try {
+    if (new URLSearchParams(window.location.search).get("intro") === "1") {
+      window.sessionStorage.removeItem(STORAGE_KEY);
+      return false;
+    }
+  } catch {
+    // ignore
+  }
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
   // Lab / automated browsers: keep first paint free for LCP measurement.
   if (navigator.webdriver) return true;
@@ -21,8 +30,8 @@ function shouldSkipIntro(): boolean {
 }
 
 /**
- * One-time first-visit brand intro. Skips on reduced motion, slow networks, lab tools,
- * and after the first completed show. Deferred so the hero can claim LCP bandwidth first.
+ * First-visit brand intro: QNVO particle globe + solid logo plate.
+ * Skips on reduced motion, slow networks, lab tools, and after first show.
  */
 export function LogoIntro() {
   const [phase, setPhase] = useState<"boot" | "show" | "out" | "done">("boot");
@@ -37,7 +46,7 @@ export function LogoIntro() {
     const timers: number[] = [];
     const previous = document.body.style.overflow;
 
-    // Let the hero image start before competing for network / main thread.
+    // Brief delay so the hero can start LCP work, then run the globe intro.
     timers.push(
       window.setTimeout(() => {
         if (cancelled) return;
@@ -47,7 +56,7 @@ export function LogoIntro() {
         timers.push(
           window.setTimeout(() => {
             if (!cancelled) setPhase("out");
-          }, 1200),
+          }, 3200),
         );
         timers.push(
           window.setTimeout(() => {
@@ -59,9 +68,9 @@ export function LogoIntro() {
             }
             document.body.style.overflow = previous;
             setPhase("done");
-          }, 1700),
+          }, 3900),
         );
-      }, 450),
+      }, 180),
     );
 
     return () => {
@@ -75,9 +84,11 @@ export function LogoIntro() {
 
   return (
     <div className={`logo-intro${phase === "out" ? " is-out" : ""}`} role="presentation" aria-hidden="true">
+      <div className="logo-intro-grid" />
       <div className="logo-intro-core">
-        <LogoStage size="intro" />
+        <LogoGlobe />
         <p className="logo-intro-tag">QNVO Technologies</p>
+        <p className="logo-intro-sub">Quality · Next-Gen · Vision · Operations</p>
       </div>
     </div>
   );
