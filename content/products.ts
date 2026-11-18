@@ -54,6 +54,10 @@ export const products: Product[] = [
         alt: "Checkout counter with POS screen, scanner and payment terminal",
       },
       {
+        base: "/images/product-my-pos-handheld",
+        alt: "Handheld POS tablet at the counter with scanner and receipt printer",
+      },
+      {
         base: "/images/product-my-pos-inventory",
         alt: "Warehouse aisle with stock checked on a tablet",
       },
