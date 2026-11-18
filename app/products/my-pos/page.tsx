@@ -8,6 +8,7 @@ import {
   ProductCapabilityGrid,
   ProductGallery,
   ProductHeroMedia,
+  ProductModuleBoard,
 } from "@/components/ProductShowcase";
 import { Container, TextLink } from "@/components/ui";
 import { productBySlug } from "@/content/products";
@@ -81,7 +82,7 @@ export default function MyPosProductPage() {
               <a href={product.appUrl} className="btn btn-blue" rel="noopener noreferrer" target="_blank">
                 Open My POS
               </a>
-              <Link href="/contact/" className="btn btn-ghost">
+              <Link href="/contact/" className="btn btn-outline">
                 Discuss access
               </Link>
             </div>
@@ -132,25 +133,26 @@ export default function MyPosProductPage() {
         </Container>
       </section>
 
-      <section className="bg-white py-14 md:py-20" aria-labelledby="my-pos-modules-heading">
-        <Container className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-          <Reveal variant="left">
-            <p className="eyebrow">Modules</p>
-            <h2 id="my-pos-modules-heading" className="mt-3 font-display text-[1.75rem] font-bold md:text-[2.25rem]">
-              Application areas
-            </h2>
-            <p className="mt-4 leading-relaxed text-slate">{product.notClaimed}</p>
-            <p className="mt-4">
-              <TextLink href="/services/enterprise-software-development/">Related: enterprise software services</TextLink>
-            </p>
-          </Reveal>
-          <Reveal variant="right">
-            <ul className="product-module-cloud">
-              {product.modules.map((module) => (
-                <li key={module}>{module}</li>
-              ))}
-            </ul>
-          </Reveal>
+      <section className="product-modules-stage py-14 md:py-20" aria-labelledby="my-pos-modules-heading">
+        <Container>
+          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.18fr)] lg:gap-10">
+            <Reveal variant="left">
+              <p className="eyebrow">Modules</p>
+              <h2 id="my-pos-modules-heading" className="mt-3 font-display text-[1.75rem] font-bold md:text-[2.25rem]">
+                Application areas
+              </h2>
+              <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate">
+                Each chip is a live module area in My POS. Hover to feel the board move — permissions still decide who can open each screen.
+              </p>
+              <p className="mt-4 leading-relaxed text-slate">{product.notClaimed}</p>
+              <p className="mt-5">
+                <TextLink href="/services/enterprise-software-development/">Related: enterprise software services</TextLink>
+              </p>
+            </Reveal>
+            <Reveal variant="scale">
+              <ProductModuleBoard product={product} />
+            </Reveal>
+          </div>
         </Container>
       </section>
 

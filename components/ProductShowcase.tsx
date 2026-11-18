@@ -55,6 +55,36 @@ export function ProductGallery({ product }: { product: Product }) {
   );
 }
 
+export function ProductModuleBoard({ product }: { product: Product }) {
+  return (
+    <div className="product-module-board" aria-label={`${product.shortName} application modules`}>
+      <div className="product-module-board-fx" aria-hidden="true">
+        <span className="product-module-ring product-module-ring-a" />
+        <span className="product-module-ring product-module-ring-b" />
+        <span className="product-module-orb product-module-orb-a" />
+        <span className="product-module-orb product-module-orb-b" />
+      </div>
+      <div className="product-module-core" aria-hidden="true">
+        <p className="product-module-core-kicker">Live product</p>
+        <p className="product-module-core-title">{product.shortName}</p>
+        <p className="product-module-core-count">{product.modules.length} modules</p>
+      </div>
+      <ul className="product-module-constellation stagger-host">
+        {product.modules.map((module, index) => (
+          <li
+            key={module}
+            className={`product-module-chip product-module-chip-${(index % 6) + 1}`}
+            style={{ animationDelay: `${index * 0.11}s` }}
+          >
+            <span className="product-module-chip-index">{String(index + 1).padStart(2, "0")}</span>
+            <span className="product-module-chip-label">{module}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function ProductCard({ product }: { product: Product }) {
   return (
     <Reveal variant="scale">
@@ -63,9 +93,9 @@ export function ProductCard({ product }: { product: Product }) {
           <PictureFill
             base={product.heroImage}
             alt={product.heroAlt}
-            sizes="(max-width: 768px) 100vw, 40vw"
+            sizes="(max-width: 900px) 100vw, 42vw"
             width={1200}
-            height={675}
+            height={750}
           />
         </div>
         <div className="product-card-body">
@@ -73,11 +103,11 @@ export function ProductCard({ product }: { product: Product }) {
           <h2 className="font-display text-2xl font-bold text-navy md:text-3xl">{product.name}</h2>
           <p className="mt-3 text-lg leading-relaxed text-slate">{product.tagline}</p>
           <p className="mt-4 leading-relaxed text-slate">{product.description}</p>
-          <div className="product-card-actions">
+          <div className="product-card-actions mt-6">
             <Link href={`/products/${product.slug}/`} className="btn btn-blue">
               View product details
             </Link>
-            <a href={product.appUrl} className="btn btn-ghost" rel="noopener noreferrer" target="_blank">
+            <a href={product.appUrl} className="btn btn-outline" rel="noopener noreferrer" target="_blank">
               Open live app
             </a>
           </div>
