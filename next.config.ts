@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   experimental: {
-    optimizePackageImports: ["zod"],
+    optimizePackageImports: ["zod", "sweetalert2"],
   },
   async redirects() {
     return [
@@ -37,21 +37,27 @@ const nextConfig: NextConfig = {
       { source: "/terms-of-use/", destination: "/terms/", permanent: true },
       { source: "/accessibility-statement", destination: "/accessibility/", permanent: true },
       { source: "/accessibility-statement/", destination: "/accessibility/", permanent: true },
+      { source: "/security.txt", destination: "/.well-known/security.txt", permanent: true },
     ];
   },
   async headers() {
     const headers = [...securityHeaders];
     if (process.env.NODE_ENV === "production") {
+      // preload omitted until the owner confirms HSTS preload submission.
       headers.push({
         key: "Strict-Transport-Security",
-        value: "max-age=63072000; includeSubDomains; preload",
+        value: "max-age=31536000; includeSubDomains",
       });
     }
     const immutable = [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }, ...headers];
     const day = [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }, ...headers];
+    const html = [
+      { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+      ...headers,
+    ];
 
     return [
-      { source: "/:path*", headers },
+      { source: "/:path*", headers: html },
       {
         source: "/api/:path*",
         headers: [{ key: "Cache-Control", value: "no-store, max-age=0" }, ...headers],

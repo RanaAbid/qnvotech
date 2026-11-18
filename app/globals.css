@@ -1322,7 +1322,8 @@ nextjs-portal > * {
 }
 
 .eyebrow {
-  color: #0070e8;
+  /* Darker than brand #0070E8 so normal text clears 4.5:1 on offwhite (#F4F7FA). */
+  color: #005fcc;
   font-size: 0.95rem;
   font-weight: 700;
 }
@@ -1334,7 +1335,7 @@ nextjs-portal > * {
   height: 2px;
   margin-left: 0.7rem;
   vertical-align: middle;
-  background: #0070e8;
+  background: #005fcc;
 }
 
 .hero-shell {
@@ -3371,7 +3372,7 @@ select.field optgroup {
 }
 
 .industry-eyebrow {
-  color: #0070e8;
+  color: #005fcc;
 }
 
 .industry-stat {

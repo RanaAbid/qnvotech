@@ -1,8 +1,16 @@
-import { ContactForm } from "@/components/ContactForm";
+import dynamic from "next/dynamic";
 import { InnerPage } from "@/components/InnerPage";
 import { Container } from "@/components/ui";
 import { pageMetadata, webPageNode } from "@/lib/seo";
 import { publicEmail } from "@/lib/site";
+
+const ContactForm = dynamic(() => import("@/components/ContactForm").then((mod) => mod.ContactForm), {
+  loading: () => (
+    <p className="rounded-2xl border border-navy/10 bg-white p-6 text-slate">
+      Loading the contact form…
+    </p>
+  ),
+});
 
 const contactTitle = "Contact Us for Software Projects | QNVO Technologies";
 const contactDescription =

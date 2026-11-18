@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-import { insights } from "@/content/insights";
-import { absoluteUrl, legalPagesIndexable, siteUrl } from "@/lib/site";
+import { legalPagesIndexable, siteUrl } from "@/lib/site";
 
 const agents = ["*", "GPTBot", "OAI-SearchBot", "ClaudeBot", "PerplexityBot", "Google-Extended", "CCBot"];
 
@@ -11,11 +10,7 @@ export default function robots(): MetadataRoute.Robots {
     disallow.push("/privacy/", "/terms/", "/accessibility/");
   }
 
-  // Draft insight URLs stay reachable for preview but should not be prioritized for crawling.
-  for (const article of insights) {
-    if (article.draft) disallow.push(`/insights/${article.slug}/`);
-  }
-
+  // Draft insights return 200 with noindex via page metadata — do not Disallow live URLs.
   // Legacy legal aliases redirect permanently; keep them out of crawl queues.
   disallow.push("/privacy-policy/", "/terms-of-use/", "/accessibility-statement/");
 
@@ -25,7 +20,8 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow,
     })),
-    sitemap: absoluteUrl("/sitemap.xml"),
+    // Sitemap path must not get a trailing slash (absoluteUrl adds one for HTML routes).
+    sitemap: `${siteUrl}/sitemap.xml`,
     host: siteUrl,
   };
 }

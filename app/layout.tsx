@@ -6,7 +6,6 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { BackToTop } from "@/components/Motion";
 import { StructuredData } from "@/components/JsonLd";
-import { SiteNotify } from "@/components/SiteNotify";
 import { SkipLink } from "@/components/ui";
 import { organizationNode, websiteNode } from "@/lib/seo";
 import { absoluteUrl, companyName, defaultDescription, siteUrl } from "@/lib/site";
@@ -94,7 +93,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Footer />
           </div>
           <BackToTop />
-          <SiteNotify />
         </ConsentProvider>
       </body>
     </html>

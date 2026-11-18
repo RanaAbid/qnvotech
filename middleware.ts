@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-function contentSecurityPolicy(nonce: string, isLocal: boolean): string {
+function contentSecurityPolicy(nonce: string, isLocal: boolean, mode: "enforce" | "report"): string {
   const scriptSrc = [
     "'self'",
     `'nonce-${nonce}'`,
@@ -11,13 +11,15 @@ function contentSecurityPolicy(nonce: string, isLocal: boolean): string {
   ];
   if (process.env.NODE_ENV !== "production") scriptSrc.push("'unsafe-eval'");
 
+  // Enforce keeps style unsafe-inline (SweetAlert2 + React style attrs). Report-Only
+  // drops it so violations can be collected before a stricter enforce pass.
+  const styleSrc = mode === "enforce" ? "style-src 'self' 'unsafe-inline'" : "style-src 'self'";
+
   const directives = [
     "default-src 'self'",
     `script-src ${scriptSrc.join(" ")}`,
     "script-src-attr 'none'",
-    // Styles: SweetAlert2 + React need inline style attrs; bundled CSS stays on 'self'.
-    // Script nonce remains fail-closed above. Style nonce alone blocks Swal injection.
-    "style-src 'self' 'unsafe-inline'",
+    styleSrc,
     "img-src 'self' blob: data: https://www.google-analytics.com",
     "font-src 'self'",
     "object-src 'none'",
@@ -38,13 +40,16 @@ export function middleware(request: NextRequest) {
   const nonce = btoa(crypto.randomUUID());
   const host = request.nextUrl.hostname;
   const isLocal = host === "localhost" || host === "127.0.0.1";
-  const policy = contentSecurityPolicy(nonce, isLocal);
+  const policy = contentSecurityPolicy(nonce, isLocal, "enforce");
+  const reportOnly = contentSecurityPolicy(nonce, isLocal, "report");
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
   requestHeaders.set("Content-Security-Policy", policy);
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", policy);
+  // Stricter policy in report-only: collect style/script violations without breaking pages.
+  response.headers.set("Content-Security-Policy-Report-Only", reportOnly);
   return response;
 }
 

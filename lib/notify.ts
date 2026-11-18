@@ -1,6 +1,7 @@
 "use client";
 
 import Swal, { type SweetAlertOptions, type SweetAlertResult } from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const fieldLabels: Record<string, string> = {
   name: "Full name",

@@ -2,9 +2,6 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { HeroPanel } from "@/components/HeroMotion";
 import { Cta } from "@/components/Cta";
-import { FaqList } from "@/components/FaqList";
-import { HomeMarquee } from "@/components/HomeMarquee";
-import { LogoIntro } from "@/components/LogoIntro";
 import { Reveal } from "@/components/Motion";
 import { ColorBand } from "@/components/SectionBackdrop";
 import { ServiceCard } from "@/components/ServiceCard";
@@ -15,10 +12,15 @@ import { caseStudies, faqs, processSteps, services, servicesInOrder } from "@/li
 import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 import { getServices } from "@/lib/sanity";
 
+const LogoIntro = dynamic(() => import("@/components/LogoIntro").then((mod) => mod.LogoIntro));
+const HomeMarquee = dynamic(() => import("@/components/HomeMarquee").then((mod) => mod.HomeMarquee), {
+  loading: () => <div className="marquee" aria-hidden="true" />,
+});
 const ProcessFilm = dynamic(() => import("@/components/ProcessFilm").then((mod) => mod.ProcessFilm), {
   loading: () => <section className="process-film" aria-hidden="true" />,
 });
 const IndustriesHome = dynamic(() => import("@/components/IndustriesHome").then((mod) => mod.IndustriesHome));
+const FaqList = dynamic(() => import("@/components/FaqList").then((mod) => mod.FaqList));
 
 const homeTitle = "AI, Web Development & Technical SEO Company | QNVO Technologies";
 const homeDescription =
