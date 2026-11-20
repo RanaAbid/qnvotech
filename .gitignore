@@ -1,9 +1,10 @@
 node_modules
 .next
 out
-.env
+# Commit non-secret `.env` defaults. Keep secrets out of git.
 .env.local
 .env*.local
+.env.secrets
 *.tsbuildinfo
 npm-debug.log*
 .DS_Store
