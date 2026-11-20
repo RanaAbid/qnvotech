@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import { headers } from "next/headers";
+import Script from "next/script";
 import { ConsentProvider } from "@/components/ConsentBanner";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -77,11 +78,24 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const nonce = (await headers()).get("x-nonce") ?? "";
-  const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "";
+  // Prefer GTM container; fall back to GA4 measurement ID if only that is configured.
+  const measurementId =
+    process.env.NEXT_PUBLIC_GTM_ID?.trim() ||
+    process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ||
+    "GTM-MZHN4NQS";
+  const isGtm = /^GTM-[A-Z0-9]+$/i.test(measurementId);
 
   return (
     <html lang="en" className={`${sora.variable} ${inter.variable}`}>
       <body data-csp-nonce={nonce} className="bg-offwhite font-sans text-slate antialiased">
+        <Script
+          id="qnvo-gtag-bootstrap"
+          strategy="beforeInteractive"
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});gtag('js',new Date());`,
+          }}
+        />
         <StructuredData data={[organizationNode(), websiteNode()]} />
         <ConsentProvider measurementId={measurementId} nonce={nonce}>
           <div className="flex min-h-screen flex-col">
@@ -94,6 +108,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </div>
           <BackToTop />
         </ConsentProvider>
+        {isGtm ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(measurementId)}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="Google Tag Manager"
+            />
+          </noscript>
+        ) : null}
       </body>
     </html>
   );
