@@ -10,7 +10,7 @@ import {
   ProductHeroMedia,
   ProductModuleBoard,
 } from "@/components/ProductShowcase";
-import { Container, TextLink } from "@/components/ui";
+import { Container } from "@/components/ui";
 import { productBySlug, productSlugs, products } from "@/content/products";
 import { services } from "@/lib/data";
 import { faqNode, pageMetadata, softwareApplicationNode, webPageNode } from "@/lib/seo";
@@ -153,30 +153,50 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
       <section className="product-modules-stage py-14 md:py-20" aria-labelledby={`${product.slug}-modules-heading`}>
         <Container>
-          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.18fr)] lg:gap-10">
-            <Reveal variant="left">
-              <p className="eyebrow">Modules</p>
-              <h2 id={`${product.slug}-modules-heading`} className="mt-3 font-display text-[1.75rem] font-bold md:text-[2.25rem]">
-                Application areas
-              </h2>
-              <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate">
-                Each chip is a product area in {product.shortName}. Permissions and channel setup still decide what each user can open.
-              </p>
-              <p className="mt-4 leading-relaxed text-slate">{product.notClaimed}</p>
-              {related.length > 0 ? (
-                <ul className="mt-5 grid gap-2">
+          <Reveal>
+            <header className="product-modules-head">
+              <div className="product-modules-head-copy">
+                <p className="eyebrow">Modules</p>
+                <h2 id={`${product.slug}-modules-heading`} className="mt-3 font-display text-[1.75rem] font-bold md:text-[2.35rem]">
+                  Application areas
+                </h2>
+                <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate">
+                  Each tile is a product area in {product.shortName}. Hover or tap to focus one — permissions and setup still
+                  decide what each user can open.
+                </p>
+                <p className="mt-3 max-w-2xl leading-relaxed text-slate">{product.notClaimed}</p>
+              </div>
+              <div className="product-modules-head-badge" aria-hidden="true">
+                <span className="product-modules-head-badge-label">{product.statusLabel}</span>
+                <strong>{product.modules.length}</strong>
+                <span>modules</span>
+              </div>
+            </header>
+          </Reveal>
+
+          <Reveal className="mt-8" variant="scale">
+            <ProductModuleBoard product={product} />
+          </Reveal>
+
+          {related.length > 0 ? (
+            <Reveal className="mt-8">
+              <div className="product-modules-related">
+                <p className="product-modules-related-label">Related services</p>
+                <ul>
                   {related.map((service) => (
                     <li key={service.slug}>
-                      <TextLink href={`/services/${service.slug}/`}>Related: {service.title}</TextLink>
+                      <Link href={`/services/${service.slug}/`} className="product-modules-related-link">
+                        <span>{service.title}</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.2">
+                          <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg>
+                      </Link>
                     </li>
                   ))}
                 </ul>
-              ) : null}
+              </div>
             </Reveal>
-            <Reveal variant="scale">
-              <ProductModuleBoard product={product} />
-            </Reveal>
-          </div>
+          ) : null}
         </Container>
       </section>
 

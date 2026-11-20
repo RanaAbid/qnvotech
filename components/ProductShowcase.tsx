@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { PictureFill } from "@/components/OptimizedImage";
 import { Reveal } from "@/components/Motion";
 import type { Product } from "@/content/products";
@@ -56,30 +57,108 @@ export function ProductGallery({ product }: { product: Product }) {
 }
 
 export function ProductModuleBoard({ product }: { product: Product }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const total = product.modules.length;
+
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -6% 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible || paused || total < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % total);
+    }, 2200);
+    return () => window.clearInterval(timer);
+  }, [visible, paused, total]);
+
+  const activeLabel = product.modules[active] ?? product.modules[0] ?? "";
+
   return (
-    <div className="product-module-board" aria-label={`${product.shortName} application modules`}>
-      <div className="product-module-board-fx" aria-hidden="true">
-        <span className="product-module-ring product-module-ring-a" />
-        <span className="product-module-ring product-module-ring-b" />
-        <span className="product-module-orb product-module-orb-a" />
-        <span className="product-module-orb product-module-orb-b" />
+    <div
+      ref={rootRef}
+      className={`product-module-deck${visible ? " is-visible" : ""}`}
+      aria-label={`${product.shortName} application modules`}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setPaused(false);
+        }
+      }}
+    >
+      <div className="product-module-deck-fx" aria-hidden="true">
+        <span className="product-module-beam" />
+        <span className="product-module-gridline" />
       </div>
-      <div className="product-module-core" aria-hidden="true">
-        <p className="product-module-core-kicker">{product.statusLabel}</p>
-        <p className="product-module-core-title">{product.shortName}</p>
-        <p className="product-module-core-count">{product.modules.length} modules</p>
+
+      <div className="product-module-focus">
+        <span className="product-module-focus-watermark" aria-hidden="true" key={`wm-${active}`}>
+          {String(active + 1).padStart(2, "0")}
+        </span>
+        <div className="product-module-focus-meta">
+          <span className="product-module-focus-status">{product.statusLabel}</span>
+          <span className="product-module-focus-count">
+            {String(active + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </span>
+        </div>
+        <p className="product-module-focus-kicker">{product.shortName} module</p>
+        <p className="product-module-focus-title" key={activeLabel}>
+          {activeLabel}
+        </p>
+        <div className="product-module-focus-track" aria-hidden="true">
+          <span
+            className="product-module-focus-progress"
+            style={{ width: `${((active + 1) / Math.max(total, 1)) * 100}%` }}
+          />
+        </div>
       </div>
-      <ul className="product-module-constellation stagger-host">
-        {product.modules.map((module, index) => (
-          <li
-            key={module}
-            className={`product-module-chip product-module-chip-${(index % 6) + 1}`}
-            style={{ animationDelay: `${index * 0.11}s` }}
-          >
-            <span className="product-module-chip-index">{String(index + 1).padStart(2, "0")}</span>
-            <span className="product-module-chip-label">{module}</span>
-          </li>
-        ))}
+
+      <ul className="product-module-mosaic">
+        {product.modules.map((module, index) => {
+          const isActive = index === active;
+          return (
+            <li key={module} className="product-module-mosaic-item" style={{ ["--i" as string]: index }}>
+              <button
+                type="button"
+                className={`product-module-tile${isActive ? " is-active" : ""}`}
+                aria-pressed={isActive}
+                onMouseEnter={() => setActive(index)}
+                onFocus={() => setActive(index)}
+                onClick={() => setActive(index)}
+              >
+                <span className="product-module-tile-index">{String(index + 1).padStart(2, "0")}</span>
+                <span className="product-module-tile-label">{module}</span>
+                <span className="product-module-tile-pulse" aria-hidden="true" />
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
