@@ -60,6 +60,8 @@ const nextConfig: NextConfig = {
       ...headers,
     ];
 
+    // More specific Cache-Control rules come after `/:path*` so they win when Next serves the file.
+    // LiteSpeed may still serve /images and /icons directly — see public/images|icons/.htaccess.
     return [
       { source: "/:path*", headers: html },
       {

@@ -171,7 +171,7 @@ html {
 .site-nav-link:hover,
 .site-nav-trigger:hover {
   background: rgba(0, 112, 232, 0.08);
-  color: #0070e8;
+  color: #005fcc;
 }
 
 .site-nav-trigger.is-open {
@@ -420,7 +420,7 @@ html {
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #0070e8;
+  color: #005fcc;
   text-decoration: none;
   transition:
     background 0.18s ease,
@@ -3875,7 +3875,7 @@ select.field optgroup {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #0070e8;
+  color: #005fcc;
 }
 
 .svc-group-navy .svc-group-kicker,
@@ -4329,7 +4329,7 @@ select.field optgroup {
 }
 
 .tech-group-kicker {
-  color: #0070e8;
+  color: #005fcc;
 }
 
 .tech-group-navy .tech-group-kicker,
@@ -4445,7 +4445,7 @@ select.field optgroup {
 }
 
 .tech-related-label {
-  color: #0070e8;
+  color: #005fcc;
 }
 
 .tech-group-navy .tech-related-label,
@@ -4773,7 +4773,7 @@ select.field optgroup {
 }
 
 .svc-detail-section-kicker {
-  color: #0070e8;
+  color: #005fcc;
 }
 
 .svc-detail-story h2,
@@ -5014,7 +5014,7 @@ select.field optgroup {
 }
 
 .svc-detail-rail-label {
-  color: #0070e8;
+  color: #005fcc;
 }
 
 .svc-detail-rail-title,
