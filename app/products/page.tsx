@@ -8,9 +8,9 @@ import { productsInOrder } from "@/content/products";
 import { pageMetadata, webPageNode } from "@/lib/seo";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
-const title = "QNVO Products | My POS and Software Products";
+const title = "QNVO Products | My POS, AyroChat, AyroLink and more";
 const description =
-  "QNVO Technologies products, starting with QNVO My POS for point of sale, inventory, purchases, sales and reports. Live app at my-pos.qnvotech.com. No invented prices or client counts.";
+  "QNVO Technologies product catalog: My POS, AyroChat, AyroLink, B.R.A.I.N., SecureDesk AI, AyroVoice, BudgetIQ and Dump. Live apps, demos and mobile releases — no invented prices.";
 
 export const metadata = pageMetadata({
   title,
@@ -29,7 +29,7 @@ export default function ProductsPage() {
       ]}
       eyebrow="Products"
       title="Software products from QNVO Technologies"
-      lede="Product pages describe what ships in the software. Services pages describe project work. My POS is the first public product — open the live app when you have credentials, or contact us to discuss access."
+      lede="Eight products across retail POS, messaging, IoT, AI ops, desk automation, voice, budgets and file tools. Each page lists modules, honest status and a live link or access path when one exists."
       extraGraph={[
         webPageNode({
           name: "QNVO Products",
@@ -57,10 +57,10 @@ export default function ProductsPage() {
               <div className="product-index-banner-copy">
                 <p className="eyebrow">Catalog</p>
                 <h2 id="products-catalog-heading" className="font-display text-[1.75rem] font-bold text-navy md:text-[2.25rem]">
-                  Products you can open and operate
+                  Products you can explore and open
                 </h2>
                 <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate">
-                  These pages are for product discovery and agentic browsing: clear modules, honest non-claims, and links to the live application when one exists.
+                  Clear modules, status labels and links to live apps, demos or store listings when available. No invented prices or client counts.
                 </p>
                 <p className="mt-4">
                   <TextLink href="/services/">Looking for custom project services instead?</TextLink>
@@ -88,7 +88,7 @@ export default function ProductsPage() {
 
       <Cta
         title="Need access or a rollout conversation?"
-        body="Credentials are issued by QNVO Technologies. A website visit does not create an account. Tell us about the counters, warehouses and users you need to support."
+        body="Credentials and rollout paths are handled by QNVO Technologies. A website visit does not create an account. Tell us which product and how many users or sites you need to support."
       />
     </InnerPage>
   );

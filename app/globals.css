@@ -5658,6 +5658,38 @@ select.field optgroup {
   background: #03306f;
 }
 
+.product-status-badge {
+  position: absolute;
+  z-index: 2;
+  left: 0.85rem;
+  bottom: 0.85rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: #fff;
+  background: rgba(3, 48, 111, 0.88);
+  backdrop-filter: blur(6px);
+}
+
+.product-status-live {
+  background: rgba(14, 116, 74, 0.9);
+}
+
+.product-status-private-beta {
+  background: rgba(146, 64, 14, 0.9);
+}
+
+.product-status-live-demo {
+  background: rgba(3, 48, 111, 0.9);
+}
+
+.product-status-mobile {
+  background: rgba(30, 64, 175, 0.9);
+}
+
 .product-card-media picture {
   position: absolute;
   inset: 0;
