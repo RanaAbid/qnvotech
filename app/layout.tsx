@@ -88,14 +88,41 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={`${sora.variable} ${inter.variable}`}>
       <body data-csp-nonce={nonce} className="bg-offwhite font-sans text-slate antialiased">
+        {/* Google tag — always in initial HTML so GTM install detection works. Consent Mode keeps storage denied until Allow. */}
         <Script
           id="qnvo-gtag-bootstrap"
           strategy="beforeInteractive"
           nonce={nonce}
           dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});gtag('js',new Date());`,
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});gtag('js',new Date());`,
           }}
         />
+        {isGtm ? (
+          <Script
+            id="qnvo-gtm"
+            strategy="beforeInteractive"
+            src={`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(measurementId)}`}
+            nonce={nonce}
+          />
+        ) : measurementId ? (
+          <Script
+            id="qnvo-ga"
+            strategy="beforeInteractive"
+            src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`}
+            nonce={nonce}
+          />
+        ) : null}
+        {isGtm ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(measurementId)}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="Google Tag Manager"
+            />
+          </noscript>
+        ) : null}
         <StructuredData data={[organizationNode(), websiteNode()]} />
         <ConsentProvider measurementId={measurementId} nonce={nonce}>
           <div className="flex min-h-screen flex-col">
@@ -108,17 +135,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </div>
           <BackToTop />
         </ConsentProvider>
-        {isGtm ? (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(measurementId)}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-              title="Google Tag Manager"
-            />
-          </noscript>
-        ) : null}
       </body>
     </html>
   );

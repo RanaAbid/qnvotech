@@ -21,63 +21,27 @@ declare global {
   }
 }
 
-function pushConsentDefault() {
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = (...args: unknown[]) => {
-    window.dataLayer?.push(args);
-  };
-  window.gtag("consent", "default", {
-    analytics_storage: "denied",
+function isAnalyticsTag(tagId: string): boolean {
+  return GA_ID.test(tagId) || GTM_ID.test(tagId);
+}
+
+function applyConsent(choice: Choice) {
+  window.gtag?.("consent", "update", {
+    analytics_storage: choice === "granted" ? "granted" : "denied",
     ad_storage: "denied",
     ad_user_data: "denied",
     ad_personalization: "denied",
   });
 }
 
-function loadGoogleTag(tagId: string, nonce: string) {
-  if (document.getElementById("qnvo-analytics")) return;
-
-  pushConsentDefault();
-  window.gtag?.("consent", "update", { analytics_storage: "granted" });
-  window.gtag?.("js", new Date());
-
-  const script = document.createElement("script");
-  script.id = "qnvo-analytics";
-  script.async = true;
-  if (nonce) script.nonce = nonce;
-
-  if (GTM_ID.test(tagId)) {
-    window.dataLayer?.push({
-      "gtm.start": new Date().getTime(),
-      event: "gtm.js",
-    });
-    script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(tagId)}`;
-  } else if (GA_ID.test(tagId)) {
-    window.gtag?.("config", tagId, {
-      anonymize_ip: true,
-      allow_google_signals: false,
-      allow_ad_personalization_signals: false,
-    });
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(tagId)}`;
-  } else {
-    return;
-  }
-
-  document.head.appendChild(script);
-}
-
-function isAnalyticsTag(tagId: string): boolean {
-  return GA_ID.test(tagId) || GTM_ID.test(tagId);
-}
-
 export function ConsentProvider({
   children,
   measurementId,
-  nonce,
 }: {
   children: React.ReactNode;
   measurementId: string;
-  nonce: string;
+  /** Kept for call-site compatibility; GTM/GA scripts load from the root layout. */
+  nonce?: string;
 }) {
   const enabled = isAnalyticsTag(measurementId);
   const [choice, setChoice] = useState<Choice | null>(null);
@@ -93,33 +57,17 @@ export function ConsentProvider({
     if (stored === "granted" || stored === "denied") {
       setChoice(stored);
       choiceRef.current = stored;
+      applyConsent(stored);
     }
     setReady(true);
   }, []);
 
-  useEffect(() => {
-    if (ready && choice === "granted" && enabled) loadGoogleTag(measurementId, nonce);
-  }, [ready, choice, enabled, measurementId, nonce]);
-
   const save = useCallback((next: Choice) => {
-    const previous = choiceRef.current;
     window.localStorage.setItem(STORAGE_KEY, next);
     choiceRef.current = next;
     setChoice(next);
     setForceOpen(false);
-    if (next === "denied" && previous === "granted") {
-      try {
-        window.gtag?.("consent", "update", {
-          analytics_storage: "denied",
-          ad_storage: "denied",
-          ad_user_data: "denied",
-          ad_personalization: "denied",
-        });
-      } catch {
-        // ignore
-      }
-      window.location.reload();
-    }
+    applyConsent(next);
   }, []);
 
   const showBanner = enabled && ready && (forceOpen || choice === null);
@@ -160,8 +108,8 @@ export function ConsentProvider({
         >
           <div className="mx-auto flex w-full max-w-content flex-col gap-4 px-4 py-4 sm:px-6 md:flex-row md:items-center md:justify-between">
             <p id={titleId} className="max-w-3xl text-base leading-relaxed text-offwhite">
-              Analytics stays off until you allow it. Your choice is stored in this browser only. Rejecting keeps Google Tag
-              Manager from loading. You can change this choice later.
+              Analytics storage stays off until you allow it. The Google tag is present for site measurement setup; your choice
+              is stored in this browser only. You can change it later.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <button
