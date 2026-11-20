@@ -18,8 +18,15 @@ Do not treat automated sender addresses as the public contact inbox.
 - [Partners](https://qnvotech.com/partners/): Engagement models for teams working with QNVO. No invented partner logos or reseller claims.
 - [Resources](https://qnvotech.com/resources/): Hub of public pages — delivery, services, work, insights and FAQs. No fake PDF library.
 - [Case Studies](https://qnvotech.com/case-studies/): BMS and CSM platform studies plus illustrative use cases. No invented metrics.
-- [Products](https://qnvotech.com/products/): QNVO software products. Starts with My POS.
+- [Products](https://qnvotech.com/products/): QNVO software product catalog (eight products).
 - [My POS](https://qnvotech.com/products/my-pos/): Point-of-sale product — sales, inventory, purchases, warehouses and reports. Live app: https://my-pos.qnvotech.com/
+- [QNVO Chat](https://qnvotech.com/products/ayrochat/): WhatsApp AI workspace for replies, leads, appointments and human handover.
+- [QNVO Link](https://qnvotech.com/products/ayrolink/): WhatsApp voice agent with shared context and operator takeover (private beta).
+- [QNVO B.R.A.I.N.](https://qnvotech.com/products/brain/): Multi-agent platform for website support, WhatsApp, interviews, scheduling and lead research.
+- [QNVO SecureDesk AI](https://qnvotech.com/products/securedesk-ai/): Human-first AI helpdesk for IT, security, cloud and operations.
+- [QNVO Voice](https://qnvotech.com/products/ayrovoice/): Role-aware AI interview demo with structured recruiter outcomes.
+- [QNVO BudgetIQ](https://qnvotech.com/products/budgetiq/): Local-first expense and income tracking mobile app.
+- [QNVO Dump](https://qnvotech.com/products/dump/): Focused mobile app for capturing thoughts by text or voice.
 - [Insights](https://qnvotech.com/insights/): Original writing linked to service pages. Draft articles are noindex until approved.
 - [FAQ](https://qnvotech.com/faq/): Services, regions, contact and non-promises.
 - [Contact](https://qnvotech.com/contact/): Form and info@qnvotech.com. A message is not a contract.

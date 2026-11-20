@@ -107,9 +107,17 @@ export const primaryNav: NavEntry[] = [
     href: "/products/",
     columns: [
       {
-        title: "Products",
+        title: "Operations & messaging",
         href: "/products/",
-        items: products.map((product) => ({
+        items: products.slice(0, 4).map((product) => ({
+          href: `/products/${product.slug}/`,
+          label: product.shortName,
+          description: product.tagline,
+        })),
+      },
+      {
+        title: "Desk, voice & mobile",
+        items: products.slice(4).map((product) => ({
           href: `/products/${product.slug}/`,
           label: product.shortName,
           description: product.tagline,

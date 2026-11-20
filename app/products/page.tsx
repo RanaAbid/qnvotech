@@ -8,9 +8,9 @@ import { productsInOrder } from "@/content/products";
 import { pageMetadata, webPageNode } from "@/lib/seo";
 import { absoluteUrl, siteUrl } from "@/lib/site";
 
-const title = "QNVO Products | My POS and Software Products";
+const title = "QNVO Products | My POS, Chat, Link, B.R.A.I.N. and more";
 const description =
-  "QNVO Technologies products, starting with QNVO My POS for point of sale, inventory, purchases, sales and reports. Live app at my-pos.qnvotech.com. No invented prices or client counts.";
+  "QNVO Technologies product catalog: My POS, QNVO Chat, QNVO Link, B.R.A.I.N., SecureDesk AI, QNVO Voice, BudgetIQ and Dump. Live apps, demos and mobile releases — no invented prices.";
 
 export const metadata = pageMetadata({
   title,
@@ -29,7 +29,7 @@ export default function ProductsPage() {
       ]}
       eyebrow="Products"
       title="Software products from QNVO Technologies"
-      lede="Product pages describe what ships in the software. Services pages describe project work. My POS is the first public product — open the live app when you have credentials, or contact us to discuss access."
+      lede="Eight products across retail POS, WhatsApp AI, multi-agent workflows, IT helpdesk, voice interviews, budgets and thought capture. Each page lists modules, honest status and a live link or access path when one exists."
       extraGraph={[
         webPageNode({
           name: "QNVO Products",
