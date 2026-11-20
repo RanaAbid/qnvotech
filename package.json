@@ -10,7 +10,8 @@
     "optimize:images": "node scripts/optimize-images.mjs",
     "analyze:perf": "node scripts/measure-perf.mjs",
     "analyze:a11y": "node scripts/a11y-smoke.mjs",
-    "verify:prod": "node scripts/verify-production.mjs"
+    "verify:prod": "node scripts/verify-production.mjs",
+    "package:cpanel": "node scripts/package-cpanel.mjs"
   },
   "dependencies": {
     "next": "^15.5.6",

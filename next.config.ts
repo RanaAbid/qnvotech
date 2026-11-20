@@ -15,6 +15,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Self-contained server bundle (.next/standalone) for cPanel / Passenger hosting.
+  output: "standalone",
   trailingSlash: true,
   poweredByHeader: false,
   reactStrictMode: true,
