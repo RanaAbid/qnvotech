@@ -121,7 +121,7 @@ export function ServiceDetail({
                 Start a conversation
                 <ArrowIcon />
               </Link>
-              <Link href="/process/" className="svc-detail-panel-link">
+              <Link href="/how-we-deliver/" className="svc-detail-panel-link">
                 Read the delivery process
               </Link>
             </aside>
@@ -231,7 +231,7 @@ export function ServiceDetail({
               <div className="svc-detail-links">
                 <TextLink href="/contact/">Discuss your project</TextLink>
                 <span aria-hidden="true">·</span>
-                <TextLink href="/process/">Read the delivery process</TextLink>
+                <TextLink href="/how-we-deliver/">Read the delivery process</TextLink>
                 {relatedInsight ? (
                   <>
                     <span aria-hidden="true">·</span>

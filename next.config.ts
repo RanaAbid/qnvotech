@@ -38,6 +38,8 @@ const nextConfig: NextConfig = {
       { source: "/accessibility-statement", destination: "/accessibility/", permanent: true },
       { source: "/accessibility-statement/", destination: "/accessibility/", permanent: true },
       { source: "/security.txt", destination: "/.well-known/security.txt", permanent: true },
+      { source: "/process", destination: "/how-we-deliver/", permanent: true },
+      { source: "/process/", destination: "/how-we-deliver/", permanent: true },
     ];
   },
   async headers() {

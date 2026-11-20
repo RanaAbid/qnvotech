@@ -78,7 +78,7 @@ export default function AboutPage() {
             </blockquote>
             <p className="anim-cta mt-8 flex flex-wrap gap-x-5 gap-y-2">
               <TextLink href="/contact/">Discuss a project</TextLink>
-              <TextLink href="/process/">Read the process</TextLink>
+              <TextLink href="/how-we-deliver/">Read the process</TextLink>
             </p>
           </Reveal>
           <Reveal variant="right">
@@ -172,8 +172,8 @@ export default function AboutPage() {
             </h2>
             <p className="anim-copy mt-4 text-lg leading-relaxed">{aboutPractice.body}</p>
             <p className="anim-cta mt-6">
-              <Link href="/process/" className="btn btn-blue">
-                Full process
+              <Link href="/how-we-deliver/" className="btn btn-blue">
+                How we deliver
               </Link>
             </p>
           </Reveal>

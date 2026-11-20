@@ -117,8 +117,8 @@ export function ProcessFilm() {
             <h3 className="process-film-card-title">{step.title}</h3>
             <p className="process-film-card-body">{step.body}</p>
             <div className="process-film-card-actions">
-              <Link href="/process/" className="btn btn-blue">
-                Full process
+              <Link href="/how-we-deliver/" className="btn btn-blue">
+                How we deliver
               </Link>
               <button
                 type="button"

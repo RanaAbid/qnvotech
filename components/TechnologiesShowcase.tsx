@@ -170,7 +170,7 @@ export function TechnologiesShowcase({
               <p className="tech-hero-panel-note">
                 Counts describe this page only. Vendor choice, licenses and fees belong in a written agreement.
               </p>
-              <Link href="/process/" className="tech-hero-panel-link">
+              <Link href="/how-we-deliver/" className="tech-hero-panel-link">
                 Read how delivery is scoped
               </Link>
             </aside>
@@ -193,7 +193,7 @@ export function TechnologiesShowcase({
               Browse the service catalogue or read how QNVO Technologies writes scope before tools are named.{" "}
               <TextLink href="/services/">Browse services</TextLink>
               {" · "}
-              <TextLink href="/process/">Delivery process</TextLink>
+              <TextLink href="/how-we-deliver/">Delivery process</TextLink>
               {" · "}
               <TextLink href="/industries/">Industries</TextLink>
             </p>

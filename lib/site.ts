@@ -1,7 +1,7 @@
 export const companyName = "QNVO Technologies";
 export const tagline = "Quality • Next-Gen • Vision • Operations";
 export const publicEmail = "info@qnvotech.com";
-export const contentUpdated = "2026-11-11";
+export const contentUpdated = "2026-11-20";
 export const legalPagesIndexable = false;
 
 export const defaultDescription =

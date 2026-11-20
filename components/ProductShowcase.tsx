@@ -65,7 +65,7 @@ export function ProductModuleBoard({ product }: { product: Product }) {
         <span className="product-module-orb product-module-orb-b" />
       </div>
       <div className="product-module-core" aria-hidden="true">
-        <p className="product-module-core-kicker">{product.statusLabel}</p>
+        <p className="product-module-core-kicker">Live product</p>
         <p className="product-module-core-title">{product.shortName}</p>
         <p className="product-module-core-count">{product.modules.length} modules</p>
       </div>
@@ -97,7 +97,6 @@ export function ProductCard({ product }: { product: Product }) {
             width={1200}
             height={750}
           />
-          <span className={`product-status-badge product-status-${product.status}`}>{product.statusLabel}</span>
         </div>
         <div className="product-card-body">
           <p className="eyebrow">Product</p>
@@ -108,15 +107,9 @@ export function ProductCard({ product }: { product: Product }) {
             <Link href={`/products/${product.slug}/`} className="btn btn-blue">
               View product details
             </Link>
-            {product.appUrl ? (
-              <a href={product.appUrl} className="btn btn-outline" rel="noopener noreferrer" target="_blank">
-                {product.appCta}
-              </a>
-            ) : (
-              <Link href="/contact/" className="btn btn-outline">
-                {product.appCta}
-              </Link>
-            )}
+            <a href={product.appUrl} className="btn btn-outline" rel="noopener noreferrer" target="_blank">
+              Open live app
+            </a>
           </div>
         </div>
       </article>

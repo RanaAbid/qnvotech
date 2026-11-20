@@ -14,17 +14,12 @@ Do not treat automated sender addresses as the public contact inbox.
 - [Industries](https://qnvotech.com/industries/): Sector pages describing constraints — not client logos or guaranteed outcomes.
 - [Technologies](https://qnvotech.com/technologies/): Stacks discussed for a written scope — not a partner badge wall.
 - [About](https://qnvotech.com/about/): Name, markets and facts that are intentionally omitted.
-- [Process](https://qnvotech.com/process/): From a conversation to a written scope, build and handover.
+- [How we deliver](https://qnvotech.com/how-we-deliver/): Discover, written scope, build, handover, continue only if written. Applies across service tracks. `/process/` redirects here.
+- [Partners](https://qnvotech.com/partners/): Engagement models for teams working with QNVO. No invented partner logos or reseller claims.
+- [Resources](https://qnvotech.com/resources/): Hub of public pages — delivery, services, work, insights and FAQs. No fake PDF library.
 - [Case Studies](https://qnvotech.com/case-studies/): BMS and CSM platform studies plus illustrative use cases. No invented metrics.
-- [Products](https://qnvotech.com/products/): QNVO software product catalog (eight products). No invented prices.
-- [My POS](https://qnvotech.com/products/my-pos/): Point-of-sale — sales, inventory, purchases, warehouses and reports. Live: https://my-pos.qnvotech.com/
-- [AyroChat](https://qnvotech.com/products/ayrochat/): WhatsApp AI workspace for replies, leads, appointments and handover.
-- [AyroLink](https://qnvotech.com/products/ayrolink/): WhatsApp voice agent with shared context and operator takeover (private beta).
-- [B.R.A.I.N.](https://qnvotech.com/products/brain/): Multi-agent platform for website support, WhatsApp, interviews and lead research.
-- [SecureDesk AI](https://qnvotech.com/products/securedesk-ai/): Human-first AI helpdesk for IT, security, cloud and operations.
-- [AyroVoice](https://qnvotech.com/products/ayrovoice/): Live demo of role-aware AI interviews with structured outcomes.
-- [BudgetIQ](https://qnvotech.com/products/budgetiq/): Local-first expense and income tracking mobile app.
-- [Dump](https://qnvotech.com/products/dump/): Focused mobile app for capturing thoughts by text or voice.
+- [Products](https://qnvotech.com/products/): QNVO software products. Starts with My POS.
+- [My POS](https://qnvotech.com/products/my-pos/): Point-of-sale product — sales, inventory, purchases, warehouses and reports. Live app: https://my-pos.qnvotech.com/
 - [Insights](https://qnvotech.com/insights/): Original writing linked to service pages. Draft articles are noindex until approved.
 - [FAQ](https://qnvotech.com/faq/): Services, regions, contact and non-promises.
 - [Contact](https://qnvotech.com/contact/): Form and info@qnvotech.com. A message is not a contract.
