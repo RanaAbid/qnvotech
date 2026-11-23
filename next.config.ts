@@ -9,7 +9,7 @@ const securityHeaders = [
   {
     key: "Permissions-Policy",
     value:
-      "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), usb=(), web-share=(), interest-cohort=()",
+      "accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(self), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(self), publickey-credentials-get=(), screen-wake-lock=(), usb=(), web-share=(), interest-cohort=()",
   },
   { key: "X-DNS-Prefetch-Control", value: "on" },
 ];
@@ -42,6 +42,13 @@ const nextConfig: NextConfig = {
       { source: "/security.txt", destination: "/.well-known/security.txt", permanent: true },
       { source: "/process", destination: "/how-we-deliver/", permanent: true },
       { source: "/process/", destination: "/how-we-deliver/", permanent: true },
+      // Product slug rebrand: ayro* → qnvo*
+      { source: "/products/ayrochat", destination: "/products/qnvochat/", permanent: true },
+      { source: "/products/ayrochat/", destination: "/products/qnvochat/", permanent: true },
+      { source: "/products/ayrolink", destination: "/products/qnvolink/", permanent: true },
+      { source: "/products/ayrolink/", destination: "/products/qnvolink/", permanent: true },
+      { source: "/products/ayrovoice", destination: "/products/qnvovoice/", permanent: true },
+      { source: "/products/ayrovoice/", destination: "/products/qnvovoice/", permanent: true },
     ];
   },
   async headers() {

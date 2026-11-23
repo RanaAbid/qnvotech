@@ -23,6 +23,30 @@ export function ProductHeroMedia({ product }: { product: Product }) {
   );
 }
 
+export function ProductDemoVideo({ product }: { product: Product }) {
+  if (!product.demoVideo) return null;
+
+  const title = product.demoVideoTitle ?? `${product.shortName} product demo`;
+
+  return (
+    <div className="product-demo">
+      <div className="product-demo-frame">
+        <video
+          className="product-demo-video"
+          controls
+          playsInline
+          preload="none"
+          poster={`${product.heroImage}.jpg`}
+          aria-label={title}
+        >
+          <source src={product.demoVideo} type="video/mp4" />
+        </video>
+      </div>
+      <p className="product-demo-caption">{title}</p>
+    </div>
+  );
+}
+
 export function ProductCapabilityGrid({ product }: { product: Product }) {
   return (
     <div className="product-capability-grid stagger-host">

@@ -6,6 +6,7 @@ import { InnerPage } from "@/components/InnerPage";
 import { Reveal } from "@/components/Motion";
 import {
   ProductCapabilityGrid,
+  ProductDemoVideo,
   ProductGallery,
   ProductHeroMedia,
   ProductModuleBoard,
@@ -93,6 +94,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                   {product.appCta}
                 </Link>
               )}
+              {product.demoVideo ? (
+                <a href={`#${product.slug}-demo`} className="btn btn-outline">
+                  Watch demo
+                </a>
+              ) : null}
               <Link href="/contact/" className="btn btn-outline">
                 Discuss access
               </Link>
@@ -117,7 +123,36 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </Container>
       </section>
 
-      <section className="bg-white py-14 md:py-20" aria-labelledby={`${product.slug}-capabilities-heading`}>
+      {product.demoVideo ? (
+        <section
+          id={`${product.slug}-demo`}
+          className="product-demo-section bg-white py-14 md:py-20"
+          aria-labelledby={`${product.slug}-demo-heading`}
+        >
+          <Container>
+            <Reveal>
+              <p className="eyebrow">Product demo</p>
+              <h2
+                id={`${product.slug}-demo-heading`}
+                className="mt-3 font-display text-[1.75rem] font-bold md:text-[2.25rem]"
+              >
+                See {product.shortName} in action
+              </h2>
+              <p className="mt-4 max-w-3xl text-lg text-slate">
+                A short walkthrough of the product workspace. Press play when you are ready — the video loads only after you start it.
+              </p>
+            </Reveal>
+            <Reveal className="mt-8" variant="scale">
+              <ProductDemoVideo product={product} />
+            </Reveal>
+          </Container>
+        </section>
+      ) : null}
+
+      <section
+        className={`${product.demoVideo ? "bg-[#e8eef5]" : "bg-white"} py-14 md:py-20`}
+        aria-labelledby={`${product.slug}-capabilities-heading`}
+      >
         <Container>
           <Reveal>
             <p className="eyebrow">Capabilities</p>
@@ -134,7 +169,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </Container>
       </section>
 
-      <section className="bg-[#e8eef5] py-14 md:py-20" aria-labelledby={`${product.slug}-gallery-heading`}>
+      <section
+        className={`${product.demoVideo ? "bg-white" : "bg-[#e8eef5]"} py-14 md:py-20`}
+        aria-labelledby={`${product.slug}-gallery-heading`}
+      >
         <Container>
           <Reveal>
             <p className="eyebrow">Visuals</p>
@@ -200,7 +238,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </Container>
       </section>
 
-      <section className="bg-white py-14 md:py-20" aria-labelledby={`${product.slug}-catalog-heading`}>
+      <section
+        className={`${product.demoVideo ? "bg-[#e8eef5]" : "bg-white"} py-14 md:py-20`}
+        aria-labelledby={`${product.slug}-catalog-heading`}
+      >
         <Container>
           <Reveal>
             <p className="eyebrow">Catalog</p>
@@ -220,7 +261,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </Container>
       </section>
 
-      <section className="bg-[#e8eef5] py-14 md:py-20" aria-labelledby={`${product.slug}-faq-heading`}>
+      <section
+        className={`${product.demoVideo ? "bg-white" : "bg-[#e8eef5]"} py-14 md:py-20`}
+        aria-labelledby={`${product.slug}-faq-heading`}
+      >
         <Container>
           <Reveal>
             <p className="eyebrow">FAQ</p>

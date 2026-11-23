@@ -29,6 +29,9 @@ export type Product = {
   /** Live product / demo / store URL when one exists. */
   appUrl?: string;
   appCta: string;
+  /** Optional product walkthrough video under /public (e.g. /videos/…). */
+  demoVideo?: string;
+  demoVideoTitle?: string;
   heroImage: string;
   heroAlt: string;
   gallery: { base: string; alt: string }[];
@@ -124,7 +127,7 @@ export const products: Product[] = [
     ],
   },
   {
-    slug: "ayrochat",
+    slug: "qnvochat",
     name: "QNVO Chat",
     shortName: "QNVO Chat",
     tagline: "WhatsApp AI workspace for replies, leads, appointments, follow-ups and human handover.",
@@ -137,6 +140,8 @@ export const products: Product[] = [
     statusLabel: "Live product",
     appUrl: "https://whatsapp.ayroflow.com/",
     appCta: "Open QNVO Chat",
+    demoVideo: "/videos/qnvo-chat-demo.mp4",
+    demoVideoTitle: "QNVO Chat product walkthrough",
     heroImage: "/images/product-ayrochat",
     heroAlt: "Support desk with WhatsApp conversation workspace on a laptop and phone",
     gallery: [
@@ -176,7 +181,7 @@ export const products: Product[] = [
     ],
   },
   {
-    slug: "ayrolink",
+    slug: "qnvolink",
     name: "QNVO Link",
     shortName: "QNVO Link",
     tagline: "Real-time WhatsApp voice agent with shared context, operator takeover and authorized MCP access.",
@@ -315,7 +320,7 @@ export const products: Product[] = [
     ],
   },
   {
-    slug: "ayrovoice",
+    slug: "qnvovoice",
     name: "QNVO Voice",
     shortName: "QNVO Voice",
     tagline: "Role-aware AI interviews that turn conversations into structured recruiter-ready outcomes.",
