@@ -128,7 +128,6 @@ export const primaryNav: NavEntry[] = [
         items: [
           { href: "/products/", label: "All products" },
           { href: "/products/my-pos/", label: "My POS details" },
-          { href: "/contact/", label: "Discuss product access" },
         ],
       },
     ],
@@ -168,7 +167,6 @@ export const primaryNav: NavEntry[] = [
         items: [
           { href: "/case-studies/", label: "All case studies" },
           { href: "/services/", label: "Related services" },
-          { href: "/contact/", label: "Discuss a similar project" },
         ],
       },
     ],
@@ -224,13 +222,7 @@ export const primaryNav: NavEntry[] = [
       },
       {
         title: "Connect",
-        items: [
-          { href: "/contact/", label: "Contact" },
-          { href: "/products/", label: "Products" },
-          { href: "/services/", label: "Services catalog" },
-          { href: "/industries/", label: "Industries" },
-          { href: "/technologies/", label: "Technologies" },
-        ],
+        items: [{ href: "/contact/", label: "Contact" }],
       },
     ],
     spotlight: {

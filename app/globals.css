@@ -165,13 +165,19 @@ html {
     box-shadow 0.2s ease;
 }
 
-.site-nav-link.is-active,
-.site-nav-trigger.is-active,
-.site-nav-trigger.is-open,
 .site-nav-link:hover,
-.site-nav-trigger:hover {
+.site-nav-trigger:hover,
+.site-nav-trigger.is-open {
   background: rgba(0, 112, 232, 0.08);
   color: #005fcc;
+}
+
+/* Current section only — not shared with hover/open, so Contact cannot light up other megas. */
+.site-nav-link.is-active,
+.site-nav-trigger.is-active {
+  background: rgba(0, 112, 232, 0.14);
+  color: #005fcc;
+  box-shadow: inset 0 0 0 1px rgba(0, 112, 232, 0.22);
 }
 
 .site-nav-trigger.is-open {
