@@ -38,6 +38,6 @@ Do not deploy from CI automatically. Before a release:
 
 - Legal pages live at `/privacy/`, `/terms/` and `/accessibility/`. They are drafts with owner placeholders and stay `noindex` until `legalPagesIndexable` in `lib/site.ts` is flipped after review. Older `/privacy-policy/`, `/terms-of-use/` and `/accessibility-statement/` paths redirect to the short routes.
 - Case studies describe the BMS and CSM platforms. They do not name organizations or publish measured results. Draft insights stay unlinked/`noindex` until approved.
-- Google Tag Manager (`NEXT_PUBLIC_GTM_ID`) is installed in the document head so Google can detect the tag. Consent Mode keeps analytics storage denied until Allow analytics. Optional `NEXT_PUBLIC_GA_MEASUREMENT_ID` remains a GA4 fallback.
+- Google Tag Manager (`GTM-MZHN4NQS`) and GA4 (`G-KC8ERNZR58`) are wired with code defaults so an empty cPanel `NEXT_PUBLIC_GTM_ID` cannot ship a blank tag. Consent Mode keeps analytics storage denied until Allow analytics. Set `NEXT_PUBLIC_ANALYTICS_DISABLED=1` only to turn tags off.
 - Turnstile, Resend, Sanity, Sentry and Upstash run only when their variables are set.
 - The hero is CSS motion, paused for reduced-motion. A WebGL scene was not added, so the first load stays inside a small JavaScript budget.

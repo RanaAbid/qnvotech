@@ -137,6 +137,26 @@ results.sitemap = check(
 );
 
 const home = await request("/");
+results.headers.push(
+  check(
+    "analytics GTM/GA in HTML",
+    /GTM-MZHN4NQS|googletagmanager\.com\/gtm\.js|G-KC8ERNZR58/.test(home.body) &&
+      /dataLayer|gtag\('consent'/.test(home.body) &&
+      !/"measurementId":""/.test(home.body),
+    /GTM-MZHN4NQS/.test(home.body)
+      ? "GTM id present"
+      : `missing tag (measurementId empty=${/"measurementId":""/.test(home.body)})`,
+  ),
+);
+results.headers.push(
+  check(
+    "CSP allows GTM frame/connect",
+    typeof home.headers["content-security-policy"] === "string" &&
+      home.headers["content-security-policy"].includes("googletagmanager.com") &&
+      /frame-src[^;]*googletagmanager\.com/.test(home.headers["content-security-policy"]),
+    home.headers["content-security-policy"]?.slice(0, 180) || "missing CSP",
+  ),
+);
 const securityHeaderNames = [
   "x-content-type-options",
   "x-frame-options",

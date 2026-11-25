@@ -2,12 +2,14 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
+import { AnalyticsPageViews } from "@/components/Analytics";
 import { ConsentProvider } from "@/components/ConsentBanner";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { BackToTop } from "@/components/Motion";
 import { StructuredData } from "@/components/JsonLd";
 import { SkipLink } from "@/components/ui";
+import { resolveAnalyticsConfig } from "@/lib/analytics";
 import { organizationNode, websiteNode } from "@/lib/seo";
 import { absoluteUrl, companyName, defaultDescription, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -78,44 +80,55 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const nonce = (await headers()).get("x-nonce") ?? "";
-  // Prefer GTM container; fall back to GA4 measurement ID if only that is configured.
-  const measurementId =
-    process.env.NEXT_PUBLIC_GTM_ID?.trim() ||
-    process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ||
-    "GTM-MZHN4NQS";
-  const isGtm = /^GTM-[A-Z0-9]+$/i.test(measurementId);
+  const analytics = resolveAnalyticsConfig();
+  const { gtmId, gaId, primaryId, disabled } = analytics;
+
+  // Inline bootstrap must stay ahead of gtm.js / gtag.js so Consent Mode defaults apply.
+  const bootstrap = disabled
+    ? ""
+    : [
+        "window.dataLayer=window.dataLayer||[];",
+        "function gtag(){dataLayer.push(arguments);}",
+        "gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});",
+        "gtag('js',new Date());",
+        gtmId ? `window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});` : "",
+        gaId && !gtmId ? `gtag('config','${gaId}',{anonymize_ip:true,send_page_view:false});` : "",
+      ]
+        .filter(Boolean)
+        .join("");
 
   return (
     <html lang="en" className={`${sora.variable} ${inter.variable}`}>
       <body data-csp-nonce={nonce} className="bg-offwhite font-sans text-slate antialiased">
-        {/* Google tag — always in initial HTML so GTM install detection works. Consent Mode keeps storage denied until Allow. */}
-        <Script
-          id="qnvo-gtag-bootstrap"
-          strategy="beforeInteractive"
-          nonce={nonce}
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});gtag('js',new Date());`,
-          }}
-        />
-        {isGtm ? (
+        {!disabled && bootstrap ? (
+          <Script
+            id="qnvo-gtag-bootstrap"
+            strategy="beforeInteractive"
+            nonce={nonce}
+            dangerouslySetInnerHTML={{ __html: bootstrap }}
+          />
+        ) : null}
+        {!disabled && gtmId ? (
           <Script
             id="qnvo-gtm"
-            strategy="beforeInteractive"
-            src={`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(measurementId)}`}
-            nonce={nonce}
-          />
-        ) : measurementId ? (
-          <Script
-            id="qnvo-ga"
-            strategy="beforeInteractive"
-            src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`}
+            strategy="afterInteractive"
+            src={`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`}
             nonce={nonce}
           />
         ) : null}
-        {isGtm ? (
+        {/* Standalone GA4 only when GTM is off — GTM already fires G-KC8ERNZR58 and must not double-count. */}
+        {!disabled && !gtmId && gaId ? (
+          <Script
+            id="qnvo-ga"
+            strategy="afterInteractive"
+            src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`}
+            nonce={nonce}
+          />
+        ) : null}
+        {!disabled && gtmId ? (
           <noscript>
             <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(measurementId)}`}
+              src={`https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(gtmId)}`}
               height="0"
               width="0"
               style={{ display: "none", visibility: "hidden" }}
@@ -124,7 +137,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </noscript>
         ) : null}
         <StructuredData data={[organizationNode(), websiteNode()]} />
-        <ConsentProvider measurementId={measurementId} nonce={nonce}>
+        <ConsentProvider measurementId={primaryId} gaId={gaId} nonce={nonce}>
           <div className="flex min-h-screen flex-col">
             <SkipLink />
             <Header />
@@ -134,6 +147,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <Footer />
           </div>
           <BackToTop />
+          {!disabled ? <AnalyticsPageViews gaId={gaId} standaloneGa={!gtmId} /> : null}
         </ConsentProvider>
       </body>
     </html>

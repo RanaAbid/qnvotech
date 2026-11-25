@@ -1,11 +1,10 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useId, useRef, useState } from "react";
+import { isGaId, isGtmId } from "@/lib/analytics";
 
 type Choice = "granted" | "denied";
 const STORAGE_KEY = "qnvo-analytics-consent";
-const GA_ID = /^G-[A-Z0-9]{4,32}$/;
-const GTM_ID = /^GTM-[A-Z0-9]+$/i;
 
 type ConsentValue = {
   measurementId: string;
@@ -22,7 +21,7 @@ declare global {
 }
 
 function isAnalyticsTag(tagId: string): boolean {
-  return GA_ID.test(tagId) || GTM_ID.test(tagId);
+  return isGaId(tagId) || isGtmId(tagId);
 }
 
 function applyConsent(choice: Choice) {
@@ -32,14 +31,21 @@ function applyConsent(choice: Choice) {
     ad_user_data: "denied",
     ad_personalization: "denied",
   });
+
+  window.dataLayer?.push({
+    event: "qnvo_consent_update",
+    qnvo_analytics_storage: choice === "granted" ? "granted" : "denied",
+  });
 }
 
 export function ConsentProvider({
   children,
   measurementId,
+  gaId = "",
 }: {
   children: React.ReactNode;
   measurementId: string;
+  gaId?: string;
   /** Kept for call-site compatibility; GTM/GA scripts load from the root layout. */
   nonce?: string;
 }) {
@@ -51,6 +57,20 @@ export function ConsentProvider({
   const rejectRef = useRef<HTMLButtonElement>(null);
   const settingsTriggerRef = useRef<HTMLElement | null>(null);
   const choiceRef = useRef<Choice | null>(null);
+  const configuredRef = useRef(false);
+
+  useEffect(() => {
+    if (!enabled || configuredRef.current) return;
+    configuredRef.current = true;
+
+    // Standalone GA4 config only when the primary tag is a GA id (no GTM container).
+    if (!isGtmId(measurementId) && gaId && isGaId(gaId) && window.gtag) {
+      window.gtag("config", gaId, {
+        anonymize_ip: true,
+        send_page_view: false,
+      });
+    }
+  }, [enabled, gaId, measurementId]);
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY);
