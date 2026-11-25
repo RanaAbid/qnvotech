@@ -247,5 +247,41 @@ export const primaryNav: NavEntry[] = [
 export function pathMatches(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
   const clean = href.split("#")[0];
+  if (!clean) return false;
   return pathname === clean || pathname.startsWith(clean);
+}
+
+/**
+ * Path prefixes that "belong" to each mega — used for active highlighting.
+ * Cross-links inside a panel (e.g. Contact inside Products/Work) must NOT
+ * light up that mega when the visitor is on the cross-link page.
+ */
+const megaActivePrefixes: Record<string, string[]> = {
+  services: ["/services/"],
+  industries: ["/industries/"],
+  products: ["/products/"],
+  work: ["/case-studies/"],
+  technologies: ["/technologies/"],
+  company: [
+    "/about/",
+    "/how-we-deliver/",
+    "/partners/",
+    "/resources/",
+    "/insights/",
+    "/faq/",
+    "/contact/",
+  ],
+};
+
+/** Whether a primary-nav entry should show the active/current style for this path. */
+export function entryIsActive(pathname: string, entry: NavEntry): boolean {
+  if (entry.type === "link") return pathMatches(pathname, entry.href);
+
+  const prefixes = megaActivePrefixes[entry.id];
+  if (prefixes?.length) {
+    return prefixes.some((prefix) => pathMatches(pathname, prefix));
+  }
+
+  // Fallback: only the mega's own section root — never every panel link.
+  return pathMatches(pathname, entry.href);
 }

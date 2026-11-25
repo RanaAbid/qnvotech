@@ -3342,16 +3342,6 @@ select.field optgroup {
   color: rgba(244, 247, 250, 0.72);
 }
 
-.site-footer-cookie {
-  margin-top: 0.35rem;
-}
-
-.site-footer-cookie button {
-  min-height: 2rem !important;
-  margin-top: 0.15rem !important;
-  font-size: 0.86rem;
-}
-
 .site-footer-bar {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }

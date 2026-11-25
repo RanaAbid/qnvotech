@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { OptimizedImage, PictureFill } from "@/components/OptimizedImage";
 import { Container } from "@/components/ui";
-import { pathMatches, primaryNav, type NavEntry } from "@/lib/navigation";
+import { entryIsActive, primaryNav } from "@/lib/navigation";
 import { publicEmail, tagline } from "@/lib/site";
 
 function MenuIcon({ open }: { open: boolean }) {
@@ -35,12 +35,6 @@ function Chevron({ open }: { open?: boolean }) {
       <path d="m6 9 6 6 6-6" />
     </svg>
   );
-}
-
-function entryActive(pathname: string, entry: NavEntry): boolean {
-  if (entry.type === "link") return pathMatches(pathname, entry.href);
-  if (pathMatches(pathname, entry.href)) return true;
-  return entry.columns.some((column) => column.items.some((item) => pathMatches(pathname, item.href.split("#")[0])));
 }
 
 function getFocusable(root: HTMLElement): HTMLElement[] {
@@ -197,7 +191,7 @@ export function Header() {
           <nav aria-label="Primary" className="site-nav-desktop">
             <ul className="site-nav-list">
               {primaryNav.map((entry) => {
-                const active = entryActive(pathname, entry);
+                const active = entryIsActive(pathname, entry);
                 if (entry.type === "link") {
                   return (
                     <li key={entry.id}>
@@ -374,7 +368,7 @@ export function Header() {
                     <li key={entry.id}>
                       <Link
                         href={entry.href}
-                        aria-current={entryActive(pathname, entry) ? "page" : undefined}
+                        aria-current={entryIsActive(pathname, entry) ? "page" : undefined}
                         className="site-mobile-link"
                         onClick={() => closeMobile(false)}
                       >

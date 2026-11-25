@@ -38,7 +38,7 @@ export const privacyPolicy: LegalDocument = {
     {
       heading: "Cookies",
       paragraphs: [
-        "The Google tag may be present in page code for measurement setup. Analytics storage stays denied until a visitor allows analytics cookies. If analytics is declined, Consent Mode keeps analytics storage denied. If no measurement ID is configured, the tag is not added.",
+        "The Google tag (Google Tag Manager / Google Analytics 4) may load for site measurement when a measurement ID is configured. Advertising storage stays off in the default tag settings on this site.",
         "Essential cookies or similar storage may be needed for security or preference settings. This draft does not claim a finished cookie inventory.",
       ],
       placeholders: [

@@ -3,7 +3,6 @@ import { Inter, Sora } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
 import { AnalyticsPageViews } from "@/components/Analytics";
-import { ConsentProvider } from "@/components/ConsentBanner";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { BackToTop } from "@/components/Motion";
@@ -81,15 +80,15 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const nonce = (await headers()).get("x-nonce") ?? "";
   const analytics = resolveAnalyticsConfig();
-  const { gtmId, gaId, primaryId, disabled } = analytics;
+  const { gtmId, gaId, disabled } = analytics;
 
-  // Inline bootstrap must stay ahead of gtm.js / gtag.js so Consent Mode defaults apply.
+  // Bootstrap ahead of gtm.js / gtag.js. Analytics storage is granted; ads stay denied.
   const bootstrap = disabled
     ? ""
     : [
         "window.dataLayer=window.dataLayer||[];",
         "function gtag(){dataLayer.push(arguments);}",
-        "gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});",
+        "gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});",
         "gtag('js',new Date());",
         gtmId ? `window.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});` : "",
         gaId && !gtmId ? `gtag('config','${gaId}',{anonymize_ip:true,send_page_view:false});` : "",
@@ -137,18 +136,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </noscript>
         ) : null}
         <StructuredData data={[organizationNode(), websiteNode()]} />
-        <ConsentProvider measurementId={primaryId} gaId={gaId} nonce={nonce}>
-          <div className="flex min-h-screen flex-col">
-            <SkipLink />
-            <Header />
-            <main id="main-content" tabIndex={-1} className="main-content flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
-          <BackToTop />
-          {!disabled ? <AnalyticsPageViews gaId={gaId} standaloneGa={!gtmId} /> : null}
-        </ConsentProvider>
+        <div className="flex min-h-screen flex-col">
+          <SkipLink />
+          <Header />
+          <main id="main-content" tabIndex={-1} className="main-content flex-1">
+            {children}
+          </main>
+          <Footer />
+        </div>
+        <BackToTop />
+        {!disabled ? <AnalyticsPageViews gaId={gaId} standaloneGa={!gtmId} /> : null}
       </body>
     </html>
   );

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CookieSettingsButton } from "@/components/ConsentBanner";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { Container } from "@/components/ui";
 import { services, servicesInOrder } from "@/lib/data";
@@ -121,9 +120,6 @@ export function Footer() {
               ))}
             </ul>
             <p className="site-footer-note">These pages are drafts and are not indexed.</p>
-            <div className="site-footer-cookie">
-              <CookieSettingsButton />
-            </div>
           </nav>
         </div>
       </Container>
