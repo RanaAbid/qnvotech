@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // Hide the bottom-left Next.js "Issue" / portal badge in local dev UI.
   devIndicators: false,
+  // Local preview often opens via 127.0.0.1 while the app listens on localhost (and vice versa).
+  allowedDevOrigins: ["127.0.0.1", "localhost"],
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],

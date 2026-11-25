@@ -2,7 +2,9 @@ import Link from "next/link";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import { Container } from "@/components/ui";
 import { services, servicesInOrder } from "@/lib/data";
-import { publicEmail, tagline } from "@/lib/site";
+import { contentUpdated, publicEmail, tagline } from "@/lib/site";
+
+const copyrightYear = Number.parseInt(contentUpdated.slice(0, 4), 10) || 2026;
 
 const company = [
   { href: "/about/", label: "About" },
@@ -82,6 +84,9 @@ export function Footer() {
           <a className="site-footer-email" href={`mailto:${publicEmail}`}>
             {publicEmail}
           </a>
+          <Link href="/contact/" className="site-footer-cta">
+            Discuss a project
+          </Link>
         </div>
 
         <div className="site-footer-links">
@@ -94,14 +99,16 @@ export function Footer() {
                 </li>
               ))}
               <li>
-                <Link href="/services/">All services</Link>
+                <Link href="/services/" className="site-footer-link-strong">
+                  All services
+                </Link>
               </li>
             </ul>
           </nav>
 
-          <nav className="site-footer-col" aria-label="Company">
+          <nav className="site-footer-col site-footer-col--company" aria-label="Company">
             <h2 className="site-footer-heading">Company</h2>
-            <ul className="site-footer-list">
+            <ul className="site-footer-list site-footer-list--company">
               {company.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href}>{item.label}</Link>
@@ -110,9 +117,9 @@ export function Footer() {
             </ul>
           </nav>
 
-          <nav className="site-footer-col" aria-label="Legal">
+          <nav className="site-footer-col site-footer-col--legal" aria-label="Legal">
             <h2 className="site-footer-heading">Legal drafts</h2>
-            <ul className="site-footer-list">
+            <ul className="site-footer-list site-footer-list--legal">
               {legal.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href}>{item.label}</Link>
@@ -126,9 +133,8 @@ export function Footer() {
 
       <div className="site-footer-bar relative z-10">
         <Container className="site-footer-bar-inner">
-          <p>
-            © {new Date().getFullYear()} QNVO Technologies. No client names, prices or office addresses are published on
-            this site.
+          <p className="site-footer-copy">
+            © {copyrightYear} QNVO Technologies. No client names, prices or office addresses are published on this site.
           </p>
         </Container>
       </div>

@@ -6,6 +6,8 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "QNVO",
     description: "Enterprise software, AI agents, ERP and technology services from QNVO Technologies.",
     start_url: "/",
+    scope: "/",
+    id: "/",
     display: "standalone",
     background_color: "#FFFFFF",
     theme_color: "#02285F",

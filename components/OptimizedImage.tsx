@@ -6,8 +6,11 @@ type Props = Omit<ImageProps, "src"> & {
 };
 
 /** Pre-built WebP source; Next still prefers AVIF via `images.formats` when optimizing. */
-export function OptimizedImage({ base, alt, ...rest }: Props) {
-  return <Image src={`${base}.webp`} alt={alt} {...rest} />;
+export function OptimizedImage({ base, alt, style, fill, ...rest }: Props) {
+  // When CSS changes height (e.g. h-9), Next warns unless width is explicitly "auto".
+  // Skip for `fill` images — those are sized by the positioned parent.
+  const ratioStyle = fill ? style : { width: "auto", ...style };
+  return <Image src={`${base}.webp`} alt={alt} fill={fill} style={ratioStyle} {...rest} />;
 }
 
 type PictureFillProps = {

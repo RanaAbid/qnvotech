@@ -159,7 +159,7 @@ export function HeroPanel() {
       aria-labelledby={labelId}
     >
       <div
-        className="hero-grid relative z-10 flex flex-col justify-center px-4 py-12 sm:px-6 sm:py-14 md:px-10 md:py-20 lg:px-16 lg:pr-24"
+        className="hero-copy-pane hero-grid relative z-10 flex flex-col justify-center px-4 py-12 sm:px-6 sm:py-14 md:px-10 md:py-20 lg:px-16 lg:pr-24"
         onMouseEnter={pause}
         onMouseLeave={resume}
         onFocusCapture={pause}
@@ -181,17 +181,17 @@ export function HeroPanel() {
                 // Keep copy in the DOM for SEO; only park focus on inactive CTAs.
                 {...(!isOn ? { inert: true } : {})}
               >
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-amber">{slide.eyebrow}</p>
+                <p className="hero-eyebrow text-sm font-semibold uppercase tracking-[0.16em] text-amber">{slide.eyebrow}</p>
                 <TitleTag
-                  className={`mt-4 max-w-xl font-display text-[2.05rem] font-bold leading-[1.08] text-white md:text-5xl lg:text-[3.05rem]${
+                  className={`hero-title mt-3 max-w-xl font-display text-[1.7rem] font-bold leading-[1.1] text-white sm:mt-4 sm:text-[2.05rem] md:text-5xl lg:text-[3.05rem]${
                     slideIndex === 0 ? "" : " hero-slide-title"
                   }`}
                 >
                   {slide.title}
                 </TitleTag>
-                <p className="mt-4 max-w-xl text-lg font-semibold text-white">{slide.line}</p>
-                <p className="mt-4 max-w-xl text-lg leading-relaxed text-offwhite">{slide.copy}</p>
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <p className="hero-line mt-3 max-w-xl text-base font-semibold text-white sm:mt-4 sm:text-lg">{slide.line}</p>
+                <p className="hero-body mt-3 max-w-xl text-base leading-relaxed text-offwhite sm:mt-4 sm:text-lg">{slide.copy}</p>
+                <div className="hero-cta-row mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
                   <Link href={slide.primary.href} className="btn btn-blue" tabIndex={isOn ? undefined : -1}>
                     {slide.primary.label}
                     <Arrow />

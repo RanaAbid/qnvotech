@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import { headers } from "next/headers";
-import Script from "next/script";
 import { AnalyticsPageViews } from "@/components/Analytics";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -96,32 +95,38 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         .filter(Boolean)
         .join("");
 
+  // Browsers strip `nonce` from the DOM after applying CSP. That makes React see a
+  // server/client attribute mismatch on hydration — suppress those false warnings.
   return (
-    <html lang="en" className={`${sora.variable} ${inter.variable}`}>
-      <body data-csp-nonce={nonce} className="bg-offwhite font-sans text-slate antialiased">
+    <html lang="en" className={`${sora.variable} ${inter.variable}`} suppressHydrationWarning>
+      <body data-csp-nonce={nonce} className="bg-offwhite font-sans text-slate antialiased" suppressHydrationWarning>
         {!disabled && bootstrap ? (
-          <Script
+          <script
             id="qnvo-gtag-bootstrap"
-            strategy="beforeInteractive"
-            nonce={nonce}
+            nonce={nonce || undefined}
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{ __html: bootstrap }}
           />
         ) : null}
         {!disabled && gtmId ? (
-          <Script
+          // eslint-disable-next-line @next/next/no-sync-scripts -- async GTM; native tag avoids next/script nonce hydration mismatch
+          <script
             id="qnvo-gtm"
-            strategy="afterInteractive"
+            async
             src={`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`}
-            nonce={nonce}
+            nonce={nonce || undefined}
+            suppressHydrationWarning
           />
         ) : null}
         {/* Standalone GA4 only when GTM is off — GTM already fires G-KC8ERNZR58 and must not double-count. */}
         {!disabled && !gtmId && gaId ? (
-          <Script
+          // eslint-disable-next-line @next/next/no-sync-scripts -- async gtag; native tag avoids next/script nonce hydration mismatch
+          <script
             id="qnvo-ga"
-            strategy="afterInteractive"
+            async
             src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`}
-            nonce={nonce}
+            nonce={nonce || undefined}
+            suppressHydrationWarning
           />
         ) : null}
         {!disabled && gtmId ? (
