@@ -6,10 +6,10 @@ import { Reveal } from "@/components/Motion";
 import { ColorBand } from "@/components/SectionBackdrop";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Container, TextLink } from "@/components/ui";
-import { StructuredData } from "@/components/JsonLd";
+import { FaqStructuredData, StructuredData } from "@/components/JsonLd";
 import { industries } from "@/content/industries";
 import { caseStudies, faqs, processSteps, services, servicesInOrder } from "@/lib/data";
-import { breadcrumbNode, faqNode, pageMetadata, webPageNode } from "@/lib/seo";
+import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 import { getServices } from "@/lib/sanity";
 
 const LogoIntro = dynamic(() => import("@/components/LogoIntro").then((mod) => mod.LogoIntro));
@@ -48,9 +48,9 @@ export default async function HomePage() {
             path: "/",
           }),
           breadcrumbNode([{ name: "Home", path: "/" }]),
-          faqNode(faqs.slice(0, 3)),
         ]}
       />
+      <FaqStructuredData items={faqs.slice(0, 3)} />
       <section className="hero-shell">
         <HeroPanel />
       </section>

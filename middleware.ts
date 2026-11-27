@@ -33,7 +33,8 @@ function contentSecurityPolicy(nonce: string, isLocal: boolean, mode: "enforce" 
     "worker-src 'self'",
     "media-src 'self'",
   ];
-  if (!isLocal) directives.push("upgrade-insecure-requests");
+  // Enforce only — Report-Only must not include upgrade-insecure-requests (Lighthouse Best Practices).
+  if (!isLocal && mode === "enforce") directives.push("upgrade-insecure-requests");
   return directives.join("; ");
 }
 

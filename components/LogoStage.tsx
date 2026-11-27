@@ -74,12 +74,12 @@ export function LogoStage({ size = "hero", className = "" }: Props) {
             base={
               size === "intro"
                 ? "/logo/qnvo-logo-horizontal-transparent"
-                : "/logo/qnvo-logo-full-lockup-transparent"
+                : "/logo/qnvo-logo-stage-mark"
             }
             alt=""
-            width={size === "intro" ? 320 : 280}
-            height={size === "intro" ? 116 : 186}
-            sizes={size === "intro" ? "220px" : "(min-width: 1024px) 240px, 180px"}
+            width={size === "intro" ? 320 : 180}
+            height={size === "intro" ? 116 : 112}
+            sizes={size === "intro" ? "220px" : "180px"}
             className="logo-stage-mark"
             // Intro must stay out of the LCP race; hero mark is below the fold on mobile.
             priority={false}
