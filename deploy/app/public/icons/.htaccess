@@ -1,0 +1,4 @@
+# LiteSpeed/Apache often serves /icons/* outside Next.js — set long cache here.
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

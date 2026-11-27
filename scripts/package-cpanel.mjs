@@ -50,8 +50,9 @@ if (existsSync(sharpPkg)) {
 console.log("Creating zip ...");
 if (process.platform === "win32") {
   // Windows' built-in bsdtar writes zip archives with -a (and keeps the hidden .next folder).
-  execFileSync("C:\\Windows\\System32\\tar.exe", ["-a", "-c", "-f", zipPath, "-C", appDir, "."], { stdio: "inherit" });
+  // List entries by name (not ".") so paths have no "./" prefix — cPanel's extractor mishandles it.
+  execFileSync("C:\\Windows\\System32\\tar.exe", ["-a", "-c", "-f", zipPath, "-C", appDir, ...readdirSync(appDir)], { stdio: "inherit" });
 } else {
-  execFileSync("zip", ["-qr", zipPath, "."], { cwd: appDir, stdio: "inherit" });
+  execFileSync("zip", ["-qr", zipPath, ...readdirSync(appDir)], { cwd: appDir, stdio: "inherit" });
 }
 console.log(`Done: ${zipPath}`);
