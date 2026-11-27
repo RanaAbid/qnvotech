@@ -13,3 +13,7 @@ scripts/.perf-summary.json
 
 # cPanel deploy bundle (built locally, not committed)
 /deploy
+
+# Local browser-check leftovers
+.tmp-nav*
+.tmp-nav2/

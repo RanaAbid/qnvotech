@@ -82,6 +82,18 @@ export function Header() {
   }, [pathname]);
 
   useEffect(() => {
+    const header = rootRef.current;
+    if (!header) return;
+    const apply = () => {
+      document.documentElement.style.setProperty("--site-header-offset", `${header.offsetHeight}px`);
+    };
+    apply();
+    const observer = new ResizeObserver(apply);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (!mobileOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
