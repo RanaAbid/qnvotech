@@ -1,0 +1,31 @@
+---
+# cPanel Git Version Control deployment ("Deploy HEAD Commit").
+# Builds the Next.js site on the server and copies the standalone bundle
+# into the Node.js app root used by "Setup Node.js App" (startup file: server.js).
+#
+# Requirements:
+#   - Node.js app created in cPanel with Application root "qnvotech".
+#   - The cPanel clone of this repo must have a clean working tree.
+deployment:
+  tasks:
+    # Where the running app lives (Setup Node.js App > Application root).
+    - export APPDIR="$HOME/qnvotech"
+    # Use the Node.js 22 build that cPanel provides (CloudLinux or EasyApache path).
+    - export PATH="/opt/alt/alt-nodejs22/root/usr/bin:/opt/cpanel/ea-nodejs22/bin:$PATH"
+    - export NEXT_TELEMETRY_DISABLED=1
+
+    # 1. Install dependencies (dev deps are needed for the build) and build.
+    - npm ci --include=dev --no-audit --no-fund
+    - npm run build
+
+    # 2. Copy the standalone server, static assets and public files into the app root.
+    - mkdir -p "$APPDIR/.next" "$APPDIR/public" "$APPDIR/tmp"
+    - /bin/rsync -a --delete .next/standalone/node_modules/ "$APPDIR/node_modules/"
+    - /bin/rsync -a --delete --exclude static .next/standalone/.next/ "$APPDIR/.next/"
+    - /bin/rsync -a --delete .next/static/ "$APPDIR/.next/static/"
+    - /bin/rsync -a --delete public/ "$APPDIR/public/"
+    - /bin/cp -f .next/standalone/server.js .next/standalone/package.json "$APPDIR/"
+    - if [ -f .env ]; then /bin/cp -f .env "$APPDIR/.env"; fi
+
+    # 3. Restart the app (Passenger reloads when tmp/restart.txt changes).
+    - /bin/touch "$APPDIR/tmp/restart.txt"
