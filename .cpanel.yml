@@ -13,6 +13,8 @@ deployment:
     # Use the Node.js 22 build that cPanel provides (CloudLinux or EasyApache path).
     - export PATH="/opt/alt/alt-nodejs22/root/usr/bin:/opt/cpanel/ea-nodejs22/bin:$PATH"
     - export NEXT_TELEMETRY_DISABLED=1
+    # The repo must be cloned somewhere else (e.g. ~/repositories/qnvotech), not into the app root.
+    - if [ "$(pwd -P)" = "$(cd "$APPDIR" 2>/dev/null && pwd -P)" ]; then echo "ERROR - clone the repo outside $APPDIR (e.g. ~/repositories/qnvotech)"; exit 1; fi
 
     # 1. Install dependencies (dev deps are needed for the build) and build.
     - npm ci --include=dev --no-audit --no-fund
