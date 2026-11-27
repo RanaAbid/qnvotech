@@ -10,3 +10,6 @@ npm-debug.log*
 .DS_Store
 scripts/.lighthouse-*.json
 scripts/.perf-summary.json
+
+# cPanel deploy bundle (built locally, not committed)
+/deploy
