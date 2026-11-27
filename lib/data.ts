@@ -122,9 +122,9 @@ export const faqs: Faq[] = [
       "The Industries pages cover sectors such as banking, retail, travel, healthcare, energy, telecoms, manufacturing, logistics, education, public sector, gaming and SaaS. Listing a sector is not a claim of named clients or guaranteed outcomes in that sector.",
   },
   {
-    question: "Which regions do you work with?",
+    question: "Where do you work?",
     answer:
-      "The site is written for organizations in the United States, the United Kingdom, the Middle East and Pakistan. It does not publish office addresses, a registered office or a claim that a local branch exists.",
+      "QNVO Technologies works with organizations worldwide. Engagements are remote by default and defined in writing. This site does not publish office addresses, a registered office or a claim that a local branch exists in every country.",
   },
   {
     question: "How do I start a project conversation?",

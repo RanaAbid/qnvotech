@@ -7,7 +7,7 @@ import { faqNode, pageMetadata, webPageNode } from "@/lib/seo";
 
 const faqTitle = "FAQ: Services, Regions & Contact | QNVO Technologies";
 const faqDescription =
-  "Answers about QNVO Technologies services, regions, contact, case studies and what this website does not promise. Email info@qnvotech.com to ask.";
+  "Answers about QNVO Technologies services, worldwide availability, contact, case studies and what this website does not promise. Email info@qnvotech.com to ask.";
 
 export const metadata = pageMetadata({
   title: faqTitle,

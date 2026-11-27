@@ -150,12 +150,10 @@ export function serviceNode(service: Service): Record<string, unknown> {
     description: service.description,
     url: absoluteUrl(`/services/${service.slug}/`),
     provider: { "@id": `${siteUrl}/#organization` },
-    areaServed: [
-      { "@type": "Country", name: "United States" },
-      { "@type": "Country", name: "United Kingdom" },
-      { "@type": "AdministrativeArea", name: "Middle East" },
-      { "@type": "Country", name: "Pakistan" },
-    ],
+    areaServed: {
+      "@type": "Place",
+      name: "Worldwide",
+    },
     brand: { "@id": `${siteUrl}/#organization` },
   };
 }

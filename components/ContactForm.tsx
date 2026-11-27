@@ -305,7 +305,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
               describedBy={describedBy("region", `${baseId}-region-hint`)}
             />
             <p id={`${baseId}-region-hint`} className="mt-2 text-sm text-slate">
-              Choose a world region. Country options load from that region.
+              Choose where you are based. Country options load from that region — services are available worldwide.
             </p>
             {fieldError("region")}
           </div>

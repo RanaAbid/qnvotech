@@ -24,7 +24,7 @@ export const metadata = pageMetadata({
 
 const notes = [
   { title: "What to send", body: "The system, the people who use it, and the constraint that matters most." },
-  { title: "Region and service", body: "Choose your region, country and the closest service area so the inbox can route the conversation." },
+  { title: "Location and service", body: "Tell us your country and the closest service area so the inbox can route the conversation. Services are available worldwide." },
   { title: "What not to send", body: "Passwords, payment cards, or other secrets. Email those to nobody." },
   { title: "What a message is", body: "A request to talk. It is not a quote, a contract, or a delivery date." },
 ];

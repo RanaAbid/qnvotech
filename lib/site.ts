@@ -5,7 +5,7 @@ export const contentUpdated = "2026-11-20";
 export const legalPagesIndexable = false;
 
 export const defaultDescription =
-  "QNVO Technologies is a technology services company for AI agent development, web development, ecommerce, Shopify, WordPress, cloud DevOps, cybersecurity and technical SEO for Google — serving teams in the USA, UK, Middle East and Pakistan.";
+  "QNVO Technologies is a technology services company for AI agent development, web development, ecommerce, Shopify, WordPress, cloud DevOps, cybersecurity and technical SEO for Google — available for organizations worldwide.";
 
 const DEFAULT_SITE_URL = "https://qnvotech.com";
 

@@ -28,7 +28,7 @@ Do not treat automated sender addresses as the public contact inbox.
 - [QNVO BudgetIQ](https://qnvotech.com/products/budgetiq/): Local-first expense and income tracking mobile app.
 - [QNVO Dump](https://qnvotech.com/products/dump/): Focused mobile app for capturing thoughts by text or voice.
 - [Insights](https://qnvotech.com/insights/): Original writing linked to service pages. Draft articles are noindex until approved.
-- [FAQ](https://qnvotech.com/faq/): Services, regions, contact and non-promises.
+- [FAQ](https://qnvotech.com/faq/): Services, worldwide availability, contact and non-promises.
 - [Contact](https://qnvotech.com/contact/): Form and info@qnvotech.com. A message is not a contract.
 
 ## Service pages

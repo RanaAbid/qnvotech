@@ -24,7 +24,7 @@ const FaqList = dynamic(() => import("@/components/FaqList").then((mod) => mod.F
 
 const homeTitle = "AI, Web Development & Technical SEO Company | QNVO Technologies";
 const homeDescription =
-  "QNVO Technologies is an AI, web development and technical SEO company for businesses — plus ecommerce, Shopify, WordPress, cloud DevOps and cybersecurity. Serving USA, UK, Middle East and Pakistan. No fake rankings or client lists on this site.";
+  "QNVO Technologies is an AI, web development and technical SEO company for businesses — plus ecommerce, Shopify, WordPress, cloud DevOps and cybersecurity. Services are available worldwide. No fake rankings or client lists on this site.";
 
 export const metadata = pageMetadata({
   title: homeTitle,

@@ -8,7 +8,7 @@ const coreServiceCatalog: Service[] = [
     card: "Custom enterprise software development for defined workflows, portals and integrations with systems you already run.",
     seoTitle: "Enterprise Software Development Company | QNVO Technologies",
     description:
-      "Custom enterprise software development services for internal tools, portals and system integrations. QNVO Technologies serves teams in the USA, UK, Middle East and Pakistan. Scope and fees are agreed in writing.",
+      "Custom enterprise software development services for internal tools, portals and system integrations. QNVO Technologies works with organizations worldwide. Scope and fees are agreed in writing.",
     h1: "Enterprise Software Development Company Services",
     summary:
       "Enterprise software development at QNVO Technologies means designing and building custom systems for a defined business workflow, such as an internal tool, a portal or a connection to software you already run. It is for teams that can describe who will use the system, what data it must hold and which existing products it must respect. Contact QNVO Technologies to discuss requirements. Deliverables, fees and timelines are set in a project agreement, not on this page. This page describes the shape of the work. It is not a fixed package, a product license or a public price list.",
@@ -418,7 +418,7 @@ const coreServiceCatalog: Service[] = [
     card: "Business web development company services for server-rendered websites with clear navigation, accessibility and page speed.",
     seoTitle: "Web Development Company for Businesses | QNVO Technologies",
     description:
-      "Web development company services for business websites, SEO-friendly structure, accessibility and speed. QNVO Technologies builds sites for teams in the USA, UK, Middle East and Pakistan.",
+      "Web development company services for business websites, SEO-friendly structure, accessibility and speed. QNVO Technologies builds sites for organizations worldwide.",
     h1: "Web Development Company Services for Businesses",
     summary:
       "Web development company services at QNVO Technologies mean planning and building a business website with server-rendered content, SEO-friendly structure, clear navigation and attention to accessibility and speed. It is for organizations that need a site people and search engines such as Google can read, with pages and forms you can operate after handover. Contact QNVO Technologies with the pages you need. This website describes the approach. It is not a client case study, a Lighthouse score promise, a Google ranking guarantee or an unlimited content engagement. Fees and timelines belong in a written agreement.",

@@ -31,7 +31,7 @@ export const resourceGroups: ResourceGroup[] = [
       },
       {
         title: "FAQ",
-        body: "Services, regions, contact and non-promises in plain language.",
+        body: "Services, worldwide availability, contact and non-promises in plain language.",
         href: "/faq/",
         kind: "FAQ",
       },
