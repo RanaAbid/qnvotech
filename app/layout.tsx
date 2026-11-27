@@ -100,6 +100,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={`${sora.variable} ${inter.variable}`} suppressHydrationWarning>
       <body data-csp-nonce={nonce} className="bg-offwhite font-sans text-slate antialiased" suppressHydrationWarning>
+        {/* Keeps the menu button on the right if the stylesheet request fails (live hard refresh). */}
+        <style
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html:
+              "@media (max-width:1099px){.site-nav-bar{position:relative}.site-nav-desktop{display:none!important}.site-nav-inner{display:flex!important;align-items:center;width:100%;min-height:4rem;padding-right:4.25rem}.site-nav-actions{position:absolute!important;right:1rem;top:50%;z-index:5;transform:translateY(-50%);margin:0!important}.site-topline-inner{display:flex;flex-direction:column;align-items:flex-start;gap:.12rem}.site-topline-inner p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}}",
+          }}
+        />
         {!disabled && bootstrap ? (
           <script
             id="qnvo-gtag-bootstrap"

@@ -62,10 +62,15 @@ const nextConfig: NextConfig = {
         value: "max-age=31536000; includeSubDomains",
       });
     }
-    const immutable = [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }, ...headers];
+    const immutable = [
+      { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+      ...headers,
+    ];
     const day = [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }, ...headers];
     const html = [
       { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+      // Don't let LiteSpeed keep serving the previous HTML after a deploy.
+      { key: "X-LiteSpeed-Cache-Control", value: "no-cache" },
       ...headers,
     ];
 

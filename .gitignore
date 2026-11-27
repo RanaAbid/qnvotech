@@ -15,5 +15,4 @@ scripts/.perf-summary.json
 /deploy
 
 # Local browser-check leftovers
-.tmp-nav*
-.tmp-nav2/
+.tmp-*

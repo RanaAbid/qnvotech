@@ -23,6 +23,11 @@ console.log("Copying standalone server, static assets and public/ ...");
 cpSync(standalone, appDir, { recursive: true });
 cpSync(join(root, ".next", "static"), join(appDir, ".next", "static"), { recursive: true });
 cpSync(join(root, "public"), join(appDir, "public"), { recursive: true });
+// Same copies the cPanel deploy makes, so a hard refresh can read CSS from disk.
+mkdirSync(join(appDir, "_next"), { recursive: true });
+mkdirSync(join(appDir, "public", "_next"), { recursive: true });
+cpSync(join(root, ".next", "static"), join(appDir, "_next", "static"), { recursive: true });
+cpSync(join(root, ".next", "static"), join(appDir, "public", "_next", "static"), { recursive: true });
 
 // cPanel servers are Linux x64: replace whatever native sharp binaries the local build traced.
 const imgDir = join(appDir, "node_modules", "@img");

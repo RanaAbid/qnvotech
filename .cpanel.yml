@@ -29,5 +29,15 @@ deployment:
     - /bin/cp -f .next/standalone/server.js .next/standalone/package.json "$APPDIR/"
     - if [ -f .env ]; then /bin/cp -f .env "$APPDIR/.env"; fi
 
+    # LiteSpeed was returning 406/400 for /_next/static on a hard refresh (Accept: text/css
+    # plus Cache-Control: no-cache), so the stylesheet never applied and the menu button
+    # sat beside the logo. Copy the built files onto the public URL and disable MultiViews.
+    - rm -rf "$APPDIR/_next/static" "$APPDIR/public/_next/static"
+    - mkdir -p "$APPDIR/_next" "$APPDIR/public/_next"
+    - /bin/cp -a "$APPDIR/.next/static" "$APPDIR/_next/static"
+    - /bin/cp -a "$APPDIR/.next/static" "$APPDIR/public/_next/static"
+    - touch "$APPDIR/.htaccess" "$APPDIR/public/.htaccess"
+    - grep -q "QNVO-NEXT-STATIC" "$APPDIR/.htaccess" || printf '\n# QNVO-NEXT-STATIC\nOptions -MultiViews\n<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteRule ^_next/static/(.*)$ .next/static/$1 [L]\n</IfModule>\n' >> "$APPDIR/.htaccess"
+
     # 3. Restart the app (Passenger reloads when tmp/restart.txt changes).
     - /bin/touch "$APPDIR/tmp/restart.txt"

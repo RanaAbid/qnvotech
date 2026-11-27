@@ -1,0 +1,3 @@
+# LiteSpeed content negotiation turns a hard refresh of a hashed .css/.js file
+# into HTTP 406, so the page renders with no stylesheet.
+Options -MultiViews
